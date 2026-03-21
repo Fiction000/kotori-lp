@@ -86,6 +86,13 @@ const passages = [
         {p.text}
       </div>
     ))}
+    <!-- Mobile-only accent columns at edges -->
+    <div class="tategaki-col font-koburi block md:hidden" style="left: 0; top: 0; font-size: 0.85rem; opacity: 0.12;">
+      吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。
+    </div>
+    <div class="tategaki-col font-koburi block md:hidden" style="right: 0; left: auto; top: 0; font-size: 0.85rem; opacity: 0.12;">
+      国境の長いトンネルを抜けると雪国であった。夜の底が白くなった。
+    </div>
     <!-- Radial vignette: clear center for readability -->
     <div class="absolute inset-0 hero-vignette"></div>
   </div>
@@ -149,15 +156,6 @@ const passages = [
 
   @media (max-width: 768px) {
     .tategaki-col {
-      opacity: 0.15 !important;
-    }
-    .tategaki-col:nth-child(n+20) {
-      display: none;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .tategaki-col:nth-child(n+12) {
       display: none;
     }
   }

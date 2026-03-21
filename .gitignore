@@ -34,6 +34,6 @@ task_plan.md
 findings.md
 progress.md
 
-# dev screenshots at root
-*.png
-*.PNG
+# dev screenshots at root (root-level only)
+/*.png
+/*.PNG
