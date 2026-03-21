@@ -1,0 +1,131 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const steps = [
+  {
+    number: '01',
+    kanji: '探',
+    title: t('howitworks.step1.title'),
+    description: t('howitworks.step1.description'),
+  },
+  {
+    number: '02',
+    kanji: '読',
+    title: t('howitworks.step2.title'),
+    description: t('howitworks.step2.description'),
+  },
+  {
+    number: '03',
+    kanji: '深',
+    title: t('howitworks.step3.title'),
+    description: t('howitworks.step3.description'),
+  },
+];
+---
+
+<section class="py-24 md:py-36">
+  <div class="mx-auto max-w-5xl px-6">
+    <h2 class="fade-up font-koburi text-3xl md:text-4xl text-sepia-900 text-center mb-6">
+      {t('howitworks.title')}
+    </h2>
+    <p class="fade-up text-center text-sepia-400 text-base md:text-lg mb-20 md:mb-28 max-w-xl mx-auto">
+      {lang === 'ja'
+        ? '探して、読んで、深める。シンプルな体験を。'
+        : 'Find it, read it, make it yours. That simple.'}
+    </p>
+
+    <div class="steps-grid stagger-children">
+      {steps.map((step, i) => (
+        <div class="fade-up step-card">
+          <!-- Step number -->
+          <span class="step-number font-koburi text-sepia-200">{step.number}</span>
+          <!-- Kanji accent -->
+          <span class="step-kanji font-koburi text-sepia-100 select-none" aria-hidden="true">
+            {step.kanji}
+          </span>
+          <!-- Content -->
+          <h3 class="font-koburi text-xl md:text-2xl text-sepia-800 mb-2 leading-tight">
+            {step.title}
+          </h3>
+          <p class="text-sepia-500 text-sm md:text-base leading-relaxed">
+            {step.description}
+          </p>
+          <!-- Connector line (not on last) -->
+          {i < steps.length - 1 && (
+            <div class="step-connector" aria-hidden="true"></div>
+          )}
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .steps-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .steps-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .step-card {
+    position: relative;
+    text-align: center;
+    padding: 2.5rem 1.5rem 2rem;
+  }
+
+  .step-number {
+    display: block;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    margin-bottom: 0.75rem;
+  }
+
+  .step-kanji {
+    font-size: clamp(3rem, 6vw, 4.5rem);
+    line-height: 0.85;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  /* Horizontal connector between steps on desktop */
+  .step-connector {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .step-connector {
+      display: block;
+      position: absolute;
+      top: 50%;
+      right: -1rem;
+      width: 2rem;
+      height: 1px;
+      background: linear-gradient(to right, rgba(82, 58, 34, 0.12), rgba(82, 58, 34, 0.04));
+      transform: translateY(-50%);
+    }
+  }
+
+  /* Vertical connector between steps on mobile */
+  @media (max-width: 767px) {
+    .step-connector {
+      display: block;
+      position: absolute;
+      bottom: -1.5rem;
+      left: 50%;
+      width: 1px;
+      height: 1.5rem;
+      background: linear-gradient(to bottom, rgba(82, 58, 34, 0.12), rgba(82, 58, 34, 0.04));
+      transform: translateX(-50%);
+    }
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const sections = [
+  { title: t('privacy.collection.title'), body: t('privacy.collection.body') },
+  { title: t('privacy.network.title'), body: t('privacy.network.body') },
+  { title: t('privacy.analytics.title'), body: t('privacy.analytics.body') },
+  { title: t('privacy.changes.title'), body: t('privacy.changes.body') },
+  { title: t('privacy.contact.title'), body: t('privacy.contact.body') },
+];
+---
+
+<Layout title={`${t('privacy.title')} — Kotori`}>
+  <Header />
+  <main class="mx-auto max-w-3xl px-6 py-16 md:py-24">
+    <h1 class="text-3xl md:text-4xl font-bold text-sepia-900 mb-2" style={`font-family: var(--font-serif-jp)`}>
+      {t('privacy.title')}
+    </h1>
+    <p class="text-sm text-sepia-400 mb-8">{t('privacy.lastUpdated')}</p>
+    <p class="text-sepia-700 leading-relaxed mb-10">{t('privacy.intro')}</p>
+
+    {sections.map((section) => (
+      <div class="mb-8">
+        <h2 class="text-xl font-semibold text-sepia-800 mb-3">{section.title}</h2>
+        <p class="text-sepia-600 leading-relaxed">{section.body}</p>
+      </div>
+    ))}
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,275 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const screenshots = [
+  { src: '/screenshots/screenshot-1.png',
+    caption: lang === 'ja' ? '美しい縦書きレイアウト' : 'Beautiful vertical text layout' },
+  { src: '/screenshots/screenshot-2.png',
+    caption: lang === 'ja' ? '作家や作品をかんたん検索' : 'Search authors and works easily' },
+  { src: '/screenshots/screenshot-3.png',
+    caption: lang === 'ja' ? 'タップで辞書検索' : 'Tap to look up words' },
+  { src: '/screenshots/screenshot-4.png',
+    caption: lang === 'ja' ? 'ハイライトと読書メモ' : 'Highlights and reading notes' },
+];
+---
+
+<section id="screenshots" class="py-24 md:py-36">
+  <div class="mx-auto max-w-5xl px-6">
+    <h2 class="fade-up font-koburi text-3xl md:text-4xl text-sepia-900 text-center mb-20 md:mb-28">
+      {t('screenshots.title')}
+    </h2>
+
+    <div class="gallery fade-up">
+      {screenshots.map((shot, i) => (
+        <div class="gallery-item">
+          <button
+            class="gallery-frame"
+            data-lightbox-trigger
+            data-src={shot.src}
+            data-caption={shot.caption}
+            aria-label={lang === 'ja' ? `${shot.caption}を拡大` : `Enlarge: ${shot.caption}`}
+          >
+            <img
+              src={shot.src}
+              alt={shot.caption}
+              class="w-full rounded-md"
+              loading="lazy"
+            />
+          </button>
+          <p class="mt-4 text-center text-sm text-sepia-400 font-koburi">{shot.caption}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox overlay -->
+<div id="lightbox" class="lightbox" aria-hidden="true" role="dialog" aria-modal="true">
+  <button class="lightbox-close" aria-label={lang === 'ja' ? '閉じる' : 'Close'}>
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <div class="lightbox-backdrop"></div>
+  <div class="lightbox-content">
+    <img id="lightbox-img" src="" alt="" class="lightbox-img" />
+    <p id="lightbox-caption" class="lightbox-caption font-koburi"></p>
+  </div>
+  <!-- Navigation arrows -->
+  <button class="lightbox-nav lightbox-prev" aria-label={lang === 'ja' ? '前へ' : 'Previous'}>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+  <button class="lightbox-nav lightbox-next" aria-label={lang === 'ja' ? '次へ' : 'Next'}>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .gallery-frame {
+    display: block;
+    width: 100%;
+    background: white;
+    padding: 0.4rem;
+    border: none;
+    cursor: zoom-in;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 16px rgba(82, 58, 34, 0.06),
+                0 0 0 1px rgba(82, 58, 34, 0.04);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .gallery-frame:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(82, 58, 34, 0.1),
+                0 0 0 1px rgba(82, 58, 34, 0.06);
+  }
+
+  @media (max-width: 768px) {
+    .gallery {
+      display: flex;
+      gap: 1.5rem;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding-bottom: 1rem;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .gallery::-webkit-scrollbar { display: none; }
+
+    .gallery-item {
+      flex-shrink: 0;
+      width: 60vw;
+      max-width: 240px;
+      scroll-snap-align: center;
+    }
+  }
+
+  /* ── Lightbox ── */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .lightbox.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(26, 26, 26, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .lightbox-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 90vw;
+    max-height: 90vh;
+    transform: scale(0.95) translateY(8px);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .lightbox.is-open .lightbox-content {
+    transform: scale(1) translateY(0);
+  }
+
+  .lightbox-img {
+    max-height: 80vh;
+    max-width: min(380px, 85vw);
+    width: auto;
+    border-radius: 1rem;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+  }
+
+  .lightbox-caption {
+    margin-top: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    z-index: 101;
+    color: rgba(255, 255, 255, 0.6);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .lightbox-close:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 101;
+    color: rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    cursor: pointer;
+    padding: 0.75rem;
+    border-radius: 50%;
+    transition: color 0.2s, background 0.2s;
+  }
+
+  .lightbox-nav:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .lightbox-prev { left: 1rem; }
+  .lightbox-next { right: 1rem; }
+
+  @media (max-width: 768px) {
+    .lightbox-prev { left: 0.5rem; }
+    .lightbox-next { right: 0.5rem; }
+    .lightbox-nav { padding: 0.5rem; }
+  }
+</style>
+
+<script>
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  const lightboxCaption = document.getElementById('lightbox-caption');
+  const triggers = document.querySelectorAll('[data-lightbox-trigger]');
+  const triggerArray = Array.from(triggers);
+  let currentIndex = 0;
+
+  function openLightbox(index: number) {
+    const trigger = triggerArray[index] as HTMLElement;
+    if (!trigger || !lightbox || !lightboxImg || !lightboxCaption) return;
+    currentIndex = index;
+    lightboxImg.src = trigger.dataset.src || '';
+    lightboxImg.alt = trigger.dataset.caption || '';
+    lightboxCaption.textContent = trigger.dataset.caption || '';
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  function navigate(direction: number) {
+    const next = currentIndex + direction;
+    if (next >= 0 && next < triggerArray.length) {
+      openLightbox(next);
+    }
+  }
+
+  triggers.forEach((trigger, i) => {
+    trigger.addEventListener('click', () => openLightbox(i));
+  });
+
+  lightbox?.querySelector('.lightbox-close')?.addEventListener('click', closeLightbox);
+  lightbox?.querySelector('.lightbox-backdrop')?.addEventListener('click', closeLightbox);
+  lightbox?.querySelector('.lightbox-prev')?.addEventListener('click', () => navigate(-1));
+  lightbox?.querySelector('.lightbox-next')?.addEventListener('click', () => navigate(1));
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox?.classList.contains('is-open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') navigate(-1);
+    if (e.key === 'ArrowRight') navigate(1);
+  });
+</script>

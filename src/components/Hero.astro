@@ -1,0 +1,164 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import AppStoreBadge from './AppStoreBadge.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Famous opening lines from Aozora Bunko works — scattered placement
+const passages = [
+  // Left cluster
+  { text: '吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。',
+    left: '0%', top: '-1rem', size: '1.8rem', opacity: 0.32 },
+  { text: 'ある日の暮方の事である。一人の下人が、羅生門の下で雨やみを待っていた。広い門の下には、この男のほかに誰もいない。ただ、所々丹塗の剥げた、大きな円柱に、蟋蟀が一匹とまっている。',
+    left: '4%', top: '3rem', size: '1.3rem', opacity: 0.25 },
+  { text: 'メロスは激怒した。必ず、かの邪智暴虐の王を除かなければならぬと決意した。メロスには政治がわからぬ。メロスは、村の牧人である。笛を吹き、羊と遊んで暮して来た。けれども邪悪に対しては、人一倍に敏感であった。',
+    left: '8%', top: '-3rem', size: '2.2rem', opacity: 0.28 },
+  { text: '恥の多い生涯を送って来ました。自分には、人間の生活というものが、見当つかないのです。自分は東北の田舎に生れましたので、汽車をはじめて見たのは、よほど大きくなってからでした。',
+    left: '12%', top: '5rem', size: '2.4rem', opacity: 0.2 },
+  { text: '国境の長いトンネルを抜けると雪国であった。夜の底が白くなった。信号所に汽車が止まった。向側の座席から娘が立って来て、島村の前のガラス窓を落した。雪の冷気が流れこんだ。',
+    left: '16%', top: '0rem', size: '1.4rem', opacity: 0.22 },
+
+  // Left-center
+  { text: '親譲りの無鉄砲で小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰を抜かした事がある。なぜそんな無闘をしたと聞く人があるかも知れぬ。別段深い理由でもない。',
+    left: '19%', top: '2rem', size: '1.7rem', opacity: 0.26 },
+  { text: '或日の事でございます。御釈迦様は極楽の蓮池のふちを、独りでぶらぶら御歩きになっていらっしゃいました。池の中に咲いている蓮の花は、みんな玉のようにまっ白で、',
+    left: '22%', top: '-2rem', size: '1.2rem', opacity: 0.2 },
+  { text: '朝、食堂でスウプを一さじ、すっと吸ってお母さまが、「あ」と幽かな叫び声をお挙げになった。',
+    left: '24.5%', top: '4rem', size: '2.0rem', opacity: 0.24 },
+  { text: '木曾路はすべて山の中である。あるところは岨づたいに行く崖の道であり、あるところは数十間の深さに臨む木曾川の岸であり、あるところは山の尾をめぐる谷の入り口である。',
+    left: '27.5%', top: '-1rem', size: '1.5rem', opacity: 0.22 },
+  { text: '石炭をば早や積み果てつ。中等室の卓のほとりはいと静にて、熾火に様なる電燈の光の晴れがましきも徒なり。',
+    left: '30%', top: '6rem', size: '1.8rem', opacity: 0.18 },
+
+  // Center area (still lighter but bigger)
+  { text: '祇園精舎の鐘の声、諸行無常の響きあり。沙羅双樹の花の色、盛者必衰の理をあらはす。おごれる人も久しからず。',
+    left: '34%', top: '1rem', size: '1.3rem', opacity: 0.12 },
+  { text: '春はあけぼの。やうやう白くなりゆく山際、少し明かりて、紫だちたる雲の細くたなびきたる。',
+    left: '37%', top: '-2rem', size: '1.5rem', opacity: 0.1 },
+  { text: 'つれづれなるままに、日くらし硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、あやしうこそものぐるほしけれ。',
+    left: '40%', top: '5rem', size: '1.1rem', opacity: 0.1 },
+  { text: '月日は百代の過客にして、行かふ年も又旅人也。舟の上に生涯をうかべ、馬の口とらえて老をむかふる物は、日々旅にして旅を栖とす。',
+    left: '44%', top: '0rem', size: '1.4rem', opacity: 0.08 },
+  { text: '行く川のながれは絶えずして、しかも本の水にあらず。よどみに浮ぶうたかたは、かつ消えかつ結びて久しくとゞまることなし。',
+    left: '55%', top: '3rem', size: '1.3rem', opacity: 0.08 },
+  { text: '昔、男ありけり。奈良の京は離れ、この京は人の家まだ定まらざりける時に、西の京に女ありけり。',
+    left: '59%', top: '-1rem', size: '1.2rem', opacity: 0.1 },
+
+  // Right-center
+  { text: 'カムパネルラが手をあげました。それから四五人手をあげました。ジョバンニも手をあげようとして、急いでそのままやめました。たしかにあれがみんな星だと、いつか雑誌で読んだのでしたが、',
+    left: '63%', top: '2rem', size: '1.6rem', opacity: 0.22 },
+  { text: '山路を登りながら、こう考えた。智に働けば角が立つ。情に棹させば流される。意地を通せば窮屈だ。とかくに人の世は住みにくい。住みにくさが高じると、安い所へ引き越したくなる。',
+    left: '66%', top: '-3rem', size: '2.0rem', opacity: 0.26 },
+  { text: 'えたいの知れない不吉な塊が私の心を始終圧えつけていた。焦躁と言おうか、嫌悪と言おうか、酒を飲んだあとに宿酔があるように、酔っている間よりも不快な酔いが残っていた。',
+    left: '70%', top: '4rem', size: '1.4rem', opacity: 0.2 },
+
+  // Right cluster
+  { text: '廻れば大門の見返り柳いと長けれど、お歯黒溝に燈火うつる三階の騒ぎも手に取る如く、明けくれなしの車の行来にはかり知られぬ全盛をうらなひて、',
+    left: '73%', top: '0rem', size: '2.2rem', opacity: 0.3 },
+  { text: '私はその人を常に先生と呼んでいた。だからここでもただ先生と書くだけで本名は打ち明けない。これは世間を憚かる遠慮というよりも、その方が私にとって自然だからである。',
+    left: '77%', top: '-2rem', size: '1.3rem', opacity: 0.24 },
+  { text: '桜の樹の下には屍体が埋まっている！これは信じていいことなんだよ。何故って、桜の花があんなにも見事に咲くなんて信じられないことじゃないか。',
+    left: '80%', top: '5rem', size: '1.8rem', opacity: 0.28 },
+  { text: '或秋の日暮です。私は横須賀発上り二等客車の隅に腰を掛けて、ぼんやり発車の笛を待っていました。',
+    left: '83%', top: '1rem', size: '1.5rem', opacity: 0.22 },
+  { text: '越後の春日を経て室町に至る三国街道の丁度のまん中に当るとかで、湯のまちとしてよりも寧ろ街道筋の温泉宿としてひらけたらしい。',
+    left: '86%', top: '-1rem', size: '2.0rem', opacity: 0.3 },
+  { text: '隴西の李徴は博学才穎、天宝の末年、若くして名を虎榜に連ね、ついで江南尉に補せられたが、性、狷介、自ら恃む所頗る厚く、',
+    left: '89.5%', top: '3rem', size: '1.2rem', opacity: 0.2 },
+  { text: '奥山に猫又といふものありて、人を食らふなると人の言ひけるに、「山ならねども、これらにも、猫の経上りて、猫又になりて、人とる事はあなるものを」と言ふ者ありけるを、',
+    left: '92%', top: '-3rem', size: '1.7rem', opacity: 0.26 },
+  { text: '風立ちぬ、いざ生きめやも。私はふとその詩句を口ずさみながら、眼の前の再び関かけ始めた雲の行方を追っていた。',
+    left: '95%', top: '6rem', size: '2.3rem', opacity: 0.32 },
+  { text: '或る朝の事、彼は明け方から、じっと空を見ていた。空は青く澄んで、まだ一つの雲もなかった。',
+    left: '98%', top: '0rem', size: '1.5rem', opacity: 0.18 },
+];
+---
+
+<section class="relative overflow-hidden min-h-[70vh] flex items-center">
+  <!-- Tategaki literary background -->
+  <div class="absolute inset-0 overflow-hidden select-none pointer-events-none" aria-hidden="true">
+    {passages.map((p) => (
+      <div
+        class="tategaki-col font-koburi"
+        style={`left: ${p.left}; top: ${p.top}; font-size: ${p.size}; opacity: ${p.opacity};`}
+      >
+        {p.text}
+      </div>
+    ))}
+    <!-- Radial vignette: clear center for readability -->
+    <div class="absolute inset-0 hero-vignette"></div>
+  </div>
+
+  <div class="relative mx-auto max-w-5xl px-6 py-24 md:py-36 w-full">
+    <div class="flex flex-col items-center text-center">
+      <div class="fade-up">
+        <img
+          src="/app-icon.png"
+          alt="Kotori app icon"
+          class="w-28 h-28 md:w-36 md:h-36 rounded-[28px] shadow-lg mb-8 ring-1 ring-sepia-200/50"
+        />
+      </div>
+
+      <h1 class="fade-up text-4xl md:text-5xl lg:text-6xl font-bold text-sepia-900 mb-6 font-koburi">
+        {t('hero.tagline')}
+      </h1>
+
+      <p class="fade-up text-lg md:text-xl text-sepia-600 max-w-2xl mb-10 leading-relaxed">
+        {t('hero.description')}
+      </p>
+      <p class="fade-up text-sm text-sepia-400 -mt-4 mb-10">
+        {lang === 'ja'
+          ? 'モダンなUIと高速検索で、青空文庫をもっと快適に。'
+          : 'Beautiful design, instant search — a better way to read Aozora Bunko.'}
+      </p>
+
+      <div class="fade-up">
+        <AppStoreBadge />
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom decorative line -->
+  <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-sepia-300/50 to-transparent"></div>
+</section>
+
+<style>
+  .tategaki-col {
+    position: absolute;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    height: 100%;
+    line-height: 2;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    color: #523a22;
+  }
+
+  .hero-vignette {
+    background: radial-gradient(
+      ellipse 38% 42% at 50% 48%,
+      #f9f5ee 0%,
+      #f9f5ee 15%,
+      #f9f5eee6 35%,
+      #f9f5ee80 55%,
+      #f9f5ee30 75%,
+      transparent 100%
+    );
+  }
+
+  @media (max-width: 768px) {
+    .tategaki-col {
+      opacity: 0.15 !important;
+    }
+    .tategaki-col:nth-child(n+20) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .tategaki-col:nth-child(n+12) {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,292 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const pairedFeatures = [
+  {
+    icon: '美',
+    title: t('features.vertical.title'),
+    description: t('features.vertical.description'),
+    screenshot: '/screenshots/screenshot-1.png',
+    caption: lang === 'ja' ? '美しい縦書きレイアウト' : 'Beautiful vertical text layout',
+    primary: true,
+  },
+  {
+    icon: '速',
+    title: t('features.furigana.title'),
+    description: t('features.furigana.description'),
+    screenshot: '/screenshots/screenshot-2.png',
+    caption: lang === 'ja' ? '作家や作品をかんたん検索' : 'Search authors and works easily',
+  },
+  {
+    icon: '調',
+    title: t('features.dictionary.title'),
+    description: t('features.dictionary.description'),
+    screenshot: '/screenshots/screenshot-3.png',
+    caption: lang === 'ja' ? 'タップで辞書検索' : 'Tap to look up words',
+  },
+  {
+    icon: '記',
+    title: t('features.highlights.title'),
+    description: t('features.highlights.description'),
+    screenshot: '/screenshots/screenshot-4.png',
+    caption: lang === 'ja' ? 'ハイライトと読書メモ' : 'Highlights and reading notes',
+  },
+];
+
+const textOnlyFeatures = [
+  {
+    icon: '彩',
+    title: t('features.themes.title'),
+    description: t('features.themes.description'),
+  },
+  {
+    icon: '場',
+    title: t('features.offline.title'),
+    description: t('features.offline.description'),
+  },
+];
+---
+
+<section id="features" class="py-24 md:py-36">
+  <div class="mx-auto max-w-6xl px-6">
+
+    <!-- Primary feature: hero-scale with screenshot -->
+    <div class="fade-up mb-28 md:mb-40">
+      <div class="feature-row feature-row--primary">
+        <!-- Screenshot side -->
+        <div class="feature-screenshot feature-screenshot--primary">
+          <div class="phone-frame">
+            <img
+              src={pairedFeatures[0].screenshot}
+              alt={pairedFeatures[0].caption}
+              class="phone-screen"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <!-- Text side -->
+        <div class="feature-text feature-text--primary">
+          <span class="feature-kanji-hero font-koburi text-sepia-100 select-none" aria-hidden="true">
+            {pairedFeatures[0].icon}
+          </span>
+          <h2 class="font-koburi text-3xl md:text-4xl text-sepia-900 mb-4 leading-tight">
+            {pairedFeatures[0].title}
+          </h2>
+          <p class="text-sepia-600 text-lg md:text-xl leading-relaxed max-w-md">
+            {pairedFeatures[0].description}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secondary paired features: alternating screenshot + text -->
+    <div class="space-y-24 md:space-y-36 mb-28 md:mb-40">
+      {pairedFeatures.slice(1).map((feature, i) => (
+        <div class="fade-up">
+          <div class:list={[
+            'feature-row',
+            i % 2 === 0 ? 'feature-row--reverse' : '',
+          ]}>
+            <!-- Screenshot -->
+            <div class="feature-screenshot">
+              <div class="phone-frame">
+                <img
+                  src={feature.screenshot}
+                  alt={feature.caption}
+                  class="phone-screen"
+                  loading="lazy"
+                />
+              </div>
+            </div>
+            <!-- Text -->
+            <div class:list={[
+              'feature-text',
+              i % 2 === 0 ? 'feature-text--right' : '',
+            ]}>
+              <span class="feature-kanji font-koburi text-sepia-200 select-none" aria-hidden="true">
+                {feature.icon}
+              </span>
+              <h3 class="font-koburi text-2xl md:text-3xl text-sepia-800 mb-3 leading-tight">
+                {feature.title}
+              </h3>
+              <p class="text-sepia-500 text-base md:text-lg leading-relaxed max-w-md">
+                {feature.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Text-only features: compact pair -->
+    <div class="fade-up">
+      <div class="text-features-grid">
+        {textOnlyFeatures.map((feature) => (
+          <div class="text-feature-card">
+            <span class="feature-kanji-sm font-koburi text-sepia-200 select-none" aria-hidden="true">
+              {feature.icon}
+            </span>
+            <h3 class="font-koburi text-xl md:text-2xl text-sepia-800 mb-2 leading-tight">
+              {feature.title}
+            </h3>
+            <p class="text-sepia-500 text-base leading-relaxed">
+              {feature.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* ── Paired feature rows ── */
+  .feature-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .feature-row {
+      flex-direction: row;
+      gap: 4rem;
+    }
+
+    .feature-row--reverse {
+      flex-direction: row-reverse;
+    }
+
+    .feature-row--primary {
+      gap: 5rem;
+    }
+  }
+
+  /* ── Screenshot / phone ── */
+  .feature-screenshot {
+    flex-shrink: 0;
+    width: 70%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .feature-screenshot--primary {
+    max-width: 340px;
+  }
+
+  @media (min-width: 768px) {
+    .feature-screenshot {
+      width: auto;
+      max-width: 320px;
+      margin: 0;
+    }
+
+    .feature-screenshot--primary {
+      max-width: 360px;
+    }
+  }
+
+  .phone-frame {
+    background: white;
+    padding: 0.35rem;
+    border-radius: 1.25rem;
+    box-shadow:
+      0 4px 24px rgba(82, 58, 34, 0.08),
+      0 0 0 1px rgba(82, 58, 34, 0.04);
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .phone-frame:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 12px 40px rgba(82, 58, 34, 0.12),
+      0 0 0 1px rgba(82, 58, 34, 0.06);
+  }
+
+  .phone-screen {
+    width: 100%;
+    border-radius: 0.95rem;
+    display: block;
+  }
+
+  /* ── Feature text ── */
+  .feature-text {
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .feature-text {
+      text-align: left;
+      flex: 1;
+    }
+
+    .feature-text--right {
+      text-align: right;
+    }
+
+    .feature-text--right p {
+      margin-left: auto;
+    }
+
+    .feature-text--primary {
+      flex: 1;
+    }
+  }
+
+  /* ── Kanji accents ── */
+  .feature-kanji-hero {
+    font-size: clamp(5rem, 12vw, 10rem);
+    line-height: 0.85;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-kanji {
+    font-size: clamp(3.5rem, 7vw, 5.5rem);
+    line-height: 0.85;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .feature-kanji-sm {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    line-height: 0.85;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── Text-only feature cards ── */
+  .text-features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  @media (min-width: 640px) {
+    .text-features-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+  }
+
+  .text-feature-card {
+    text-align: center;
+    padding: 2rem 1.5rem;
+    border: 1px solid rgba(82, 58, 34, 0.06);
+    border-radius: 0.75rem;
+    background: rgba(253, 248, 240, 0.5);
+  }
+
+  @media (min-width: 640px) {
+    .text-feature-card {
+      text-align: left;
+      padding: 2.5rem 2rem;
+    }
+  }
+</style>
