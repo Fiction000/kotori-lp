@@ -86,12 +86,33 @@ const passages = [
         {p.text}
       </div>
     ))}
-    <!-- Mobile-only accent columns at edges -->
-    <div class="tategaki-col font-koburi block md:hidden" style="left: 0; top: 0; font-size: 0.85rem; opacity: 0.12;">
-      吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。
+    <!-- Mobile-only accent columns — scattered like desktop -->
+    <div class="tategaki-mobile font-koburi" style="left: 0; top: 0; font-size: 1.2rem; opacity: 0.32;">
+      吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。
     </div>
-    <div class="tategaki-col font-koburi block md:hidden" style="right: 0; left: auto; top: 0; font-size: 0.85rem; opacity: 0.12;">
-      国境の長いトンネルを抜けると雪国であった。夜の底が白くなった。
+    <div class="tategaki-mobile font-koburi" style="left: 10%; top: 2rem; font-size: 0.85rem; opacity: 0.22;">
+      ある日の暮方の事である。一人の下人が、羅生門の下で雨やみを待っていた。広い門の下には、この男のほかに誰もいない。
+    </div>
+    <div class="tategaki-mobile font-koburi" style="left: 22%; top: -1rem; font-size: 1.1rem; opacity: 0.18;">
+      メロスは激怒した。必ず、かの邪智暴虐の王を除かなければならぬと決意した。
+    </div>
+    <div class="tategaki-mobile font-koburi" style="left: 33%; top: 2rem; font-size: 0.9rem; opacity: 0.10;">
+      祇園精舎の鐘の声、諸行無常の響きあり。沙羅双樹の花の色、盛者必衰の理をあらはす。
+    </div>
+    <div class="tategaki-mobile font-koburi" style="left: 44%; top: -0.5rem; font-size: 1.0rem; opacity: 0.08;">
+      月日は百代の過客にして、行かふ年も又旅人也。
+    </div>
+    <div class="tategaki-mobile font-koburi" style="left: 55%; top: 1rem; font-size: 0.85rem; opacity: 0.10;">
+      つれづれなるままに、日くらし硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、
+    </div>
+    <div class="tategaki-mobile font-koburi" style="left: 64%; top: 1rem; font-size: 1.0rem; opacity: 0.18;">
+      春はあけぼの。やうやう白くなりゆく山際、少し明かりて、紫だちたる雲の細くたなびきたる。
+    </div>
+    <div class="tategaki-mobile font-koburi" style="left: 77%; top: -0.5rem; font-size: 0.85rem; opacity: 0.22;">
+      私はその人を常に先生と呼んでいた。だからここでもただ先生と書くだけで本名は打ち明けない。
+    </div>
+    <div class="tategaki-mobile font-koburi" style="left: 89%; top: 0; font-size: 1.2rem; opacity: 0.32;">
+      国境の長いトンネルを抜けると雪国であった。夜の底が白くなった。信号所に汽車が止まった。
     </div>
     <!-- Radial vignette: clear center for readability -->
     <div class="absolute inset-0 hero-vignette"></div>
@@ -152,6 +173,23 @@ const passages = [
       #f9f5ee30 75%,
       transparent 100%
     );
+  }
+
+  .tategaki-mobile {
+    position: absolute;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    height: 100%;
+    line-height: 2;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    color: #523a22;
+  }
+
+  @media (min-width: 769px) {
+    .tategaki-mobile {
+      display: none;
+    }
   }
 
   @media (max-width: 768px) {
