@@ -1,0 +1,168 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const ACCESS_KEY = 'd0a5d644-0596-4875-bc7f-852199e3efaf';
+
+const categories = [
+  t('support.form.cat.bug'),
+  t('support.form.cat.feature'),
+  t('support.form.cat.other'),
+];
+---
+
+<section>
+  <h2 class="text-2xl font-semibold text-sepia-800 mb-4">{t('support.contact.title')}</h2>
+  <p class="text-sepia-600 leading-relaxed mb-6">{t('support.contact.body')}</p>
+
+  <div id="form-success" class="hidden rounded-xl bg-white/60 border border-sepia-100 p-8 text-center">
+    <svg class="w-10 h-10 text-kotori-green mx-auto mb-3" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+    </svg>
+    <p class="text-sepia-700 font-medium" id="form-success-msg"></p>
+  </div>
+
+  <form
+    id="contact-form"
+    class="rounded-xl bg-white/60 border border-sepia-100 p-6 space-y-6"
+    data-sending={t('support.form.sending')}
+    data-success={t('support.form.success')}
+    data-error={t('support.form.error')}
+    data-submit={t('support.form.submit')}
+    novalidate
+  >
+    <input type="hidden" name="access_key" value={ACCESS_KEY} />
+    <input type="hidden" name="from_name" value="Kotori Support Form" />
+    <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
+
+    <!-- Name -->
+    <div>
+      <label for="cf-name" class="block text-sm font-medium text-sepia-700 mb-1">{t('support.form.name')}</label>
+      <input
+        type="text"
+        id="cf-name"
+        name="name"
+        placeholder={t('support.form.name.ph')}
+        class="w-full rounded-lg border border-sepia-200 bg-white/80 px-4 py-2.5 text-sm text-sepia-800 placeholder:text-sepia-300 focus:border-sepia-400 focus:ring-1 focus:ring-sepia-400/50 focus:outline-none transition-colors"
+      />
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label for="cf-email" class="block text-sm font-medium text-sepia-700 mb-1">
+        {t('support.form.email')} <span class="text-sepia-400">*</span>
+      </label>
+      <input
+        type="email"
+        id="cf-email"
+        name="email"
+        required
+        placeholder={t('support.form.email.ph')}
+        class="w-full rounded-lg border border-sepia-200 bg-white/80 px-4 py-2.5 text-sm text-sepia-800 placeholder:text-sepia-300 focus:border-sepia-400 focus:ring-1 focus:ring-sepia-400/50 focus:outline-none transition-colors"
+      />
+    </div>
+
+    <!-- Category (radio) -->
+    <fieldset>
+      <legend class="block text-sm font-medium text-sepia-700 mb-2">
+        {t('support.form.category')} <span class="text-sepia-400">*</span>
+      </legend>
+      <div class="space-y-2">
+        {categories.map((cat, i) => (
+          <label class="flex items-center gap-3 cursor-pointer group">
+            <input
+              type="radio"
+              name="subject"
+              value={cat}
+              required
+              checked={i === 0}
+              class="w-4 h-4 border-sepia-300 text-sepia-800 accent-sepia-800 focus:ring-sepia-400/50"
+            />
+            <span class="text-sm text-sepia-700 group-hover:text-sepia-900 transition-colors">{cat}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+
+    <!-- OS Version -->
+    <div>
+      <label for="cf-os" class="block text-sm font-medium text-sepia-700 mb-1">{t('support.form.os')}</label>
+      <input
+        type="text"
+        id="cf-os"
+        name="OS Version"
+        placeholder={t('support.form.os.ph')}
+        class="w-full rounded-lg border border-sepia-200 bg-white/80 px-4 py-2.5 text-sm text-sepia-800 placeholder:text-sepia-300 focus:border-sepia-400 focus:ring-1 focus:ring-sepia-400/50 focus:outline-none transition-colors"
+      />
+    </div>
+
+    <!-- Message -->
+    <div>
+      <label for="cf-message" class="block text-sm font-medium text-sepia-700 mb-1">
+        {t('support.form.message')} <span class="text-sepia-400">*</span>
+      </label>
+      <textarea
+        id="cf-message"
+        name="message"
+        required
+        rows="6"
+        placeholder={t('support.form.message.ph')}
+        class="w-full rounded-lg border border-sepia-200 bg-white/80 px-4 py-2.5 text-sm text-sepia-800 placeholder:text-sepia-300 focus:border-sepia-400 focus:ring-1 focus:ring-sepia-400/50 focus:outline-none transition-colors resize-none"
+      ></textarea>
+    </div>
+
+    <p id="form-error" class="hidden text-sm text-red-700 bg-red-50/80 border border-red-200 rounded-lg px-4 py-2.5"></p>
+
+    <button
+      type="submit"
+      id="cf-submit"
+      class="rounded-lg bg-sepia-800 px-5 py-2.5 text-sm text-white hover:bg-sepia-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+    >
+      {t('support.form.submit')}
+    </button>
+  </form>
+</section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    const submitBtn = document.getElementById('cf-submit') as HTMLButtonElement;
+    const errorEl = document.getElementById('form-error') as HTMLParagraphElement;
+    const successEl = document.getElementById('form-success') as HTMLDivElement;
+    const successMsg = document.getElementById('form-success-msg') as HTMLParagraphElement;
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const email = (form.querySelector('#cf-email') as HTMLInputElement).value.trim();
+      if (!email) return;
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = form.dataset.sending!;
+      errorEl.classList.add('hidden');
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: new FormData(form),
+        });
+        const json = await res.json();
+
+        if (res.ok && json.success) {
+          form.classList.add('hidden');
+          successMsg.textContent = form.dataset.success!;
+          successEl.classList.remove('hidden');
+        } else {
+          throw new Error(json.message || 'error');
+        }
+      } catch {
+        errorEl.textContent = form.dataset.error!;
+        errorEl.classList.remove('hidden');
+        submitBtn.disabled = false;
+        submitBtn.textContent = form.dataset.submit!;
+      }
+    });
+  }
+</script>
