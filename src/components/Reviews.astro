@@ -19,9 +19,6 @@ const quoteMarks = lang === 'ja' ? ['「', '」'] : ['“', '”'];
 
   <div class="relative mx-auto max-w-5xl px-6">
     <div class="fade-up mb-14 max-w-2xl md:mb-18">
-      <p class="mb-3 text-xs font-semibold tracking-[0.24em] text-kotori-green uppercase">
-        {t('reviews.eyebrow')}
-      </p>
       <h2 id="reviews-title" class="font-koburi text-3xl leading-tight text-sepia-900 md:text-4xl">
         {t('reviews.title')}
       </h2>
@@ -38,7 +35,7 @@ const quoteMarks = lang === 'ja' ? ['「', '」'] : ['“', '”'];
           <blockquote class="font-koburi text-xl leading-[1.9] text-sepia-800 md:text-[1.4rem]">
             {quoteMarks[0]}{quote}{quoteMarks[1]}
           </blockquote>
-          <figcaption class="mt-8 flex items-center gap-3 text-xs tracking-[0.08em] text-sepia-400">
+          <figcaption class="mt-8 flex items-center gap-3 text-xs tracking-[0.08em] text-sepia-600">
             <span class="h-px w-8 bg-sepia-300" aria-hidden="true"></span>
             {t('reviews.source')}
           </figcaption>
@@ -46,7 +43,7 @@ const quoteMarks = lang === 'ja' ? ['「', '」'] : ['“', '”'];
       ))}
     </div>
 
-    <p class="fade-up mt-14 text-xs leading-relaxed text-sepia-400">
+    <p class="fade-up mt-14 text-xs leading-relaxed text-sepia-600">
       {t('reviews.note')}
     </p>
   </div>

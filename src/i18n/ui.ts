@@ -8,7 +8,7 @@ export const defaultLang = 'ja';
 export const ui = {
   ja: {
     // Meta
-    'meta.title': 'コトリ — 青空文庫リーダー',
+    'meta.title': 'コトリ｜青空文庫リーダー',
     'meta.description': '青空文庫の名作を美しい縦書きで読める無料iOSアプリ。辞書機能・ハイライト・オフライン対応。広告なし・登録不要。',
 
     // Nav
@@ -50,7 +50,6 @@ export const ui = {
     'howitworks.step3.description': '辞書で調べ、ハイライトで記録。読書がもっと豊かに。',
 
     // Reviews
-    'reviews.eyebrow': 'APP STORE REVIEWS',
     'reviews.title': '読者から届いた言葉',
     'reviews.quote1': '小説が読みやすくて、良いと思いました。',
     'reviews.quote2': '読みやすいので気に入りました。アイコンもかわいい。',
@@ -123,7 +122,7 @@ export const ui = {
   },
   en: {
     // Meta
-    'meta.title': 'Kotori — Aozora Bunko Reader',
+    'meta.title': 'Kotori | Aozora Bunko Reader',
     'meta.description': 'Read Japanese literary classics in beautiful vertical text. Kotori is a free iOS reader app for Aozora Bunko.',
 
     // Nav
@@ -137,7 +136,7 @@ export const ui = {
     'hero.tagline': 'Japanese literature, beautifully.',
     'hero.tagline.lead': 'Japanese literature,',
     'hero.tagline.emphasis': ' beautifully.',
-    'hero.description': 'A free iOS app for reading Aozora Bunko classics — vertical text, furigana, and a built-in dictionary.',
+    'hero.description': 'A free iOS app for reading Aozora Bunko classics, with vertical text, furigana, and a built-in dictionary.',
     'hero.download': 'Download on the App Store',
 
     // Features
@@ -151,21 +150,20 @@ export const ui = {
     'features.highlights.title': 'Highlights',
     'features.highlights.description': 'Highlight your favorite passages and revisit them later.',
     'features.themes.title': 'Themes',
-    'features.themes.description': 'Light, dark, and sepia — read comfortably on the train, at night, or in bright sunlight.',
+    'features.themes.description': 'Light, dark, and sepia. Read comfortably on the train, at night, or in bright sunlight.',
     'features.offline.title': 'Offline Reading',
     'features.offline.description': 'Downloaded books are available offline, anytime.',
 
     // How It Works
     'howitworks.title': 'Reading in 3 simple steps',
     'howitworks.step1.title': 'Search',
-    'howitworks.step1.description': 'Find works by title, author, or genre — instantly.',
+    'howitworks.step1.description': 'Find works by title, author, or genre instantly.',
     'howitworks.step2.title': 'Read',
     'howitworks.step2.description': 'Enjoy beautiful vertical text with furigana and customizable themes.',
     'howitworks.step3.title': 'Go deeper',
     'howitworks.step3.description': 'Look up words, highlight passages, and make the classics your own.',
 
     // Reviews
-    'reviews.eyebrow': 'APP STORE REVIEWS',
     'reviews.title': 'Words from our readers',
     'reviews.quote1': 'The novels are easy to read. I think it’s very good.',
     'reviews.quote2': 'I like how easy it is to read. The icon is cute, too.',
