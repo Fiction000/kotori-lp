@@ -1,0 +1,59 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const reviews = [
+  t('reviews.quote1'),
+  t('reviews.quote2'),
+];
+
+const quoteMarks = lang === 'ja' ? ['「', '」'] : ['“', '”'];
+---
+
+<section class="relative overflow-hidden border-y border-sepia-200/70 bg-sepia-50/55 py-24 md:py-32" aria-labelledby="reviews-title">
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <span class="absolute -top-14 right-[8%] font-koburi text-[13rem] leading-none text-sepia-200/35">“</span>
+  </div>
+
+  <div class="relative mx-auto max-w-5xl px-6">
+    <div class="fade-up mb-14 max-w-2xl md:mb-18">
+      <p class="mb-3 text-xs font-semibold tracking-[0.24em] text-kotori-green uppercase">
+        {t('reviews.eyebrow')}
+      </p>
+      <h2 id="reviews-title" class="font-koburi text-3xl leading-tight text-sepia-900 md:text-4xl">
+        {t('reviews.title')}
+      </h2>
+    </div>
+
+    <div class="stagger-children grid gap-12 md:grid-cols-2 md:gap-0">
+      {reviews.map((quote, index) => (
+        <figure class:list={[
+          'fade-up relative flex min-h-64 flex-col justify-between',
+          index === 0
+            ? 'md:border-r md:border-sepia-300/70 md:pr-12'
+            : 'md:pl-12',
+        ]}>
+          <div>
+            <div class="mb-7 flex items-baseline gap-3" role="img" aria-label={t('reviews.ratingLabel')}>
+              <span class="text-lg tracking-[0.12em] text-sepia-500" aria-hidden="true">★★★★<span class="text-sepia-300">☆</span></span>
+              <span class="font-koburi text-sm tabular-nums text-sepia-500">4.0 / 5</span>
+            </div>
+            <blockquote class="font-koburi text-xl leading-[1.9] text-sepia-800 md:text-[1.4rem]">
+              {quoteMarks[0]}{quote}{quoteMarks[1]}
+            </blockquote>
+          </div>
+          <figcaption class="mt-8 flex items-center gap-3 text-xs tracking-[0.08em] text-sepia-400">
+            <span class="h-px w-8 bg-sepia-300" aria-hidden="true"></span>
+            {t('reviews.source')}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <p class="fade-up mt-14 text-xs leading-relaxed text-sepia-400">
+      {t('reviews.note')}
+    </p>
+  </div>
+</section>

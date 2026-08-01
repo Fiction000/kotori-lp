@@ -49,6 +49,15 @@ export const ui = {
     'howitworks.step3.title': '深める',
     'howitworks.step3.description': '辞書で調べ、ハイライトで記録。読書がもっと豊かに。',
 
+    // Reviews
+    'reviews.eyebrow': 'APP STORE REVIEWS',
+    'reviews.title': '読者から届いた言葉',
+    'reviews.quote1': '小説が読みやすくて、良いと思いました。',
+    'reviews.quote2': '読みやすいので気に入りました。アイコンもかわいい。',
+    'reviews.source': 'App Storeのレビューより',
+    'reviews.note': 'App Storeに投稿されたレビューから、一部を抜粋しています。',
+    'reviews.ratingLabel': '5つ星のうち4つ星',
+
     // Screenshots
     'screenshots.title': 'スクリーンショット',
 
@@ -153,6 +162,15 @@ export const ui = {
     'howitworks.step2.description': 'Enjoy beautiful vertical text with furigana and customizable themes.',
     'howitworks.step3.title': 'Go deeper',
     'howitworks.step3.description': 'Look up words, highlight passages, and make the classics your own.',
+
+    // Reviews
+    'reviews.eyebrow': 'APP STORE REVIEWS',
+    'reviews.title': 'Words from our readers',
+    'reviews.quote1': 'The novels are easy to read. I think it’s very good.',
+    'reviews.quote2': 'I like how easy it is to read. The icon is cute, too.',
+    'reviews.source': 'From an App Store review',
+    'reviews.note': 'Excerpts from reviews posted on the App Store. Translated from Japanese.',
+    'reviews.ratingLabel': '4 out of 5 stars',
 
     // Screenshots
     'screenshots.title': 'Screenshots',
