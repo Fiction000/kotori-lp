@@ -26,12 +26,13 @@ const sourceFor = (id: string) => editorialSources.get(id) ?? historicalSource;
 // manifest provide live Aozora Bunko source metadata; the other passages are
 // reused from that earlier implementation. Works with uncertain 2026 rights
 // status are deliberately not included here. Each fragment ends at Japanese
-// punctuation so the fixed visual lengths never cut through its meaning.
+// sentence-ending punctuation. CSS lets each stream size to its content so
+// the gutter never crops a phrase simply because it exceeded a fixed length.
 const excerpts: LiteraryExcerpt[] = [
   {
     id: 'wagahai',
     text: '吾輩は猫である。名前はまだ無い。',
-    side: 'left', top: '-2%', offset: '0%', size: '1.85rem', mobileSize: '0.96rem', opacity: '0.38', length: '40rem', leading: '1.7', tracking: '0.04em', mobile: true, source: historicalSource,
+    side: 'left', top: '1%', offset: '0%', size: '1.85rem', mobileSize: '0.96rem', opacity: '0.38', length: '40rem', leading: '1.7', tracking: '0.04em', mobile: true, source: historicalSource,
   },
   {
     id: 'rashomon',
@@ -49,9 +50,14 @@ const excerpts: LiteraryExcerpt[] = [
     side: 'left', top: '22%', offset: '12%', size: '1.45rem', mobileSize: '0.88rem', opacity: '0.28', length: '35rem', leading: '1.8', tracking: '0.05em', source: historicalSource,
   },
   {
+    id: 'shayo',
+    text: '朝、食堂でスウプを一さじ、すっと吸ってお母さまが、「あ」と幽かな叫び声をお挙げになった。',
+    side: 'left', top: '26%', offset: '48%', size: '0.86rem', mobileSize: '0.76rem', opacity: '0.24', length: '31rem', leading: '2.05', tracking: '0.09em', mobile: true, source: historicalSource,
+  },
+  {
     id: 'botchan',
     text: '親譲りの無鉄砲で小供の時から損ばかりしている。',
-    side: 'left', top: '31%', offset: '72%', size: '1.28rem', mobileSize: '0.82rem', opacity: '0.31', length: '31rem', leading: '1.85', tracking: '0.05em', source: historicalSource,
+    side: 'left', top: '33%', offset: '72%', size: '1.28rem', mobileSize: '0.82rem', opacity: '0.31', length: '31rem', leading: '1.85', tracking: '0.05em', mobile: true, source: historicalSource,
   },
   {
     id: 'kumo-no-ito',
@@ -61,7 +67,12 @@ const excerpts: LiteraryExcerpt[] = [
   {
     id: 'yoake-mae',
     text: '木曾路はすべて山の中である。',
-    side: 'left', top: '49%', offset: '3%', size: '1.72rem', mobileSize: '0.98rem', opacity: '0.31', length: '56rem', leading: '1.65', tracking: '0.04em', source: historicalSource,
+    side: 'left', top: '49%', offset: '3%', size: '1.72rem', mobileSize: '0.98rem', opacity: '0.31', length: '56rem', leading: '1.65', tracking: '0.04em', mobile: true, source: historicalSource,
+  },
+  {
+    id: 'ame-ni-mo-makezu',
+    text: '雨ニモマケズ、風ニモマケズ。',
+    side: 'left', top: '55%', offset: '76%', size: '1.12rem', mobileSize: '0.82rem', opacity: '0.3', length: '25rem', leading: '1.9', tracking: '0.07em', mobile: true, source: historicalSource,
   },
   {
     id: 'mai-hime',
@@ -71,32 +82,42 @@ const excerpts: LiteraryExcerpt[] = [
   {
     id: 'gion-shoja',
     text: '祇園精舎の鐘の声、諸行無常の響きあり。',
-    side: 'left', top: '68%', offset: '22%', size: '0.78rem', mobileSize: '0.76rem', opacity: '0.26', length: '21rem', leading: '2.15', tracking: '0.1em', source: historicalSource,
+    side: 'left', top: '68%', offset: '22%', size: '0.78rem', mobileSize: '0.76rem', opacity: '0.26', length: '21rem', leading: '2.15', tracking: '0.1em', mobile: true, source: historicalSource,
   },
   {
     id: 'haru-wa-akebono',
-    text: '春はあけぼの。やうやう白くなりゆく山際、',
+    text: '春はあけぼの。やうやう白くなりゆく山際……。',
     side: 'left', top: '76%', offset: '80%', size: '1.26rem', mobileSize: '0.84rem', opacity: '0.23', length: '35rem', leading: '1.9', tracking: '0.06em', mobile: true, source: historicalSource,
   },
   {
     id: 'tsurezuregusa',
-    text: 'つれづれなるままに、日くらし硯にむかひて、',
-    side: 'left', top: '85%', offset: '46%', size: '1.04rem', mobileSize: '0.78rem', opacity: '0.24', length: '27rem', leading: '2', tracking: '0.08em', source: historicalSource,
+    text: 'つれづれなるままに、日くらし硯にむかひて……。',
+    side: 'left', top: '83%', offset: '46%', size: '1.04rem', mobileSize: '0.78rem', opacity: '0.24', length: '27rem', leading: '2', tracking: '0.08em', mobile: true, source: historicalSource,
+  },
+  {
+    id: 'kaki-kueba',
+    text: '柿くへば鐘が鳴るなり法隆寺。',
+    side: 'left', top: '90%', offset: '74%', size: '0.9rem', mobileSize: '0.78rem', opacity: '0.27', length: '22rem', leading: '2.1', tracking: '0.09em', mobile: true, source: historicalSource,
   },
   {
     id: 'oku-no-hosomichi',
-    text: '月日は百代の過客にして、',
-    side: 'left', top: '93%', offset: '8%', size: '1.92rem', mobileSize: '0.92rem', opacity: '0.36', length: '44rem', leading: '1.6', tracking: '0.03em', source: historicalSource,
+    text: '月日は百代の過客にして……。',
+    side: 'left', top: '87%', offset: '8%', size: '1.55rem', mobileSize: '0.92rem', opacity: '0.36', length: '44rem', leading: '1.6', tracking: '0.03em', source: historicalSource,
   },
   {
     id: 'river',
-    text: '行く川のながれは絶えずして、',
+    text: '行く川のながれは絶えずして、しかも本の水にあらず。',
     side: 'right', top: '2%', offset: '68%', size: '1.24rem', mobileSize: '0.8rem', opacity: '0.25', length: '32rem', leading: '1.9', tracking: '0.06em', source: historicalSource,
   },
   {
     id: 'ise-monogatari',
     text: '昔、男ありけり。',
     side: 'right', top: '10%', offset: '22%', size: '0.86rem', mobileSize: '0.76rem', opacity: '0.23', length: '24rem', leading: '2.1', tracking: '0.1em', source: historicalSource,
+  },
+  {
+    id: 'takasebune',
+    text: '高瀬舟は京都の高瀬川を上下する小舟である。',
+    side: 'right', top: '14%', offset: '8%', size: '1.08rem', mobileSize: '0.8rem', opacity: '0.27', length: '28rem', leading: '1.95', tracking: '0.07em', mobile: true, source: historicalSource,
   },
   {
     id: 'ginga-tetsudo',
@@ -106,27 +127,37 @@ const excerpts: LiteraryExcerpt[] = [
   {
     id: 'kusamakura',
     text: '山路を登りながら、こう考えた。',
-    side: 'right', top: '27%', offset: '5%', size: '1.98rem', mobileSize: '0.94rem', opacity: '0.34', length: '51rem', leading: '1.5', tracking: '0.02em', source: historicalSource,
+    side: 'right', top: '28%', offset: '5%', size: '1.98rem', mobileSize: '0.94rem', opacity: '0.34', length: '51rem', leading: '1.5', tracking: '0.02em', mobile: true, source: historicalSource,
+  },
+  {
+    id: 'donguri-to-yamaneko',
+    text: 'おかしなはがきが、ある土曜日の夕がた、一郎のうちにきました。',
+    side: 'right', top: '33%', offset: '61%', size: '0.82rem', mobileSize: '0.74rem', opacity: '0.24', length: '30rem', leading: '2.1', tracking: '0.09em', mobile: true, source: historicalSource,
   },
   {
     id: 'lemon',
-    text: 'えたいの知れない不吉な塊が、',
+    text: 'えたいの知れない不吉な塊が私の心を始終圧えつけていた。',
     side: 'right', top: '37%', offset: '76%', size: '1.38rem', mobileSize: '0.9rem', opacity: '0.34', length: '34rem', leading: '1.75', tracking: '0.05em', mobile: true, source: sourceFor('lemon'),
   },
   {
     id: 'takekurabe',
-    text: '廻れば大門の見返り柳いと長けれど、',
-    side: 'right', top: '45%', offset: '38%', size: '2.12rem', mobileSize: '0.98rem', opacity: '0.38', length: '43rem', leading: '1.45', tracking: '0.01em', source: historicalSource,
+    text: '廻れば大門の見返り柳いと長けれど……。',
+    side: 'right', top: '45%', offset: '38%', size: '2.12rem', mobileSize: '0.98rem', opacity: '0.38', length: '43rem', leading: '1.45', tracking: '0.01em', mobile: true, source: historicalSource,
   },
   {
     id: 'kokoro',
-    text: '私はその人を常に先生と呼んでいた。だからここでも、',
+    text: '私はその人を常に先生と呼んでいた。だからここでもただ先生と書くだけで本名は打ち明けない。',
     side: 'right', top: '53%', offset: '7%', size: '1.22rem', mobileSize: '0.88rem', opacity: '0.35', length: '38rem', leading: '1.85', tracking: '0.05em', mobile: true, source: sourceFor('kokoro'),
   },
   {
     id: 'sakura-no-ki',
     text: '桜の樹の下には屍体が埋まっている！',
-    side: 'right', top: '62%', offset: '66%', size: '1.58rem', mobileSize: '0.9rem', opacity: '0.34', length: '36rem', leading: '1.7', tracking: '0.04em', source: historicalSource,
+    side: 'right', top: '62%', offset: '66%', size: '1.58rem', mobileSize: '0.9rem', opacity: '0.34', length: '36rem', leading: '1.7', tracking: '0.04em', mobile: true, source: historicalSource,
+  },
+  {
+    id: 'chumon-no-oi-ryoriten',
+    text: '二人の若い紳士が、すっかりイギリスの兵隊のかたちをして、ぴかぴかする鉄砲をかついで歩いておりました。',
+    side: 'right', top: '67%', offset: '12%', size: '0.94rem', mobileSize: '0.76rem', opacity: '0.25', length: '29rem', leading: '2', tracking: '0.08em', mobile: true, source: historicalSource,
   },
   {
     id: 'mikan',
@@ -135,18 +166,23 @@ const excerpts: LiteraryExcerpt[] = [
   },
   {
     id: 'sangetsuki',
-    text: '隴西の李徴は博学才穎、天宝の末年、',
-    side: 'right', top: '79%', offset: '83%', size: '1.82rem', mobileSize: '0.9rem', opacity: '0.32', length: '43rem', leading: '1.6', tracking: '0.03em', source: historicalSource,
+    text: '隴西の李徴は博学才穎、天宝の末年……。',
+    side: 'right', top: '79%', offset: '83%', size: '1.82rem', mobileSize: '0.9rem', opacity: '0.32', length: '43rem', leading: '1.6', tracking: '0.03em', mobile: true, source: historicalSource,
   },
   {
     id: 'nekomata',
-    text: '奥山に猫又といふものありて、',
-    side: 'right', top: '88%', offset: '47%', size: '1.32rem', mobileSize: '0.84rem', opacity: '0.3', length: '37rem', leading: '1.8', tracking: '0.06em', source: historicalSource,
+    text: '奥山に猫又といふものありて……。',
+    side: 'right', top: '87%', offset: '47%', size: '1.32rem', mobileSize: '0.84rem', opacity: '0.3', length: '37rem', leading: '1.8', tracking: '0.06em', mobile: true, source: historicalSource,
+  },
+  {
+    id: 'yodaka-no-hoshi',
+    text: 'よだかは、実にみにくい鳥です。',
+    side: 'right', top: '90%', offset: '76%', size: '1.06rem', mobileSize: '0.8rem', opacity: '0.28', length: '24rem', leading: '1.95', tracking: '0.07em', mobile: true, source: historicalSource,
   },
   {
     id: 'aozora-morning',
-    text: '或る朝の事、彼は明け方から、',
-    side: 'right', top: '96%', offset: '12%', size: '1.56rem', mobileSize: '0.82rem', opacity: '0.29', length: '28rem', leading: '1.75', tracking: '0.05em', source: sourceFor('ginga-tetsudo-no-yoru'),
+    text: '或る朝の事、彼は明け方から……。',
+    side: 'right', top: '89%', offset: '12%', size: '1.12rem', mobileSize: '0.82rem', opacity: '0.29', length: '28rem', leading: '1.75', tracking: '0.05em', source: sourceFor('ginga-tetsudo-no-yoru'),
   },
 ];
 
@@ -215,13 +251,14 @@ const streamStyle = (excerpt: LiteraryExcerpt) => `--top: ${excerpt.top}; --offs
   }
 
   .literary-stream {
+    --stream-width: 2rem;
     display: none;
     position: absolute;
     top: var(--top);
-    left: var(--offset);
-    width: 2rem;
-    height: var(--length);
-    overflow: hidden;
+    left: clamp(0px, var(--offset), calc(100% - var(--stream-width)));
+    width: var(--stream-width);
+    height: max-content;
+    overflow: visible;
     color: rgba(20, 47, 67, 0.94);
     font-family: var(--font-koburi);
     font-size: var(--mobile-size);
@@ -273,7 +310,7 @@ const streamStyle = (excerpt: LiteraryExcerpt) => `--top: ${excerpt.top}; --offs
     }
 
     .literary-stream {
-      width: 1.7rem;
+      --stream-width: 1.7rem;
       font-size: min(var(--mobile-size), 0.88rem);
     }
   }
