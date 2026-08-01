@@ -42,12 +42,16 @@ export const ui = {
 
     // How It Works
     'howitworks.title': '3ステップで、すぐに読書',
+    'howitworks.subtitle': '探して、読んで、深める。ページをめくるたび、読書が自分のものになる。',
     'howitworks.step1.title': '探す',
     'howitworks.step1.description': '読みたい作品を検索、または作家・ジャンルから探す。',
+    'howitworks.step1.alt': '作品や作家を検索する画面',
     'howitworks.step2.title': '読む',
     'howitworks.step2.description': '美しい縦書きレイアウトと辞書、ルビで快適に読書。',
+    'howitworks.step2.alt': '縦書きで作品を読む画面',
     'howitworks.step3.title': '深める',
     'howitworks.step3.description': '辞書で調べ、ハイライトで記録。読書がもっと豊かに。',
+    'howitworks.step3.alt': 'ハイライトと読書メモの画面',
 
     // Reviews
     'reviews.title': '読者から届いた言葉',
@@ -156,12 +160,16 @@ export const ui = {
 
     // How It Works
     'howitworks.title': 'Reading in 3 simple steps',
+    'howitworks.subtitle': 'Search, read, and go deeper. Each page makes the classics more your own.',
     'howitworks.step1.title': 'Search',
     'howitworks.step1.description': 'Find works by title, author, or genre instantly.',
+    'howitworks.step1.alt': 'Search screen for works and authors',
     'howitworks.step2.title': 'Read',
     'howitworks.step2.description': 'Enjoy beautiful vertical text with furigana and customizable themes.',
+    'howitworks.step2.alt': 'Reading screen with vertical text',
     'howitworks.step3.title': 'Go deeper',
     'howitworks.step3.description': 'Look up words, highlight passages, and make the classics your own.',
+    'howitworks.step3.alt': 'Highlights and reading notes screen',
 
     // Reviews
     'reviews.title': 'Words from our readers',
