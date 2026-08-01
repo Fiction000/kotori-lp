@@ -13,7 +13,7 @@ const { pick } = Astro.props;
 const content = localizedPick(pick, 'en');
 ---
 
-<Layout title={`${content.title} - Today's Pick - Kotori`} description={`${content.title} by ${content.author}, introduced as today's Kotori selection.`}>
+<Layout title={`${content.title} Reading Guide | Kotori`} description={`Discover why ${content.title} by ${content.author} is worth reading, with a brief introduction and literary background.`}>
   <Header />
   <main><DailyPickDetail lang="en" pick={pick} /></main>
   <Footer />

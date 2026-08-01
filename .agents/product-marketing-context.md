@@ -1,13 +1,13 @@
 # Product Marketing Context
 
-*Last updated: 2026-03-13*
+*Last updated: 2026-08-01*
 
 ## Product Overview
 **One-liner:** A free, beautiful iOS reader for classic Japanese literature from Aozora Bunko.
 **What it does:** Kotori lets you browse, search, and read thousands of public-domain Japanese literary works from Aozora Bunko in a beautiful vertical text (tategaki) layout with furigana, an offline dictionary, highlights, and multiple reading themes. It's designed for people who want to experience Japanese literature the way it was meant to be read — vertically, beautifully, and without distractions.
 **Product category:** Aozora Bunko reader / Japanese literature reader app (keywords: 青空文庫 アプリ, 青空文庫 リーダー)
 **Product type:** Free native iOS app (no web app)
-**Business model:** Completely free — no ads, no in-app purchases, no subscriptions, no tracking. Passion project.
+**Business model:** Completely free, with no ads, in-app purchases, or subscriptions. Kotori uses privacy-friendly anonymous usage analytics through TelemetryDeck, which does not store IP addresses or personally identifiable information. Passion project.
 
 ## Target Audience
 **Target users:**
@@ -55,7 +55,7 @@
 - Highlight and note-taking while reading
 - 4 reading themes (light, dark, sepia, and more)
 - Author profiles (Wikipedia-sourced) and AI-generated book introductions (no spoilers)
-- Zero ads, zero tracking, zero data collection
+- Zero ads and no personal tracking; reading data stays on-device, while anonymous usage analytics help improve the app
 **How we do it differently:** Purpose-built for Japanese literature, not a generic ebook shell. Every design decision — from typography (GenEiKoburiMin) to layout to color palette — serves the reading experience.
 **Why that's better:** Reading Japanese literature should feel literary, not utilitarian. Kotori treats the content with the respect it deserves.
 **Why customers choose us:** "It's the reader Aozora Bunko deserves" — beautiful, fast, respectful of the content and the reader.
@@ -65,7 +65,7 @@
 |-----------|----------|
 | "I already use ソラリ/Yom!" | Try Kotori's reader and search — the difference is immediately obvious. Modern UI, better customization, integrated dictionary. |
 | "Why not just use Kindle/Apple Books?" | They don't have Aozora Bunko's catalog, and their Japanese reading experience (vertical text, furigana, dictionary) is an afterthought. |
-| "How do you make money if it's free?" | It's a passion project. No ads, no tracking, no catch. The code is open source on GitHub. |
+| "How do you make money if it's free?" | It's a passion project. No ads, subscriptions, or in-app purchases. Privacy-friendly anonymous analytics help improve the app, and the code is open source on GitHub. |
 
 **Anti-persona:**
 - People who only read in English / don't read Japanese
@@ -115,7 +115,7 @@
 | Beautiful reading experience | Vertical text, GenEiKoburiMin font, sepia palette, Japanese design principles |
 | Instant access to literature | Fast search, immediate reading, no signup |
 | Learning-friendly | Furigana, offline dictionary (Wiktionary-based), highlights |
-| Privacy & trust | Zero data collection, no ads, no tracking, open source |
+| Privacy & trust | Reading data stays on-device, anonymous analytics contain no personal information or stored IP addresses, no ads, open source |
 
 ## Goals
 **Business goal:** Grow organic downloads in Japan first, then expand to English-speaking Japanese learners

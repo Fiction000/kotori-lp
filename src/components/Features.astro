@@ -9,7 +9,8 @@ const pairedFeatures = [
     icon: '美',
     title: t('features.vertical.title'),
     description: t('features.vertical.description'),
-    screenshot: '/screenshots/screenshot-1.png',
+    screenshot: '/screenshots/screenshot-1-800-v1.webp',
+    screenshotSet: '/screenshots/screenshot-1-480-v1.webp 480w, /screenshots/screenshot-1-800-v1.webp 800w',
     caption: lang === 'ja' ? '美しい縦書きレイアウト' : 'Beautiful vertical text layout',
     primary: true,
   },
@@ -17,21 +18,24 @@ const pairedFeatures = [
     icon: '速',
     title: t('features.furigana.title'),
     description: t('features.furigana.description'),
-    screenshot: '/screenshots/screenshot-2.png',
+    screenshot: '/screenshots/screenshot-2-800-v1.webp',
+    screenshotSet: '/screenshots/screenshot-2-480-v1.webp 480w, /screenshots/screenshot-2-800-v1.webp 800w',
     caption: lang === 'ja' ? '作家や作品をかんたん検索' : 'Search authors and works easily',
   },
   {
     icon: '調',
     title: t('features.dictionary.title'),
     description: t('features.dictionary.description'),
-    screenshot: '/screenshots/screenshot-3.png',
+    screenshot: '/screenshots/screenshot-3-800-v1.webp',
+    screenshotSet: '/screenshots/screenshot-3-480-v1.webp 480w, /screenshots/screenshot-3-800-v1.webp 800w',
     caption: lang === 'ja' ? 'タップで辞書検索' : 'Tap to look up words',
   },
   {
     icon: '記',
     title: t('features.highlights.title'),
     description: t('features.highlights.description'),
-    screenshot: '/screenshots/screenshot-4.png',
+    screenshot: '/screenshots/screenshot-4-800-v1.webp',
+    screenshotSet: '/screenshots/screenshot-4-480-v1.webp 480w, /screenshots/screenshot-4-800-v1.webp 800w',
     caption: lang === 'ja' ? 'ハイライトと読書メモ' : 'Highlights and reading notes',
   },
 ];
@@ -59,9 +63,11 @@ const textOnlyFeatures = [
           <div class="phone-frame">
             <img
               src={pairedFeatures[0].screenshot}
+              srcset={pairedFeatures[0].screenshotSet}
+              sizes="(min-width: 768px) 360px, 70vw"
               alt={pairedFeatures[0].caption}
-              width="1206"
-              height="2622"
+              width="800"
+              height="1739"
               class="phone-screen"
               loading="lazy"
             />
@@ -95,9 +101,11 @@ const textOnlyFeatures = [
               <div class="phone-frame">
                 <img
                   src={feature.screenshot}
+                  srcset={feature.screenshotSet}
+                  sizes="(min-width: 768px) 320px, 70vw"
                   alt={feature.caption}
-                  width="1206"
-                  height="2622"
+                  width="800"
+                  height="1739"
                   class="phone-screen"
                   loading="lazy"
                 />

@@ -26,8 +26,9 @@ const enURL = new URL(`/en${basePath === '/' ? '/' : basePath}`, Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline>document.documentElement.classList.add('motion-ready');</script>
-    <link rel="icon" type="image/png" sizes="512x512" href="/app-icon.png" />
-    <link rel="apple-touch-icon" href="/app-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/app-icon-180.png" />
     <link rel="canonical" href={canonicalURL} />
     <link rel="alternate" hreflang="ja" href={jaURL} />
     <link rel="alternate" hreflang="en" href={enURL} />
@@ -57,7 +58,7 @@ const enURL = new URL(`/en${basePath === '/' ? '/' : basePath}`, Astro.site);
         '@context': 'https://schema.org',
         '@type': 'SoftwareApplication',
         name: 'Kotori',
-        url: 'https://kotori-aozora.app',
+        url: new URL('/', Astro.site).toString(),
         downloadUrl: 'https://apps.apple.com/jp/app/%E3%82%B3%E3%83%88%E3%83%AA-%E3%83%A2%E3%83%80%E3%83%B3%E9%9D%92%E7%A9%BA%E6%96%87%E5%BA%AB%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC/id6759166859',
         operatingSystem: 'iOS',
         applicationCategory: 'BooksApplication',
@@ -98,13 +99,14 @@ const enURL = new URL(`/en${basePath === '/' ? '/' : basePath}`, Astro.site);
         document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
       }
 
+      startObserver();
+
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const overlay = document.getElementById('page-turn');
       let hasSeenPageTurn = false;
 
       function finishPageTurn() {
         if (overlay) overlay.style.display = 'none';
-        startObserver();
       }
 
       try {
