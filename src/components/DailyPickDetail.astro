@@ -1,0 +1,83 @@
+---
+import AppStoreBadge from './AppStoreBadge.astro';
+import type { EditorialLocale, EditorialPick } from '../data/editorial';
+import { localizedPick } from '../data/editorial';
+
+interface Props {
+  lang: EditorialLocale;
+  pick: EditorialPick;
+}
+
+const { lang, pick } = Astro.props;
+const content = localizedPick(pick, lang);
+const pathPrefix = lang === 'en' ? '/en' : '';
+const copy = lang === 'ja'
+  ? {
+      back: '今日の1冊へ戻る',
+      why: 'なぜ今読むと面白いか',
+      background: '読む前に知っておくとよい背景',
+      source: '青空文庫で底本情報を見る',
+      cta: 'この作品を、広告なしの縦書きで。',
+    }
+  : {
+      back: "Back to Today's Pick",
+      why: 'Why read it now',
+      background: 'Before reading',
+      source: 'View the source record at Aozora Bunko',
+      cta: 'Read this work in Kotori’s focused vertical reader.',
+    };
+---
+
+<article>
+  <section class="relative overflow-hidden py-20 md:py-28">
+    <div class="absolute left-[6%] top-12 hidden select-none font-koburi text-[6rem] leading-loose text-sepia-100 writing-vertical md:block" aria-hidden="true">
+      {content.title}
+    </div>
+    <div class="relative mx-auto max-w-4xl px-6">
+      <a href={`${pathPrefix}/daily/`} class="fade-up inline-flex min-h-11 items-center text-sm text-sepia-700 hover:text-sepia-900">← {copy.back}</a>
+      <p class="fade-up mt-12 font-koburi text-sm tracking-[0.4em] text-sepia-600">KOTORI DAILY</p>
+      <h1 class="fade-up mt-4 font-koburi text-5xl leading-tight text-sepia-900 md:text-7xl">{content.title}</h1>
+      <p class="fade-up mt-4 text-xl text-sepia-700">{content.author}</p>
+      <div class="fade-up mt-10 rounded-[2rem] border border-sepia-200 bg-white/35 p-7 md:p-9">
+        {content.summaryLines.map((line) => <p class="mb-3 text-lg leading-9 text-sepia-800 last:mb-0">{line}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-10 md:py-16">
+    <div class="mx-auto grid max-w-4xl gap-8 px-6 md:grid-cols-2">
+      <div class="fade-up rounded-3xl bg-sepia-50/70 p-7">
+        <h2 class="font-koburi text-2xl text-sepia-900">{copy.why}</h2>
+        <p class="mt-5 leading-8 text-sepia-700">{content.whyNow}</p>
+      </div>
+      <div class="fade-up rounded-3xl bg-white/35 p-7">
+        <h2 class="font-koburi text-2xl text-sepia-900">{copy.background}</h2>
+        <p class="mt-5 leading-8 text-sepia-700">{content.background}</p>
+      </div>
+    </div>
+  </section>
+
+  {content.quote && (
+    <section class="py-16 md:py-24">
+      <blockquote class="fade-up mx-auto max-w-3xl px-6 text-center font-koburi text-3xl leading-relaxed text-sepia-800 md:text-4xl">「{content.quote}」</blockquote>
+    </section>
+  )}
+
+  <section class="py-8 text-center">
+    <a href={pick.source.cardURL} target="_blank" rel="noopener noreferrer" class="fade-up inline-flex min-h-11 items-center text-sm text-sepia-700 underline decoration-sepia-400 underline-offset-4 hover:text-sepia-900">
+      {copy.source}
+    </a>
+  </section>
+
+  <section class="py-20 text-center">
+    <p class="fade-up mb-8 font-koburi text-2xl text-sepia-700">{copy.cta}</p>
+    <div class="fade-up"><AppStoreBadge /></div>
+  </section>
+</article>
+
+<style>
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+</style>

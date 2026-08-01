@@ -124,15 +124,17 @@ const passages = [
         <img
           src="/app-icon.png"
           alt="Kotori app icon"
+          width="1024"
+          height="1024"
           class="w-28 h-28 md:w-36 md:h-36 rounded-[28px] shadow-lg mb-8 ring-1 ring-sepia-200/50"
         />
       </div>
 
-      <h1 class="fade-up text-4xl md:text-5xl lg:text-6xl font-bold text-sepia-900 mb-6 font-koburi">
-        {t('hero.tagline')}
+      <h1 class="fade-up max-w-4xl font-koburi text-[clamp(2.35rem,10vw,4rem)] font-bold leading-[1.18] text-sepia-900 mb-6 md:text-5xl lg:text-6xl">
+        {t('hero.tagline.lead')}<span class={lang === 'ja' ? 'block sm:inline' : undefined}>{t('hero.tagline.emphasis')}</span>
       </h1>
 
-      <p class="fade-up text-lg md:text-xl text-sepia-600 max-w-2xl mb-10 leading-relaxed">
+      <p class="fade-up max-w-2xl text-pretty text-lg leading-relaxed text-sepia-600 mb-10 md:text-xl">
         {t('hero.description')}
       </p>
       <p class="fade-up text-sm text-sepia-400 -mt-4 mb-10">

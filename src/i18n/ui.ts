@@ -13,11 +13,15 @@ export const ui = {
 
     // Nav
     'nav.features': '機能',
+    'nav.daily': '今日の1冊',
     'nav.privacy': 'プライバシーポリシー',
     'nav.support': 'サポート',
+    'nav.menu': 'メニュー',
 
     // Hero
     'hero.tagline': '日本文学を、もっと美しく。',
+    'hero.tagline.lead': '日本文学を、',
+    'hero.tagline.emphasis': 'もっと美しく。',
     'hero.description': '青空文庫の名作を、縦書き・ルビ付きの美しいレイアウトで楽しめる無料のiOSアプリです。',
     'hero.download': 'App Storeでダウンロード',
 
@@ -49,6 +53,7 @@ export const ui = {
     'screenshots.title': 'スクリーンショット',
 
     // Footer
+    'footer.daily': '今日の1冊',
     'footer.privacy': 'プライバシーポリシー',
     'footer.support': 'サポート',
     'footer.copyright': '© 2026 Kotori. All rights reserved.',
@@ -113,11 +118,15 @@ export const ui = {
 
     // Nav
     'nav.features': 'Features',
+    'nav.daily': "Today's Pick",
     'nav.privacy': 'Privacy Policy',
     'nav.support': 'Support',
+    'nav.menu': 'Menu',
 
     // Hero
     'hero.tagline': 'Japanese literature, beautifully.',
+    'hero.tagline.lead': 'Japanese literature,',
+    'hero.tagline.emphasis': ' beautifully.',
     'hero.description': 'A free iOS app for reading Aozora Bunko classics — vertical text, furigana, and a built-in dictionary.',
     'hero.download': 'Download on the App Store',
 
@@ -149,6 +158,7 @@ export const ui = {
     'screenshots.title': 'Screenshots',
 
     // Footer
+    'footer.daily': "Today's Pick",
     'footer.privacy': 'Privacy Policy',
     'footer.support': 'Support',
     'footer.copyright': '© 2026 Kotori. All rights reserved.',

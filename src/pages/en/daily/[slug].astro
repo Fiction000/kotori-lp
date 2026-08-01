@@ -1,0 +1,20 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import DailyPickDetail from '../../../components/DailyPickDetail.astro';
+import { localizedPick, readyPicks } from '../../../data/editorial';
+
+export function getStaticPaths() {
+  return readyPicks().map((pick) => ({ params: { slug: pick.id }, props: { pick } }));
+}
+
+const { pick } = Astro.props;
+const content = localizedPick(pick, 'en');
+---
+
+<Layout title={`${content.title} - Today's Pick - Kotori`} description={`${content.title} by ${content.author}, introduced as today's Kotori selection.`}>
+  <Header />
+  <main><DailyPickDetail lang="en" pick={pick} /></main>
+  <Footer />
+</Layout>

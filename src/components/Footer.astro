@@ -13,7 +13,7 @@ const t = useTranslations(lang);
       <!-- Left: Book-style colophon info -->
       <div class="colophon-block text-center md:text-left">
         <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
-          <img src="/app-icon.png" alt="Kotori" class="w-8 h-8 rounded-lg" />
+          <img src="/app-icon.png" alt="" width="1024" height="1024" class="w-8 h-8 rounded-lg" />
           <span class="font-koburi text-xl text-sepia-800">コトリ</span>
         </div>
         <dl class="colophon-list text-sm text-sepia-500 space-y-1">
@@ -41,6 +41,9 @@ const t = useTranslations(lang);
 
       <!-- Right: Navigation -->
       <nav class="flex flex-col items-center md:items-end gap-2 text-sm">
+        <a href={getLocalePath(lang, '/daily/')} class="text-sepia-500 hover:text-sepia-700 transition-colors">
+          {t('footer.daily')}
+        </a>
         <a href={getLocalePath(lang, '/privacy')} class="text-sepia-500 hover:text-sepia-700 transition-colors">
           {t('footer.privacy')}
         </a>
