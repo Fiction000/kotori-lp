@@ -16,6 +16,9 @@ snapshot as `kotori/Resources/editorial_manifest.json` for offline use.
 5. Run `npm run check:editorial`.
 6. Run `npm run sync:editorial:app` to update the Kotori app bundle, then run
    the matching Swift selection-vector tests before publishing either repository.
+   By default, the script expects the app checkout at `~/code/kotori`. If it is
+   elsewhere, set `KOTORI_APP_ROOT` to the app repository root; the manifest is
+   written to `$KOTORI_APP_ROOT/kotori/Resources/editorial_manifest.json`.
 
 The date changes at midnight in `Asia/Tokyo`. Selection is the positive modulo
 of whole Tokyo calendar days since `rotation.effectiveFrom`; the ordered

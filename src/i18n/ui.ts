@@ -26,6 +26,7 @@ export const ui = {
     'hero.tagline.emphasis': 'もっと美しく。',
     'hero.description': '青空文庫の名作を、縦書き・ルビ付きの美しいレイアウトで楽しめる無料のiOSアプリです。',
     'hero.download': 'App Storeでダウンロード',
+    'hero.appIconAlt': 'コトリのアプリアイコン',
 
     // Features
     'features.title': '機能',
@@ -146,6 +147,7 @@ export const ui = {
     'hero.tagline.emphasis': ' beautifully.',
     'hero.description': 'A free iOS app for reading Aozora Bunko classics, with vertical text, furigana, and a built-in dictionary.',
     'hero.download': 'Download on the App Store',
+    'hero.appIconAlt': 'Kotori app icon',
 
     // Features
     'features.title': 'Features',

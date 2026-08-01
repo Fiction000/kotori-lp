@@ -72,5 +72,6 @@ export function dailyPick(date = new Date(), manifest = editorialManifest): Edit
 }
 
 export function localizedPick(pick: EditorialPick, locale: EditorialLocale) {
-  return { ...pick, ...pick.locales[locale] };
+  const { locales, ...basePick } = pick;
+  return { ...basePick, ...locales[locale] };
 }
