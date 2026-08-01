@@ -5,7 +5,7 @@ import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://kotori-aozora.app',
+  site: 'https://www.kotori-aozora.app',
   i18n: {
     defaultLocale: 'ja',
     locales: ['ja', 'en'],

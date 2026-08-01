@@ -5,13 +5,17 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const screenshots = [
-  { src: '/screenshots/screenshot-1.png',
+  { src: '/screenshots/screenshot-1-800-v1.webp',
+    srcSet: '/screenshots/screenshot-1-480-v1.webp 480w, /screenshots/screenshot-1-800-v1.webp 800w',
     caption: lang === 'ja' ? '美しい縦書きレイアウト' : 'Beautiful vertical text layout' },
-  { src: '/screenshots/screenshot-2.png',
+  { src: '/screenshots/screenshot-2-800-v1.webp',
+    srcSet: '/screenshots/screenshot-2-480-v1.webp 480w, /screenshots/screenshot-2-800-v1.webp 800w',
     caption: lang === 'ja' ? '作家や作品をかんたん検索' : 'Search authors and works easily' },
-  { src: '/screenshots/screenshot-3.png',
+  { src: '/screenshots/screenshot-3-800-v1.webp',
+    srcSet: '/screenshots/screenshot-3-480-v1.webp 480w, /screenshots/screenshot-3-800-v1.webp 800w',
     caption: lang === 'ja' ? 'タップで辞書検索' : 'Tap to look up words' },
-  { src: '/screenshots/screenshot-4.png',
+  { src: '/screenshots/screenshot-4-800-v1.webp',
+    srcSet: '/screenshots/screenshot-4-480-v1.webp 480w, /screenshots/screenshot-4-800-v1.webp 800w',
     caption: lang === 'ja' ? 'ハイライトと読書メモ' : 'Highlights and reading notes' },
 ];
 ---
@@ -34,7 +38,11 @@ const screenshots = [
           >
             <img
               src={shot.src}
+              srcset={shot.srcSet}
+              sizes="(max-width: 768px) 60vw, 240px"
               alt={shot.caption}
+              width="800"
+              height="1739"
               class="w-full rounded-md"
               loading="lazy"
             />

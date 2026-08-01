@@ -8,8 +8,10 @@ export const defaultLang = 'ja';
 export const ui = {
   ja: {
     // Meta
-    'meta.title': 'コトリ｜青空文庫リーダー',
+    'meta.title': '青空文庫アプリ「コトリ」｜無料の縦書きリーダー',
     'meta.description': '青空文庫の名作を美しい縦書きで読める無料iOSアプリ。辞書機能・ハイライト・オフライン対応。広告なし・登録不要。',
+    'privacy.meta.description': 'コトリが収集する匿名の利用状況データ、端末内に保存される読書データ、TelemetryDeckの利用について説明します。',
+    'support.meta.description': '青空文庫アプリ「コトリ」のよくある質問とお問い合わせ窓口です。無料利用、オフライン読書、データ保存について案内します。',
 
     // Nav
     'nav.features': '機能',
@@ -82,7 +84,7 @@ export const ui = {
     'privacy.children.title': '児童について',
     'privacy.children.body': '本アプリは、13歳未満の児童からデータを意図的に収集したり、児童に対してマーケティングを行ったりすることはありません。',
     'privacy.security.title': 'セキュリティ',
-    'privacy.security.body': 'サービス提供者は、お客様の情報の機密性を保護することに注力しています。ただし、本アプリはいかなる情報も収集しないため、不正な第三者にデータがアクセスされるリスクはありません。',
+    'privacy.security.body': 'サービス提供者は、収集する匿名の利用状況データを適切に保護します。TelemetryDeckはIPアドレスや個人を特定できる情報を保存しません。読書履歴、ハイライト、メモなどの読書データは、お使いの端末内に保存されます。',
     'privacy.changes.title': '変更',
     'privacy.changes.body': '本プライバシーポリシーは、理由の如何を問わず随時更新される場合があります。サービス提供者は、本ページに新しいプライバシーポリシーを掲載することで、変更をお知らせします。本プライバシーポリシーを定期的にご確認ください。継続的なご利用は、すべての変更への同意とみなされます。本プライバシーポリシーは2026年4月11日より有効です。',
     'privacy.consent.title': 'お客様の同意',
@@ -100,7 +102,7 @@ export const ui = {
     'support.faq.q3': 'オフラインで読めますか？',
     'support.faq.a3': 'はい、一度ダウンロードした作品はオフラインでお読みいただけます。',
     'support.faq.q4': 'データはどこに保存されますか？',
-    'support.faq.a4': 'すべてのデータはお使いのデバイス上にのみ保存されます。クラウドへのアップロードは行いません。',
+    'support.faq.a4': '読書履歴、ハイライト、メモなどの読書データは、お使いの端末内に保存され、クラウドにはアップロードされません。アプリ改善のための匿名の利用状況データのみ、プライバシーポリシーに記載のTelemetryDeckへ送信されます。',
     'support.contact.title': 'お問い合わせ',
     'support.contact.body': 'ご質問やフィードバックは、以下のフォームからお気軽にどうぞ。',
     'support.form.name': 'お名前',
@@ -122,8 +124,10 @@ export const ui = {
   },
   en: {
     // Meta
-    'meta.title': 'Kotori | Aozora Bunko Reader',
+    'meta.title': 'Kotori | Free Aozora Bunko Reader for iOS',
     'meta.description': 'Read Japanese literary classics in beautiful vertical text. Kotori is a free iOS reader app for Aozora Bunko.',
+    'privacy.meta.description': 'Learn what anonymous usage analytics Kotori collects, which reading data stays on your device, and how TelemetryDeck is used.',
+    'support.meta.description': 'Frequently asked questions and support for Kotori, including free access, offline reading, and how reading data is stored.',
 
     // Nav
     'nav.features': 'Features',
@@ -196,7 +200,7 @@ export const ui = {
     'privacy.children.title': 'Children',
     'privacy.children.body': 'The App does not knowingly collect data from or market to children under the age of 13.',
     'privacy.security.title': 'Security',
-    'privacy.security.body': 'The Service Provider is committed to protecting the confidentiality of your information. Since the App does not collect any information, there is no risk of unauthorized third-party access to your data.',
+    'privacy.security.body': 'The Service Provider protects the anonymous usage analytics it collects. TelemetryDeck does not store IP addresses or personally identifiable information. Reading history, highlights, notes, and other reading data remain on your device.',
     'privacy.changes.title': 'Changes',
     'privacy.changes.body': 'This Privacy Policy may be updated from time to time for any reason. The Service Provider will notify you of changes by posting the new Privacy Policy on this page. Please review this page periodically. Continued use of the App constitutes acceptance of all changes. This Privacy Policy is effective as of April 11, 2026.',
     'privacy.consent.title': 'Your Consent',
@@ -214,7 +218,7 @@ export const ui = {
     'support.faq.q3': 'Can I read offline?',
     'support.faq.a3': 'Yes, once you download a book, you can read it offline.',
     'support.faq.q4': 'Where is my data stored?',
-    'support.faq.a4': 'All data is stored only on your device. Nothing is uploaded to the cloud.',
+    'support.faq.a4': 'Reading history, highlights, notes, and other reading data remain on your device and are not uploaded to the cloud. Only anonymous usage analytics used to improve the app are sent to TelemetryDeck as described in the Privacy Policy.',
     'support.contact.title': 'Contact',
     'support.contact.body': 'Have a question or feedback? Send us a message using the form below.',
     'support.form.name': 'Name',
