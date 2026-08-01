@@ -1,198 +1,399 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { dailyPick, localizedPick, type EditorialLocale } from '../data/editorial';
 import AppStoreBadge from './AppStoreBadge.astro';
 import AppStoreRating from './AppStoreRating.astro';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = getLangFromUrl(Astro.url) as EditorialLocale;
 const t = useTranslations(lang);
-
-// Famous opening lines from Aozora Bunko works - scattered placement
-const passages = [
-  // Left cluster
-  { text: '吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。',
-    left: '0%', top: '-1rem', size: '1.8rem', opacity: 0.32 },
-  { text: 'ある日の暮方の事である。一人の下人が、羅生門の下で雨やみを待っていた。広い門の下には、この男のほかに誰もいない。ただ、所々丹塗の剥げた、大きな円柱に、蟋蟀が一匹とまっている。',
-    left: '4%', top: '3rem', size: '1.3rem', opacity: 0.25 },
-  { text: 'メロスは激怒した。必ず、かの邪智暴虐の王を除かなければならぬと決意した。メロスには政治がわからぬ。メロスは、村の牧人である。笛を吹き、羊と遊んで暮して来た。けれども邪悪に対しては、人一倍に敏感であった。',
-    left: '8%', top: '-3rem', size: '2.2rem', opacity: 0.28 },
-  { text: '恥の多い生涯を送って来ました。自分には、人間の生活というものが、見当つかないのです。自分は東北の田舎に生れましたので、汽車をはじめて見たのは、よほど大きくなってからでした。',
-    left: '12%', top: '5rem', size: '2.4rem', opacity: 0.2 },
-  { text: '国境の長いトンネルを抜けると雪国であった。夜の底が白くなった。信号所に汽車が止まった。向側の座席から娘が立って来て、島村の前のガラス窓を落した。雪の冷気が流れこんだ。',
-    left: '16%', top: '0rem', size: '1.4rem', opacity: 0.22 },
-
-  // Left-center
-  { text: '親譲りの無鉄砲で小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰を抜かした事がある。なぜそんな無闘をしたと聞く人があるかも知れぬ。別段深い理由でもない。',
-    left: '19%', top: '2rem', size: '1.7rem', opacity: 0.26 },
-  { text: '或日の事でございます。御釈迦様は極楽の蓮池のふちを、独りでぶらぶら御歩きになっていらっしゃいました。池の中に咲いている蓮の花は、みんな玉のようにまっ白で、',
-    left: '22%', top: '-2rem', size: '1.2rem', opacity: 0.2 },
-  { text: '朝、食堂でスウプを一さじ、すっと吸ってお母さまが、「あ」と幽かな叫び声をお挙げになった。',
-    left: '24.5%', top: '4rem', size: '2.0rem', opacity: 0.24 },
-  { text: '木曾路はすべて山の中である。あるところは岨づたいに行く崖の道であり、あるところは数十間の深さに臨む木曾川の岸であり、あるところは山の尾をめぐる谷の入り口である。',
-    left: '27.5%', top: '-1rem', size: '1.5rem', opacity: 0.22 },
-  { text: '石炭をば早や積み果てつ。中等室の卓のほとりはいと静にて、熾火に様なる電燈の光の晴れがましきも徒なり。',
-    left: '30%', top: '6rem', size: '1.8rem', opacity: 0.18 },
-
-  // Center area (still lighter but bigger)
-  { text: '祇園精舎の鐘の声、諸行無常の響きあり。沙羅双樹の花の色、盛者必衰の理をあらはす。おごれる人も久しからず。',
-    left: '34%', top: '1rem', size: '1.3rem', opacity: 0.12 },
-  { text: '春はあけぼの。やうやう白くなりゆく山際、少し明かりて、紫だちたる雲の細くたなびきたる。',
-    left: '37%', top: '-2rem', size: '1.5rem', opacity: 0.1 },
-  { text: 'つれづれなるままに、日くらし硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、あやしうこそものぐるほしけれ。',
-    left: '40%', top: '5rem', size: '1.1rem', opacity: 0.1 },
-  { text: '月日は百代の過客にして、行かふ年も又旅人也。舟の上に生涯をうかべ、馬の口とらえて老をむかふる物は、日々旅にして旅を栖とす。',
-    left: '44%', top: '0rem', size: '1.4rem', opacity: 0.08 },
-  { text: '行く川のながれは絶えずして、しかも本の水にあらず。よどみに浮ぶうたかたは、かつ消えかつ結びて久しくとゞまることなし。',
-    left: '55%', top: '3rem', size: '1.3rem', opacity: 0.08 },
-  { text: '昔、男ありけり。奈良の京は離れ、この京は人の家まだ定まらざりける時に、西の京に女ありけり。',
-    left: '59%', top: '-1rem', size: '1.2rem', opacity: 0.1 },
-
-  // Right-center
-  { text: 'カムパネルラが手をあげました。それから四五人手をあげました。ジョバンニも手をあげようとして、急いでそのままやめました。たしかにあれがみんな星だと、いつか雑誌で読んだのでしたが、',
-    left: '63%', top: '2rem', size: '1.6rem', opacity: 0.22 },
-  { text: '山路を登りながら、こう考えた。智に働けば角が立つ。情に棹させば流される。意地を通せば窮屈だ。とかくに人の世は住みにくい。住みにくさが高じると、安い所へ引き越したくなる。',
-    left: '66%', top: '-3rem', size: '2.0rem', opacity: 0.26 },
-  { text: 'えたいの知れない不吉な塊が私の心を始終圧えつけていた。焦躁と言おうか、嫌悪と言おうか、酒を飲んだあとに宿酔があるように、酔っている間よりも不快な酔いが残っていた。',
-    left: '70%', top: '4rem', size: '1.4rem', opacity: 0.2 },
-
-  // Right cluster
-  { text: '廻れば大門の見返り柳いと長けれど、お歯黒溝に燈火うつる三階の騒ぎも手に取る如く、明けくれなしの車の行来にはかり知られぬ全盛をうらなひて、',
-    left: '73%', top: '0rem', size: '2.2rem', opacity: 0.3 },
-  { text: '私はその人を常に先生と呼んでいた。だからここでもただ先生と書くだけで本名は打ち明けない。これは世間を憚かる遠慮というよりも、その方が私にとって自然だからである。',
-    left: '77%', top: '-2rem', size: '1.3rem', opacity: 0.24 },
-  { text: '桜の樹の下には屍体が埋まっている！これは信じていいことなんだよ。何故って、桜の花があんなにも見事に咲くなんて信じられないことじゃないか。',
-    left: '80%', top: '5rem', size: '1.8rem', opacity: 0.28 },
-  { text: '或秋の日暮です。私は横須賀発上り二等客車の隅に腰を掛けて、ぼんやり発車の笛を待っていました。',
-    left: '83%', top: '1rem', size: '1.5rem', opacity: 0.22 },
-  { text: '越後の春日を経て室町に至る三国街道の丁度のまん中に当るとかで、湯のまちとしてよりも寧ろ街道筋の温泉宿としてひらけたらしい。',
-    left: '86%', top: '-1rem', size: '2.0rem', opacity: 0.3 },
-  { text: '隴西の李徴は博学才穎、天宝の末年、若くして名を虎榜に連ね、ついで江南尉に補せられたが、性、狷介、自ら恃む所頗る厚く、',
-    left: '89.5%', top: '3rem', size: '1.2rem', opacity: 0.2 },
-  { text: '奥山に猫又といふものありて、人を食らふなると人の言ひけるに、「山ならねども、これらにも、猫の経上りて、猫又になりて、人とる事はあなるものを」と言ふ者ありけるを、',
-    left: '92%', top: '-3rem', size: '1.7rem', opacity: 0.26 },
-  { text: '風立ちぬ、いざ生きめやも。私はふとその詩句を口ずさみながら、眼の前の再び関かけ始めた雲の行方を追っていた。',
-    left: '95%', top: '6rem', size: '2.3rem', opacity: 0.32 },
-  { text: '或る朝の事、彼は明け方から、じっと空を見ていた。空は青く澄んで、まだ一つの雲もなかった。',
-    left: '98%', top: '0rem', size: '1.5rem', opacity: 0.18 },
-];
+const pick = localizedPick(dailyPick(), lang);
+const dailyPath = `${lang === 'en' ? '/en' : ''}/daily/${pick.id}/`;
 ---
 
-<section class="relative overflow-hidden min-h-[70vh] flex items-center">
-  <!-- Tategaki literary background -->
-  <div class="absolute inset-0 overflow-hidden select-none pointer-events-none" aria-hidden="true">
-    {passages.map((p) => (
-      <div
-        class="tategaki-col font-koburi"
-        style={`left: ${p.left}; top: ${p.top}; font-size: ${p.size}; opacity: ${p.opacity};`}
-      >
-        {p.text}
-      </div>
-    ))}
-    <!-- Mobile-only accent columns - scattered like desktop -->
-    <div class="tategaki-mobile font-koburi" style="left: 0; top: 0; font-size: 1.2rem; opacity: 0.32;">
-      吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。
-    </div>
-    <div class="tategaki-mobile font-koburi" style="left: 10%; top: 2rem; font-size: 0.85rem; opacity: 0.22;">
-      ある日の暮方の事である。一人の下人が、羅生門の下で雨やみを待っていた。広い門の下には、この男のほかに誰もいない。
-    </div>
-    <div class="tategaki-mobile font-koburi" style="left: 22%; top: -1rem; font-size: 1.1rem; opacity: 0.18;">
-      メロスは激怒した。必ず、かの邪智暴虐の王を除かなければならぬと決意した。
-    </div>
-    <div class="tategaki-mobile font-koburi" style="left: 33%; top: 2rem; font-size: 0.9rem; opacity: 0.10;">
-      祇園精舎の鐘の声、諸行無常の響きあり。沙羅双樹の花の色、盛者必衰の理をあらはす。
-    </div>
-    <div class="tategaki-mobile font-koburi" style="left: 44%; top: -0.5rem; font-size: 1.0rem; opacity: 0.08;">
-      月日は百代の過客にして、行かふ年も又旅人也。
-    </div>
-    <div class="tategaki-mobile font-koburi" style="left: 55%; top: 1rem; font-size: 0.85rem; opacity: 0.10;">
-      つれづれなるままに、日くらし硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、
-    </div>
-    <div class="tategaki-mobile font-koburi" style="left: 64%; top: 1rem; font-size: 1.0rem; opacity: 0.18;">
-      春はあけぼの。やうやう白くなりゆく山際、少し明かりて、紫だちたる雲の細くたなびきたる。
-    </div>
-    <div class="tategaki-mobile font-koburi" style="left: 77%; top: -0.5rem; font-size: 0.85rem; opacity: 0.22;">
-      私はその人を常に先生と呼んでいた。だからここでもただ先生と書くだけで本名は打ち明けない。
-    </div>
-    <div class="tategaki-mobile font-koburi" style="left: 89%; top: 0; font-size: 1.2rem; opacity: 0.32;">
-      国境の長いトンネルを抜けると雪国であった。夜の底が白くなった。信号所に汽車が止まった。
-    </div>
-    <!-- Radial vignette: clear center for readability -->
-    <div class="absolute inset-0 hero-vignette"></div>
-  </div>
+<section class="hero-shell" aria-labelledby="hero-title">
+  <div class="hero-grid" aria-hidden="true"></div>
+  <div class="hero-glow hero-glow--top" aria-hidden="true"></div>
+  <div class="hero-glow hero-glow--bottom" aria-hidden="true"></div>
 
-  <div class="relative mx-auto w-full max-w-5xl px-6 py-20 md:py-24">
-    <div class="flex flex-col items-center text-center">
-      <div class="fade-up">
+  <div class="hero-layout mx-auto max-w-7xl px-6 pb-24 pt-16 md:pb-32 md:pt-24">
+    <div class="hero-copy fade-up">
+      <div class="hero-eyebrow">
         <img
           src="/app-icon-288-v1.webp"
-          alt={t('hero.appIconAlt')}
-          width="288"
-          height="288"
-          class="w-28 h-28 md:w-36 md:h-36 rounded-[28px] shadow-lg mb-8 ring-1 ring-sepia-200/50"
+          alt=""
+          width="36"
+          height="36"
+          class="hero-mark"
         />
+        <p>{t('hero.eyebrow')}</p>
       </div>
 
-      <h1 class="fade-up max-w-4xl font-koburi text-[clamp(2.35rem,10vw,4rem)] font-bold leading-[1.18] text-sepia-900 mb-6 md:text-5xl lg:text-6xl">
-        {t('hero.tagline.lead')}<span class={lang === 'ja' ? 'block sm:inline' : undefined}>{t('hero.tagline.emphasis')}</span>
+      <h1 id="hero-title" class="hero-title">
+        <span>{t('hero.tagline.lead')}</span>
+        <span class="hero-title__emphasis">
+          {t('hero.tagline.emphasis.lead')}
+          {lang === 'ja' && <><wbr />{t('hero.tagline.emphasis.tail')}</>}
+        </span>
       </h1>
 
-      <p class="fade-up max-w-2xl text-pretty text-lg leading-relaxed text-sepia-700 mb-10 md:text-xl">
-        {t('hero.description')}
-      </p>
-      <div class="fade-up flex flex-col items-center gap-3">
+      <p class="hero-description">{t('hero.description')}</p>
+
+      <ul class="hero-assurances" aria-label={lang === 'ja' ? '利用条件' : 'At a glance'}>
+        <li>{t('hero.free')}</li>
+        <li>{t('hero.noAccount')}</li>
+        <li>{t('hero.offline')}</li>
+      </ul>
+
+      <div class="hero-actions">
         <AppStoreBadge />
         <AppStoreRating />
       </div>
     </div>
-  </div>
 
-  <!-- Bottom decorative line -->
-  <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-sepia-300/50 to-transparent"></div>
+    <div class="hero-product fade-up">
+      <div class="reader-window">
+        <div class="reader-window__bar" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+          <p>コトリ</p>
+        </div>
+        <img
+          src="/screenshots/screenshot-1-800-v1.webp"
+          srcset="/screenshots/screenshot-1-480-v1.webp 480w, /screenshots/screenshot-1-800-v1.webp 800w"
+          sizes="(min-width: 1024px) 400px, 78vw"
+          alt={t('hero.screenshotAlt')}
+          width="800"
+          height="1739"
+          class="reader-window__screen"
+          fetchpriority="high"
+        />
+      </div>
+
+      <a href={dailyPath} class="daily-card group">
+        <div class="daily-card__topline">
+          <span class="daily-card__bird" aria-hidden="true">●</span>
+          <span>{t('hero.daily.label')}</span>
+        </div>
+        <p class="daily-card__title font-koburi">{pick.title}</p>
+        <p class="daily-card__author">{pick.author}</p>
+        <p class="daily-card__reason">{pick.whyNow}</p>
+        <span class="daily-card__link">
+          {t('hero.daily.link')}
+          <span aria-hidden="true">→</span>
+        </span>
+      </a>
+    </div>
+  </div>
 </section>
 
 <style>
-  .tategaki-col {
+  .hero-shell {
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid rgba(25, 58, 88, 0.12);
+    background:
+      linear-gradient(180deg, rgba(229, 244, 252, 0.92) 0%, rgba(247, 250, 248, 0.94) 70%, #fbfaf6 100%);
+  }
+
+  .hero-grid {
     position: absolute;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    height: 100%;
-    line-height: 2;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-    color: #523a22;
+    inset: 0;
+    opacity: 0.18;
+    background-image:
+      linear-gradient(rgba(42, 83, 112, 0.2) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(42, 83, 112, 0.2) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: linear-gradient(to bottom, black 0%, black 58%, transparent 92%);
   }
 
-  .hero-vignette {
-    background: radial-gradient(
-      ellipse 38% 42% at 50% 48%,
-      #f9f5ee 0%,
-      #f9f5ee 15%,
-      #f9f5eee6 35%,
-      #f9f5ee80 55%,
-      #f9f5ee30 75%,
-      transparent 100%
-    );
-  }
-
-  .tategaki-mobile {
+  .hero-glow {
     position: absolute;
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-    height: 100%;
-    line-height: 2;
-    letter-spacing: 0.06em;
-    white-space: nowrap;
-    color: #523a22;
+    border-radius: 999px;
+    filter: blur(4px);
+    pointer-events: none;
   }
 
-  @media (min-width: 769px) {
-    .tategaki-mobile {
+  .hero-glow--top {
+    top: -14rem;
+    right: -8rem;
+    width: 34rem;
+    height: 34rem;
+    background: rgba(56, 167, 226, 0.22);
+  }
+
+  .hero-glow--bottom {
+    bottom: -18rem;
+    left: -10rem;
+    width: 31rem;
+    height: 31rem;
+    background: rgba(238, 111, 91, 0.08);
+  }
+
+  .hero-layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    align-items: center;
+    gap: 5rem;
+  }
+
+  .hero-copy {
+    max-width: 40rem;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.75rem;
+    color: #24516f;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+  }
+
+  .hero-mark {
+    border-radius: 0.55rem;
+    box-shadow: 0 5px 16px rgba(22, 71, 109, 0.18);
+  }
+
+  .hero-title {
+    color: #142f43;
+    font-size: clamp(2.8rem, 6.2vw, 5.6rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    line-height: 1.12;
+  }
+
+  .hero-title span {
+    display: block;
+    word-break: keep-all;
+  }
+
+  .hero-title__emphasis {
+    color: #176b9b;
+  }
+
+  .hero-description {
+    max-width: 36rem;
+    margin-top: 1.75rem;
+    color: #395164;
+    font-size: clamp(1rem, 1.6vw, 1.16rem);
+    line-height: 1.9;
+  }
+
+  .hero-assurances {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-top: 1.5rem;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hero-assurances li {
+    border: 1px solid rgba(36, 81, 111, 0.18);
+    border-radius: 0.4rem;
+    background: rgba(255, 255, 255, 0.55);
+    padding: 0.45rem 0.7rem;
+    color: #29495f;
+    font-size: 0.78rem;
+    font-weight: 650;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+
+  .hero-product {
+    position: relative;
+    width: min(100%, 34rem);
+    min-height: 39rem;
+    margin-inline: auto;
+  }
+
+  .reader-window {
+    width: min(78%, 24rem);
+    margin-left: auto;
+    overflow: hidden;
+    border: 1px solid rgba(20, 47, 67, 0.16);
+    border-radius: 1.15rem;
+    background: #fff;
+    box-shadow:
+      0 30px 70px rgba(19, 63, 92, 0.17),
+      0 4px 12px rgba(19, 63, 92, 0.08);
+    transform: rotate(1.4deg);
+  }
+
+  .reader-window__bar {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    height: 2.4rem;
+    border-bottom: 1px solid rgba(20, 47, 67, 0.09);
+    padding: 0 0.8rem;
+    background: #f7fbfd;
+  }
+
+  .reader-window__bar span {
+    width: 0.46rem;
+    height: 0.46rem;
+    border-radius: 999px;
+    background: #b9d9e9;
+  }
+
+  .reader-window__bar p {
+    margin-left: auto;
+    color: #527083;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .reader-window__screen {
+    display: block;
+    width: 100%;
+    aspect-ratio: 0.64;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .daily-card {
+    position: absolute;
+    bottom: 1.25rem;
+    left: 0;
+    width: min(74%, 23.5rem);
+    border: 1px solid rgba(20, 47, 67, 0.15);
+    border-radius: 0.6rem;
+    background: rgba(255, 254, 248, 0.96);
+    padding: 1.45rem;
+    color: #142f43;
+    box-shadow: 0 18px 48px rgba(19, 63, 92, 0.17);
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 300ms ease;
+  }
+
+  .daily-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 56px rgba(19, 63, 92, 0.21);
+  }
+
+  .daily-card__topline {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #9c4a3c;
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.16em;
+  }
+
+  .daily-card__bird {
+    font-size: 0.5rem;
+  }
+
+  .daily-card__title {
+    margin-top: 0.7rem;
+    font-size: 1.75rem;
+    line-height: 1.35;
+  }
+
+  .daily-card__author {
+    margin-top: 0.15rem;
+    color: #5b6b75;
+    font-size: 0.78rem;
+  }
+
+  .daily-card__reason {
+    margin-top: 0.85rem;
+    color: #405968;
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+
+  .daily-card__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid rgba(20, 47, 67, 0.12);
+    color: #176b9b;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  @media (min-width: 960px) {
+    .hero-layout {
+      grid-template-columns: minmax(0, 1.05fr) minmax(27rem, 0.95fr);
+    }
+  }
+
+  @media (max-width: 959px) {
+    .hero-layout {
+      gap: 3.5rem;
+    }
+
+    .hero-copy {
+      margin-inline: auto;
+      text-align: center;
+    }
+
+    .hero-eyebrow,
+    .hero-actions,
+    .hero-assurances {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .hero-layout {
+      padding-top: 2.5rem;
+    }
+
+    .hero-eyebrow {
+      letter-spacing: 0.08em;
+    }
+
+    .hero-title {
+      font-size: clamp(2.1rem, 10.8vw, 3.25rem);
+      letter-spacing: -0.055em;
+    }
+
+    .hero-description {
+      line-height: 1.75;
+    }
+
+    .hero-product {
+      min-height: 32rem;
+    }
+
+    .reader-window {
+      width: 76%;
+    }
+
+    .daily-card {
+      bottom: 0;
+      width: 79%;
+      padding: 1.2rem;
+    }
+
+    .daily-card__reason {
       display: none;
     }
   }
 
-  @media (max-width: 768px) {
-    .tategaki-col {
-      display: none;
+  @media (prefers-reduced-motion: reduce) {
+    .reader-window {
+      transform: none;
+    }
+
+    .daily-card {
+      transition: none;
     }
   }
 </style>

@@ -21,12 +21,21 @@ export const ui = {
     'nav.menu': 'メニュー',
 
     // Hero
-    'hero.tagline': '日本文学を、もっと美しく。',
-    'hero.tagline.lead': '日本文学を、',
-    'hero.tagline.emphasis': 'もっと美しく。',
-    'hero.description': '青空文庫の名作を、縦書き・ルビ付きの美しいレイアウトで楽しめる無料のiOSアプリです。',
+    'hero.eyebrow': '青空文庫を、今日の読書へ',
+    'hero.tagline': 'まだ知らない名作と、読みやすい縦書きで出会う。',
+    'hero.tagline.lead': 'まだ知らない名作と、',
+    'hero.tagline.emphasis': '読みやすい縦書きで出会う。',
+    'hero.tagline.emphasis.lead': '読みやすい縦書きで',
+    'hero.tagline.emphasis.tail': '出会う。',
+    'hero.description': 'コトリは、青空文庫の作品を見つけ、調べながら読み、心に残った一節をとっておける無料のiOSアプリです。',
     'hero.download': 'App Storeでダウンロード',
     'hero.appIconAlt': 'コトリのアプリアイコン',
+    'hero.screenshotAlt': 'コトリで銀河鉄道の夜を縦書き表示している画面',
+    'hero.free': '無料・広告なし',
+    'hero.noAccount': '登録不要',
+    'hero.offline': 'オフライン対応',
+    'hero.daily.label': '今日の1冊',
+    'hero.daily.link': '選書の紹介を読む',
 
     // Features
     'features.title': '機能',
@@ -142,12 +151,21 @@ export const ui = {
     'nav.menu': 'Menu',
 
     // Hero
-    'hero.tagline': 'Japanese literature, beautifully.',
-    'hero.tagline.lead': 'Japanese literature,',
-    'hero.tagline.emphasis': ' beautifully.',
-    'hero.description': 'A free iOS app for reading Aozora Bunko classics, with vertical text, furigana, and a built-in dictionary.',
+    'hero.eyebrow': 'From Aozora Bunko to today’s reading',
+    'hero.tagline': 'Meet an unfamiliar classic in vertical text made to read.',
+    'hero.tagline.lead': 'Meet an unfamiliar classic in ',
+    'hero.tagline.emphasis': 'vertical text made to read.',
+    'hero.tagline.emphasis.lead': 'vertical text made to read.',
+    'hero.tagline.emphasis.tail': '',
+    'hero.description': 'Kotori is a free iOS app for finding Aozora Bunko works, reading with a dictionary at hand, and keeping the passages that stay with you.',
     'hero.download': 'Download on the App Store',
     'hero.appIconAlt': 'Kotori app icon',
+    'hero.screenshotAlt': 'Night on the Galactic Railroad displayed vertically in Kotori',
+    'hero.free': 'Free, no ads',
+    'hero.noAccount': 'No account',
+    'hero.offline': 'Works offline',
+    'hero.daily.label': "Today's Pick",
+    'hero.daily.link': 'Read the introduction',
 
     // Features
     'features.title': 'Features',

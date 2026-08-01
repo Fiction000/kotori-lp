@@ -20,9 +20,9 @@
   --color-sepia-800: #523a22;
   --color-sepia-900: #3a2918;
 
-  --color-kotori-green: #5a7247;
-  --color-kotori-dark: #1a1a1a;
-  --color-kotori-warm: #f9f5ee;
+  --color-kotori-green: #176b9b;
+  --color-kotori-dark: #142f43;
+  --color-kotori-warm: #fbfaf6;
 
   --font-koburi: 'GenEiKoburiMin', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
   --font-serif-jp: 'GenEiKoburiMin', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
@@ -44,24 +44,6 @@ body {
 
 :where(h1, h2, h3) {
   text-wrap: balance;
-}
-
-/* 原稿用紙グリッド背景 */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.12;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Crect width='40' height='40' fill='none' stroke='%238a6338' stroke-width='0.5'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-}
-
-@media (max-width: 480px) {
-  body::before {
-    opacity: 0.08;
-  }
 }
 
 /* Scroll-triggered fade-in animations. Content stays visible if JavaScript is unavailable. */
@@ -94,119 +76,9 @@ body::before {
   display: none;
 }
 
-/* ページめくりアニメーション */
-#page-turn {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  perspective: 2000px;
-}
-
-.page-turn__page {
-  position: absolute;
-  inset: 0;
-  transform-origin: left center;
-  background: linear-gradient(90deg, #e8dcc8 0%, #f0e8d8 30%, #f5eed8 100%);
-  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.08);
-  animation: page-turn 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
-}
-
-/* 紙の質感：薄い縦線 */
-.page-turn__page::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    90deg,
-    transparent,
-    transparent 39px,
-    rgba(138, 99, 56, 0.06) 39px,
-    rgba(138, 99, 56, 0.06) 40px
-  );
-}
-
-/* ページの裏面（めくり途中に見える） */
-.page-turn__back {
-  position: absolute;
-  inset: 0;
-  transform-origin: left center;
-  background: linear-gradient(270deg, #d8ccb8 0%, #e0d4c0 100%);
-  animation: page-turn-back 1.4s cubic-bezier(0.4, 0, 0.2, 1) 0.2s forwards;
-  opacity: 0;
-}
-
-@keyframes page-turn {
-  0% {
-    transform: rotateY(0deg);
-    opacity: 1;
-  }
-  60% {
-    opacity: 1;
-  }
-  85% {
-    opacity: 0.6;
-  }
-  100% {
-    transform: rotateY(-105deg);
-    opacity: 0;
-  }
-}
-
-@keyframes page-turn-back {
-  0% {
-    transform: rotateY(0deg);
-    opacity: 0;
-  }
-  20% {
-    opacity: 0.4;
-  }
-  60% {
-    opacity: 0.3;
-  }
-  100% {
-    transform: rotateY(-105deg);
-    opacity: 0;
-  }
-}
-
-/* Mobile: simpler swipe-left */
-@media (max-width: 767px) {
-  #page-turn {
-    perspective: none;
-  }
-
-  .page-turn__page {
-    animation: page-turn-mobile 1.0s cubic-bezier(0.4, 0, 0.2, 1) 0.1s forwards;
-  }
-
-  .page-turn__back {
-    display: none;
-  }
-
-  @keyframes page-turn-mobile {
-    0% {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    60% {
-      opacity: 1;
-    }
-    100% {
-      transform: translateX(-100%);
-      opacity: 0;
-    }
-  }
-}
-
-/* Reduced motion: skip animation */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  #page-turn {
-    display: none !important;
   }
 
   .motion-ready .fade-up {
