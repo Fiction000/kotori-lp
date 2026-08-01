@@ -25,126 +25,127 @@ const sourceFor = (id: string) => editorialSources.get(id) ?? historicalSource;
 // the much taller Features section. The four works in the current editorial
 // manifest provide live Aozora Bunko source metadata; the other passages are
 // reused from that earlier implementation. Works with uncertain 2026 rights
-// status are deliberately not included here.
+// status are deliberately not included here. Each fragment ends at Japanese
+// punctuation so the fixed visual lengths never cut through its meaning.
 const excerpts: LiteraryExcerpt[] = [
   {
     id: 'wagahai',
-    text: '吾輩は猫である。名前はまだ無い。どこで生れたかとんと見当がつかぬ。何でも薄暗いじめじめした所でニャーニャー泣いていた事だけは記憶している。吾輩はここで始めて人間というものを見た。しかもあとで聞くとそれは書生という人間中で一番獰悪な種族であったそうだ。',
+    text: '吾輩は猫である。名前はまだ無い。',
     side: 'left', top: '-2%', offset: '0%', size: '1.85rem', mobileSize: '0.96rem', opacity: '0.38', length: '40rem', leading: '1.7', tracking: '0.04em', mobile: true, source: historicalSource,
   },
   {
     id: 'rashomon',
-    text: 'ある日の暮方の事である。一人の下人が、羅生門の下で雨やみを待っていた。広い門の下には、この男のほかに誰もいない。ただ、所々丹塗の剥げた、大きな円柱に、蟋蟀が一匹とまっている。',
+    text: '一人の下人が、羅生門の下で雨やみを待っていた。',
     side: 'left', top: '7%', offset: '29%', size: '0.92rem', mobileSize: '0.82rem', opacity: '0.34', length: '25rem', leading: '1.95', tracking: '0.08em', mobile: true, source: sourceFor('rashomon'),
   },
   {
     id: 'melos',
-    text: 'メロスは激怒した。必ず、かの邪智暴虐の王を除かなければならぬと決意した。メロスには政治がわからぬ。メロスは、村の牧人である。笛を吹き、羊と遊んで暮して来た。けれども邪悪に対しては、人一倍に敏感であった。',
+    text: 'メロスは激怒した。',
     side: 'left', top: '14%', offset: '55%', size: '2.15rem', mobileSize: '1.02rem', opacity: '0.32', length: '48rem', leading: '1.5', tracking: '0.02em', mobile: true, source: historicalSource,
   },
   {
     id: 'ningen-shikkaku',
-    text: '恥の多い生涯を送って来ました。自分には、人間の生活というものが、見当つかないのです。自分は東北の田舎に生れましたので、汽車をはじめて見たのは、よほど大きくなってからでした。',
+    text: '恥の多い生涯を送って来ました。',
     side: 'left', top: '22%', offset: '12%', size: '1.45rem', mobileSize: '0.88rem', opacity: '0.28', length: '35rem', leading: '1.8', tracking: '0.05em', source: historicalSource,
   },
   {
     id: 'botchan',
-    text: '親譲りの無鉄砲で小供の時から損ばかりしている。小学校に居る時分学校の二階から飛び降りて一週間ほど腰を抜かした事がある。なぜそんな無闘をしたと聞く人があるかも知れぬ。別段深い理由でもない。',
+    text: '親譲りの無鉄砲で小供の時から損ばかりしている。',
     side: 'left', top: '31%', offset: '72%', size: '1.28rem', mobileSize: '0.82rem', opacity: '0.31', length: '31rem', leading: '1.85', tracking: '0.05em', source: historicalSource,
   },
   {
     id: 'kumo-no-ito',
-    text: '或日の事でございます。御釈迦様は極楽の蓮池のふちを、独りでぶらぶら御歩きになっていらっしゃいました。池の中に咲いている蓮の花は、みんな玉のようにまっ白で、',
+    text: '或日の事でございます。',
     side: 'left', top: '40%', offset: '36%', size: '1.06rem', mobileSize: '0.78rem', opacity: '0.27', length: '23rem', leading: '2.05', tracking: '0.09em', source: historicalSource,
   },
   {
     id: 'yoake-mae',
-    text: '木曾路はすべて山の中である。あるところは岨づたいに行く崖の道であり、あるところは数十間の深さに臨む木曾川の岸であり、あるところは山の尾をめぐる谷の入り口である。',
+    text: '木曾路はすべて山の中である。',
     side: 'left', top: '49%', offset: '3%', size: '1.72rem', mobileSize: '0.98rem', opacity: '0.31', length: '56rem', leading: '1.65', tracking: '0.04em', source: historicalSource,
   },
   {
     id: 'mai-hime',
-    text: '石炭をば早や積み果てつ。中等室の卓のほとりはいと静にて、熾火に様なる電燈の光の晴れがましきも徒なり。',
+    text: '石炭をば早や積み果てつ。',
     side: 'left', top: '59%', offset: '62%', size: '1.42rem', mobileSize: '0.86rem', opacity: '0.25', length: '36rem', leading: '1.75', tracking: '0.05em', source: historicalSource,
   },
   {
     id: 'gion-shoja',
-    text: '祇園精舎の鐘の声、諸行無常の響きあり。沙羅双樹の花の色、盛者必衰の理をあらはす。おごれる人も久しからず。',
+    text: '祇園精舎の鐘の声、諸行無常の響きあり。',
     side: 'left', top: '68%', offset: '22%', size: '0.78rem', mobileSize: '0.76rem', opacity: '0.26', length: '21rem', leading: '2.15', tracking: '0.1em', source: historicalSource,
   },
   {
     id: 'haru-wa-akebono',
-    text: '春はあけぼの。やうやう白くなりゆく山際、少し明かりて、紫だちたる雲の細くたなびきたる。',
+    text: '春はあけぼの。やうやう白くなりゆく山際、',
     side: 'left', top: '76%', offset: '80%', size: '1.26rem', mobileSize: '0.84rem', opacity: '0.23', length: '35rem', leading: '1.9', tracking: '0.06em', mobile: true, source: historicalSource,
   },
   {
     id: 'tsurezuregusa',
-    text: 'つれづれなるままに、日くらし硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、あやしうこそものぐるほしけれ。',
+    text: 'つれづれなるままに、日くらし硯にむかひて、',
     side: 'left', top: '85%', offset: '46%', size: '1.04rem', mobileSize: '0.78rem', opacity: '0.24', length: '27rem', leading: '2', tracking: '0.08em', source: historicalSource,
   },
   {
     id: 'oku-no-hosomichi',
-    text: '月日は百代の過客にして、行かふ年も又旅人也。舟の上に生涯をうかべ、馬の口とらえて老をむかふる物は、日々旅にして旅を栖とす。',
+    text: '月日は百代の過客にして、',
     side: 'left', top: '93%', offset: '8%', size: '1.92rem', mobileSize: '0.92rem', opacity: '0.36', length: '44rem', leading: '1.6', tracking: '0.03em', source: historicalSource,
   },
   {
     id: 'river',
-    text: '行く川のながれは絶えずして、しかも本の水にあらず。よどみに浮ぶうたかたは、かつ消えかつ結びて久しくとゞまることなし。',
+    text: '行く川のながれは絶えずして、',
     side: 'right', top: '2%', offset: '68%', size: '1.24rem', mobileSize: '0.8rem', opacity: '0.25', length: '32rem', leading: '1.9', tracking: '0.06em', source: historicalSource,
   },
   {
     id: 'ise-monogatari',
-    text: '昔、男ありけり。奈良の京は離れ、この京は人の家まだ定まらざりける時に、西の京に女ありけり。',
+    text: '昔、男ありけり。',
     side: 'right', top: '10%', offset: '22%', size: '0.86rem', mobileSize: '0.76rem', opacity: '0.23', length: '24rem', leading: '2.1', tracking: '0.1em', source: historicalSource,
   },
   {
     id: 'ginga-tetsudo',
-    text: 'カムパネルラが手をあげました。それから四五人手をあげました。ジョバンニも手をあげようとして、急いでそのままやめました。たしかにあれがみんな星だと、いつか雑誌で読んだのでしたが、',
+    text: 'カムパネルラが手をあげました。',
     side: 'right', top: '18%', offset: '57%', size: '1.66rem', mobileSize: '0.98rem', opacity: '0.36', length: '47rem', leading: '1.55', tracking: '0.03em', mobile: true, source: sourceFor('ginga-tetsudo-no-yoru'),
   },
   {
     id: 'kusamakura',
-    text: '山路を登りながら、こう考えた。智に働けば角が立つ。情に棹させば流される。意地を通せば窮屈だ。とかくに人の世は住みにくい。住みにくさが高じると、安い所へ引き越したくなる。',
+    text: '山路を登りながら、こう考えた。',
     side: 'right', top: '27%', offset: '5%', size: '1.98rem', mobileSize: '0.94rem', opacity: '0.34', length: '51rem', leading: '1.5', tracking: '0.02em', source: historicalSource,
   },
   {
     id: 'lemon',
-    text: 'えたいの知れない不吉な塊が私の心を始終圧えつけていた。焦躁と言おうか、嫌悪と言おうか、酒を飲んだあとに宿酔があるように、酔っている間よりも不快な酔いが残っていた。',
+    text: 'えたいの知れない不吉な塊が、',
     side: 'right', top: '37%', offset: '76%', size: '1.38rem', mobileSize: '0.9rem', opacity: '0.34', length: '34rem', leading: '1.75', tracking: '0.05em', mobile: true, source: sourceFor('lemon'),
   },
   {
     id: 'takekurabe',
-    text: '廻れば大門の見返り柳いと長けれど、お歯黒溝に燈火うつる三階の騒ぎも手に取る如く、明けくれなしの車の行来にはかり知られぬ全盛をうらなひて、',
+    text: '廻れば大門の見返り柳いと長けれど、',
     side: 'right', top: '45%', offset: '38%', size: '2.12rem', mobileSize: '0.98rem', opacity: '0.38', length: '43rem', leading: '1.45', tracking: '0.01em', source: historicalSource,
   },
   {
     id: 'kokoro',
-    text: '私はその人を常に先生と呼んでいた。だからここでもただ先生と書くだけで本名は打ち明けない。これは世間を憚かる遠慮というよりも、その方が私にとって自然だからである。',
+    text: '私はその人を常に先生と呼んでいた。だからここでも、',
     side: 'right', top: '53%', offset: '7%', size: '1.22rem', mobileSize: '0.88rem', opacity: '0.35', length: '38rem', leading: '1.85', tracking: '0.05em', mobile: true, source: sourceFor('kokoro'),
   },
   {
     id: 'sakura-no-ki',
-    text: '桜の樹の下には屍体が埋まっている！これは信じていいことなんだよ。何故って、桜の花があんなにも見事に咲くなんて信じられないことじゃないか。',
+    text: '桜の樹の下には屍体が埋まっている！',
     side: 'right', top: '62%', offset: '66%', size: '1.58rem', mobileSize: '0.9rem', opacity: '0.34', length: '36rem', leading: '1.7', tracking: '0.04em', source: historicalSource,
   },
   {
     id: 'mikan',
-    text: '或秋の日暮です。私は横須賀発上り二等客車の隅に腰を掛けて、ぼんやり発車の笛を待っていました。',
+    text: '或秋の日暮です。',
     side: 'right', top: '71%', offset: '30%', size: '1.02rem', mobileSize: '0.8rem', opacity: '0.28', length: '25rem', leading: '2', tracking: '0.08em', mobile: true, source: historicalSource,
   },
   {
     id: 'sangetsuki',
-    text: '隴西の李徴は博学才穎、天宝の末年、若くして名を虎榜に連ね、ついで江南尉に補せられたが、性、狷介、自ら恃む所頗る厚く、',
+    text: '隴西の李徴は博学才穎、天宝の末年、',
     side: 'right', top: '79%', offset: '83%', size: '1.82rem', mobileSize: '0.9rem', opacity: '0.32', length: '43rem', leading: '1.6', tracking: '0.03em', source: historicalSource,
   },
   {
     id: 'nekomata',
-    text: '奥山に猫又といふものありて、人を食らふなると人の言ひけるに、「山ならねども、これらにも、猫の経上りて、猫又になりて、人とる事はあなるものを」と言ふ者ありけるを、',
+    text: '奥山に猫又といふものありて、',
     side: 'right', top: '88%', offset: '47%', size: '1.32rem', mobileSize: '0.84rem', opacity: '0.3', length: '37rem', leading: '1.8', tracking: '0.06em', source: historicalSource,
   },
   {
     id: 'aozora-morning',
-    text: '或る朝の事、彼は明け方から、じっと空を見ていた。空は青く澄んで、まだ一つの雲もなかった。',
+    text: '或る朝の事、彼は明け方から、',
     side: 'right', top: '96%', offset: '12%', size: '1.56rem', mobileSize: '0.82rem', opacity: '0.29', length: '28rem', leading: '1.75', tracking: '0.05em', source: sourceFor('ginga-tetsudo-no-yoru'),
   },
 ];
@@ -240,6 +241,19 @@ const streamStyle = (excerpt: LiteraryExcerpt) => `--top: ${excerpt.top}; --offs
   .literary-stream::before {
     display: block;
     content: attr(data-excerpt);
+  }
+
+  /* Keep the full wall at a quieter scale between mobile and wide desktop. */
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .literary-field {
+      width: 3.25rem;
+    }
+
+    .literary-stream {
+      display: block;
+      font-size: min(var(--size), 1.1rem);
+      opacity: calc(var(--opacity) * 0.86);
+    }
   }
 
   @media (min-width: 1280px) {
