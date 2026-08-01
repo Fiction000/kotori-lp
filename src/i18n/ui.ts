@@ -7,6 +7,8 @@ export const defaultLang = 'ja';
 
 export const ui = {
   ja: {
+    'brand.name': 'コトリ',
+
     // Meta
     'meta.title': '青空文庫アプリ「コトリ」｜無料の縦書きリーダー',
     'meta.description': '青空文庫の名作を美しい縦書きで読める無料iOSアプリ。辞書機能・ハイライト・オフライン対応。広告なし・登録不要。',
@@ -137,6 +139,8 @@ export const ui = {
     'support.form.error': '送信に失敗しました。お手数ですが、もう一度お試しください。',
   },
   en: {
+    'brand.name': 'Kotori',
+
     // Meta
     'meta.title': 'Kotori | Free Aozora Bunko Reader for iOS',
     'meta.description': 'Read Japanese literary classics in beautiful vertical text. Kotori is a free iOS reader app for Aozora Bunko.',
