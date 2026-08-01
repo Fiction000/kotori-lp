@@ -1,0 +1,108 @@
+---
+import { readyPicks } from '../data/editorial';
+
+// These are the reviewed Japanese passages in editorial-manifest.json. Each
+// record carries its corresponding Aozora Bunko card URL as source metadata.
+const preferredExcerptIDs = ['rashomon', 'kokoro'];
+
+const excerptColumns = preferredExcerptIDs.flatMap((id) => {
+  const pick = readyPicks().find((candidate) => candidate.id === id);
+  const quote = pick?.locales.ja.quote;
+  if (!pick || !quote) return [];
+
+  const sentences = quote.split('。').filter(Boolean).slice(0, 2);
+  return [{ pick, excerpt: `${sentences.join('。')}。` }];
+});
+---
+
+<div class="literary-gutters" aria-hidden="true">
+  {excerptColumns.map((excerpt, index) => (
+    <div
+      class:list={[
+        'literary-gutter',
+        index === 0 ? 'literary-gutter--left' : 'literary-gutter--right',
+      ]}
+      data-source={excerpt.pick.source.cardURL}
+      data-excerpt={excerpt.excerpt}
+      lang="ja"
+    ></div>
+  ))}
+</div>
+
+<style>
+  .literary-gutters {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .literary-gutter {
+    position: absolute;
+    top: 2rem;
+    bottom: 2rem;
+    width: 1.15rem;
+    margin: 0;
+    overflow: hidden;
+    color: rgba(20, 47, 67, 0.28);
+    font-family: var(--font-koburi);
+    font-size: clamp(0.72rem, 0.95vw, 0.86rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    line-height: 1.85;
+    text-orientation: mixed;
+    writing-mode: vertical-rl;
+    white-space: nowrap;
+  }
+
+  .literary-gutter::before {
+    display: block;
+    content: attr(data-excerpt);
+  }
+
+  .literary-gutter--left {
+    left: max(0.5rem, calc((100vw - 72rem) / 2 - 1.75rem));
+    -webkit-mask-image: linear-gradient(to right, #000 0%, #000 48%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 0%, #000 48%, transparent 100%);
+  }
+
+  .literary-gutter--right {
+    top: 4.5rem;
+    right: max(0.5rem, calc((100vw - 72rem) / 2 - 1.75rem));
+    -webkit-mask-image: linear-gradient(to left, #000 0%, #000 48%, transparent 100%);
+    mask-image: linear-gradient(to left, #000 0%, #000 48%, transparent 100%);
+  }
+
+  @media (min-width: 1280px) {
+    .literary-gutters {
+      display: block;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .literary-gutters {
+      display: block;
+    }
+
+    .literary-gutter {
+      top: 3rem;
+      right: 0.35rem;
+      bottom: 3rem;
+      width: 0.8rem;
+      color: rgba(20, 47, 67, 0.18);
+      font-size: 0.62rem;
+      line-height: 1.7;
+    }
+
+    .literary-gutter--left {
+      display: none;
+    }
+
+    .literary-gutter--right {
+      top: 3rem;
+      right: 0.35rem;
+    }
+  }
+</style>
