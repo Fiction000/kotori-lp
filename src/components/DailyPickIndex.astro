@@ -46,7 +46,7 @@ const rotation = editorialManifest.rotation;
     {lang === 'ja' ? '今日の一冊' : 'DAILY'}
   </div>
   <div class="relative mx-auto max-w-5xl px-6">
-    <p class="fade-up mb-4 font-koburi text-sm tracking-[0.4em] text-sepia-600">{copy.eyebrow}</p>
+    <p class="fade-up mb-4 text-xs font-semibold tracking-[0.22em] text-sepia-700">{copy.eyebrow}</p>
     <div class="grid gap-12 md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] md:items-end">
       <div>
         <h1 class="fade-up font-koburi text-5xl leading-tight text-sepia-900 md:text-7xl">{copy.title}</h1>
@@ -57,7 +57,7 @@ const rotation = editorialManifest.rotation;
         href={`${pathPrefix}/daily/${initialPick.id}/`}
         class="fade-up group block rounded-[2rem] border border-sepia-200 bg-sepia-50/70 p-7 shadow-sm transition-[transform,box-shadow,background-color] duration-300 hover:-translate-y-1 hover:bg-white/70 hover:shadow-lg"
       >
-        <p class="mb-3 text-xs tracking-[0.3em] text-sepia-600">{copy.today}</p>
+        <p class="mb-3 text-xs font-medium tracking-[0.2em] text-sepia-700">{copy.today}</p>
         <h2 id="daily-feature-title" class="font-koburi text-3xl text-sepia-900 md:text-4xl">{initialPick.title}</h2>
         <p id="daily-feature-author" class="mt-2 text-sm text-sepia-700">{initialPick.author}</p>
         <p id="daily-feature-summary" class="mt-5 text-sm leading-7 text-sepia-700">{initialPick.summaryLines[0]}</p>
@@ -73,7 +73,7 @@ const rotation = editorialManifest.rotation;
     <div class="grid gap-6 md:grid-cols-2">
       {picks.map((pick) => (
         <a href={`${pathPrefix}/daily/${pick.id}/`} class="fade-up group rounded-3xl border border-sepia-200 bg-white/35 p-7 transition-colors hover:bg-white/60">
-          <p class="mb-3 text-xs tracking-[0.25em] text-sepia-600">{pick.author}</p>
+          <p class="mb-3 text-xs font-medium tracking-[0.16em] text-sepia-700">{pick.author}</p>
           <h3 class="font-koburi text-3xl text-sepia-900 group-hover:text-kotori-dark">{pick.title}</h3>
           <p class="mt-4 text-sm leading-7 text-sepia-700">{pick.summaryLines[1]}</p>
           <p class="mt-5 text-sm font-semibold text-sepia-700">{copy.details}</p>

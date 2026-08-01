@@ -32,18 +32,18 @@ const quoteMarks = lang === 'ja' ? ['「', '」'] : ['“', '”'];
             ? 'md:border-r md:border-sepia-300/70 md:pr-12'
             : 'md:pl-12',
         ]}>
-          <blockquote class="font-koburi text-xl leading-[1.9] text-sepia-800 md:text-[1.4rem]">
+          <blockquote class="font-koburi text-[1.35rem] leading-[1.85] text-sepia-900 md:text-2xl">
             {quoteMarks[0]}{quote}{quoteMarks[1]}
           </blockquote>
-          <figcaption class="mt-8 flex items-center gap-3 text-xs tracking-[0.08em] text-sepia-600">
-            <span class="h-px w-8 bg-sepia-300" aria-hidden="true"></span>
+          <figcaption class="mt-8 flex items-center gap-3 text-sm font-medium tracking-[0.03em] text-sepia-700">
+            <span class="h-px w-8 bg-sepia-400" aria-hidden="true"></span>
             {t('reviews.source')}
           </figcaption>
         </figure>
       ))}
     </div>
 
-    <p class="fade-up mt-14 text-xs leading-relaxed text-sepia-600">
+    <p class="fade-up mt-14 text-sm leading-relaxed text-sepia-700">
       {t('reviews.note')}
     </p>
   </div>

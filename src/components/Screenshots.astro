@@ -39,7 +39,7 @@ const screenshots = [
               loading="lazy"
             />
           </button>
-          <p class="mt-4 text-center text-sm text-sepia-400 font-koburi">{shot.caption}</p>
+          <p class="mt-4 text-center text-sm font-medium text-sepia-700">{shot.caption}</p>
         </div>
       ))}
     </div>
@@ -55,7 +55,7 @@ const screenshots = [
   </button>
   <div class="lightbox-backdrop"></div>
   <div class="lightbox-content">
-    <img id="lightbox-img" src="" alt="" class="lightbox-img" />
+    <img id="lightbox-img" src={screenshots[0].src} alt="" class="lightbox-img" />
     <p id="lightbox-caption" class="lightbox-caption font-koburi"></p>
   </div>
   <!-- Navigation arrows -->
