@@ -56,8 +56,8 @@ export const ui = {
     'reviews.quote2': '読みやすいので気に入りました。アイコンもかわいい。',
     'reviews.source': 'App Storeのレビューより',
     'reviews.note': 'App Storeに投稿されたレビューから、一部を抜粋しています。',
-    'reviews.ratingLabel': 'App Storeで5つ星のうち4.6',
-    'reviews.ratingSource': 'APP STORE 評価',
+    'appStore.ratingLabel': 'App Storeで5つ星のうち4.6',
+    'appStore.ratingSource': 'App Store評価',
 
     // Screenshots
     'screenshots.title': 'スクリーンショット',
@@ -171,8 +171,8 @@ export const ui = {
     'reviews.quote2': 'I like how easy it is to read. The icon is cute, too.',
     'reviews.source': 'From an App Store review',
     'reviews.note': 'Excerpts from reviews posted on the App Store. Translated from Japanese.',
-    'reviews.ratingLabel': '4.6 out of 5 stars on the App Store',
-    'reviews.ratingSource': 'APP STORE RATING',
+    'appStore.ratingLabel': '4.6 out of 5 stars on the App Store',
+    'appStore.ratingSource': 'App Store rating',
 
     // Screenshots
     'screenshots.title': 'Screenshots',

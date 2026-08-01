@@ -18,26 +18,13 @@ const quoteMarks = lang === 'ja' ? ['「', '」'] : ['“', '”'];
   </div>
 
   <div class="relative mx-auto max-w-5xl px-6">
-    <div class="fade-up mb-14 flex flex-col gap-7 md:mb-18 md:flex-row md:items-end md:justify-between">
-      <div>
-        <p class="mb-3 text-xs font-semibold tracking-[0.24em] text-kotori-green uppercase">
-          {t('reviews.eyebrow')}
-        </p>
-        <h2 id="reviews-title" class="font-koburi text-3xl leading-tight text-sepia-900 md:text-4xl">
-          {t('reviews.title')}
-        </h2>
-      </div>
-
-      <div class="flex items-center gap-4" role="img" aria-label={t('reviews.ratingLabel')}>
-        <span class="relative inline-block whitespace-nowrap text-lg leading-none tracking-[0.12em] text-sepia-300" aria-hidden="true">
-          ★★★★★
-          <span class="absolute inset-0 block w-[92%] overflow-hidden whitespace-nowrap text-sepia-500">★★★★★</span>
-        </span>
-        <span class="border-l border-sepia-300 pl-4">
-          <span class="block font-koburi text-lg tabular-nums text-sepia-700">4.6 / 5</span>
-          <span class="block text-[0.65rem] tracking-[0.12em] text-sepia-400">{t('reviews.ratingSource')}</span>
-        </span>
-      </div>
+    <div class="fade-up mb-14 max-w-2xl md:mb-18">
+      <p class="mb-3 text-xs font-semibold tracking-[0.24em] text-kotori-green uppercase">
+        {t('reviews.eyebrow')}
+      </p>
+      <h2 id="reviews-title" class="font-koburi text-3xl leading-tight text-sepia-900 md:text-4xl">
+        {t('reviews.title')}
+      </h2>
     </div>
 
     <div class="stagger-children grid gap-12 md:grid-cols-2 md:gap-0">
