@@ -6,126 +6,214 @@ const t = useTranslations(lang);
 
 const steps = [
   {
-    number: '01',
-    kanji: '探',
+    number: '1',
     title: t('howitworks.step1.title'),
     description: t('howitworks.step1.description'),
+    screenshot: '/screenshots/screenshot-2-800-v1.webp',
+    screenshotSet: '/screenshots/screenshot-2-480-v1.webp 480w, /screenshots/screenshot-2-800-v1.webp 800w',
+    alt: t('howitworks.step1.alt'),
   },
   {
-    number: '02',
-    kanji: '読',
+    number: '2',
     title: t('howitworks.step2.title'),
     description: t('howitworks.step2.description'),
+    screenshot: '/screenshots/screenshot-1-800-v1.webp',
+    screenshotSet: '/screenshots/screenshot-1-480-v1.webp 480w, /screenshots/screenshot-1-800-v1.webp 800w',
+    alt: t('howitworks.step2.alt'),
   },
   {
-    number: '03',
-    kanji: '深',
+    number: '3',
     title: t('howitworks.step3.title'),
     description: t('howitworks.step3.description'),
+    screenshot: '/screenshots/screenshot-4-800-v1.webp',
+    screenshotSet: '/screenshots/screenshot-4-480-v1.webp 480w, /screenshots/screenshot-4-800-v1.webp 800w',
+    alt: t('howitworks.step3.alt'),
   },
 ];
 ---
 
-<section class="py-24 md:py-36">
-  <div class="mx-auto max-w-5xl px-6">
-    <h2 class="fade-up font-koburi text-3xl md:text-4xl text-sepia-900 text-center mb-6">
-      {t('howitworks.title')}
-    </h2>
-    <p class="fade-up text-center text-sepia-400 text-base md:text-lg mb-20 md:mb-28 max-w-xl mx-auto">
-      {lang === 'ja'
-        ? '探して、読んで、深める。シンプルな体験を。'
-        : 'Find it, read it, make it yours. That simple.'}
-    </p>
+<section class="pt-8 pb-24 md:pt-12 md:pb-36">
+  <div class="how-it-works mx-auto max-w-7xl px-6">
+    <div class="fade-up how-it-works__intro">
+      <h2 class="font-koburi text-3xl leading-tight text-sepia-900 md:text-4xl">
+        {t('howitworks.title')}
+      </h2>
+      <p class="max-w-md text-base leading-relaxed text-sepia-700 md:text-lg">
+        {t('howitworks.subtitle')}
+      </p>
+      <div class="how-it-works__rule" aria-hidden="true"></div>
+    </div>
 
-    <div class="steps-grid stagger-children">
-      {steps.map((step, i) => (
-        <div class="fade-up step-card">
-          <!-- Step number -->
-          <span class="step-number font-koburi text-sepia-200">{step.number}</span>
-          <!-- Kanji accent -->
-          <span class="step-kanji font-koburi text-sepia-200 select-none" aria-hidden="true">
-            {step.kanji}
-          </span>
-          <!-- Content -->
-          <h3 class="font-koburi text-xl md:text-2xl text-sepia-800 mb-2 leading-tight">
-            {step.title}
-          </h3>
-          <p class="text-sepia-500 text-sm md:text-base leading-relaxed">
+    <ol class="fade-up folio-stack" aria-label={t('howitworks.title')}>
+      {steps.map((step) => (
+        <li class="folio-page">
+          <div class="folio-page__heading">
+            <span class="folio-page__number" aria-hidden="true">{step.number}</span>
+            <h3 class="font-koburi text-2xl leading-tight text-sepia-900">
+              {step.title}
+            </h3>
+          </div>
+
+          <div class="folio-page__screen">
+            <img
+              src={step.screenshot}
+              srcset={step.screenshotSet}
+              sizes="(min-width: 1200px) 272px, (min-width: 900px) 30vw, calc(100vw - 96px)"
+              alt={step.alt}
+              width="800"
+              height="1739"
+              loading="lazy"
+            />
+          </div>
+
+          <p class="text-base leading-relaxed text-sepia-700">
             {step.description}
           </p>
-          <!-- Connector line (not on last) -->
-          {i < steps.length - 1 && (
-            <div class="step-connector" aria-hidden="true"></div>
-          )}
-        </div>
+        </li>
       ))}
-    </div>
+    </ol>
   </div>
 </section>
 
 <style>
-  .steps-grid {
+  .how-it-works {
     display: grid;
-    grid-template-columns: 1fr;
     gap: 3rem;
   }
 
-  @media (min-width: 768px) {
-    .steps-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
+  .how-it-works__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .how-it-works__rule {
+    width: 10rem;
+    height: 3px;
+    background: var(--color-kotori-green);
+  }
+
+  .folio-stack {
+    display: grid;
+    gap: 1.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .folio-page {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 1.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(82, 58, 34, 0.14);
+    border-radius: 1rem;
+    background: rgba(253, 248, 240, 0.96);
+    box-shadow:
+      0 18px 44px rgba(82, 58, 34, 0.10),
+      0 2px 8px rgba(82, 58, 34, 0.05);
+  }
+
+  .folio-page__heading {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+
+  .folio-page__number {
+    color: var(--color-kotori-green);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .folio-page__screen {
+    height: 22rem;
+    flex: none;
+    padding: 0.5rem;
+    overflow: hidden;
+    border-radius: 0.75rem;
+    background: white;
+  }
+
+  .folio-page__screen img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 0.5rem;
+  }
+
+  @media (min-width: 900px) and (max-width: 1199px) {
+    .folio-stack {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
-  .step-card {
-    position: relative;
-    text-align: center;
-    padding: 2.5rem 1.5rem 2rem;
-  }
+  @media (min-width: 1200px) {
+    .how-it-works {
+      grid-template-columns: minmax(17rem, 0.72fr) minmax(38rem, 1.35fr);
+      align-items: center;
+      gap: 4rem;
+    }
 
-  .step-number {
-    display: block;
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    margin-bottom: 0.75rem;
-  }
-
-  .step-kanji {
-    font-size: clamp(3rem, 6vw, 4.5rem);
-    line-height: 0.85;
-    display: block;
-    margin-bottom: 1rem;
-  }
-
-  /* Horizontal connector between steps on desktop */
-  .step-connector {
-    display: none;
-  }
-
-  @media (min-width: 768px) {
-    .step-connector {
+    .folio-stack {
+      position: relative;
       display: block;
+      min-height: 34rem;
+    }
+
+    .folio-page {
       position: absolute;
-      top: 50%;
-      right: -1rem;
-      width: 2rem;
-      height: 1px;
-      background: linear-gradient(to right, rgba(82, 58, 34, 0.12), rgba(82, 58, 34, 0.04));
-      transform: translateY(-50%);
+      top: 0;
+      width: clamp(15.5rem, 20vw, 17rem);
+      height: 29.5rem;
+      padding: 1.75rem;
+      transition:
+        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .folio-page__screen {
+      height: auto;
+      min-height: 0;
+      flex: 1;
+    }
+
+    .folio-page:nth-child(1) {
+      top: 3.5rem;
+      left: 0;
+      z-index: 1;
+      transform: rotate(-3deg);
+    }
+
+    .folio-page:nth-child(2) {
+      top: 1.75rem;
+      left: 33%;
+      z-index: 2;
+      transform: rotate(2deg);
+    }
+
+    .folio-page:nth-child(3) {
+      right: 0;
+      z-index: 3;
+      transform: rotate(-2deg);
+    }
+
+    .folio-page:hover {
+      z-index: 4;
+      transform: translateY(-0.35rem) rotate(0deg);
+      box-shadow:
+        0 24px 52px rgba(82, 58, 34, 0.14),
+        0 4px 12px rgba(82, 58, 34, 0.06);
     }
   }
 
-  /* Vertical connector between steps on mobile */
-  @media (max-width: 767px) {
-    .step-connector {
-      display: block;
-      position: absolute;
-      bottom: -1.5rem;
-      left: 50%;
-      width: 1px;
-      height: 1.5rem;
-      background: linear-gradient(to bottom, rgba(82, 58, 34, 0.12), rgba(82, 58, 34, 0.04));
-      transform: translateX(-50%);
+  @media (prefers-reduced-motion: reduce) {
+    .folio-page {
+      transition: none;
     }
   }
 </style>

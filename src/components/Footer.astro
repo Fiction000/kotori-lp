@@ -13,20 +13,20 @@ const t = useTranslations(lang);
       <!-- Left: Book-style colophon info -->
       <div class="colophon-block text-center md:text-left">
         <div class="flex items-center justify-center md:justify-start gap-3 mb-4">
-          <img src="/app-icon.png" alt="Kotori" class="w-8 h-8 rounded-lg" />
-          <span class="font-koburi text-xl text-sepia-800">コトリ</span>
+          <img src="/app-icon-288-v1.webp" alt="" width="288" height="288" class="w-8 h-8 rounded-lg" />
+          <span class="font-koburi text-xl text-sepia-800">{t('brand.name')}</span>
         </div>
-        <dl class="colophon-list text-sm text-sepia-500 space-y-1">
+        <dl class="colophon-list space-y-1 text-sm text-sepia-700">
           <div class="flex gap-3 justify-center md:justify-start">
-            <dt class="font-koburi text-sepia-400 shrink-0">{lang === 'ja' ? '種別' : 'Type'}</dt>
+            <dt class="shrink-0 font-medium text-sepia-600">{lang === 'ja' ? '種別' : 'Type'}</dt>
             <dd>{lang === 'ja' ? 'iOS アプリケーション' : 'iOS Application'}</dd>
           </div>
           <div class="flex gap-3 justify-center md:justify-start">
-            <dt class="font-koburi text-sepia-400 shrink-0">{lang === 'ja' ? '価格' : 'Price'}</dt>
+            <dt class="shrink-0 font-medium text-sepia-600">{lang === 'ja' ? '価格' : 'Price'}</dt>
             <dd>{lang === 'ja' ? '無料' : 'Free'}</dd>
           </div>
           <div class="flex gap-3 justify-center md:justify-start">
-            <dt class="font-koburi text-sepia-400 shrink-0">{lang === 'ja' ? '対応' : 'Source'}</dt>
+            <dt class="shrink-0 font-medium text-sepia-600">{lang === 'ja' ? '対応' : 'Source'}</dt>
             <dd>{lang === 'ja' ? '青空文庫' : 'Aozora Bunko'}</dd>
           </div>
         </dl>
@@ -34,17 +34,23 @@ const t = useTranslations(lang);
 
       <!-- Center: Vertical text accent -->
       <div class="hidden md:block select-none" aria-hidden="true">
-        <span class="font-koburi text-sepia-200 writing-vertical text-lg tracking-[0.3em] leading-relaxed">
+        <span class="font-koburi text-kotori-dark/25 writing-vertical text-lg tracking-[0.3em] leading-relaxed">
           {lang === 'ja' ? '読書は心の旅である' : '読書は心の旅である'}
         </span>
       </div>
 
       <!-- Right: Navigation -->
       <nav class="flex flex-col items-center md:items-end gap-2 text-sm">
-        <a href={getLocalePath(lang, '/privacy')} class="text-sepia-500 hover:text-sepia-700 transition-colors">
+        <a href={getLocalePath(lang, '/daily/')} class="text-sepia-700 transition-colors hover:text-sepia-900">
+          {t('footer.daily')}
+        </a>
+        <a href={getLocalePath(lang, '/changelog')} class="text-sepia-700 transition-colors hover:text-sepia-900">
+          {t('footer.changelog')}
+        </a>
+        <a href={getLocalePath(lang, '/privacy')} class="text-sepia-700 transition-colors hover:text-sepia-900">
           {t('footer.privacy')}
         </a>
-        <a href={getLocalePath(lang, '/support')} class="text-sepia-500 hover:text-sepia-700 transition-colors">
+        <a href={getLocalePath(lang, '/support')} class="text-sepia-700 transition-colors hover:text-sepia-900">
           {t('footer.support')}
         </a>
       </nav>
@@ -52,7 +58,7 @@ const t = useTranslations(lang);
 
     <!-- Copyright -->
     <div class="mt-12 pt-6 border-t border-sepia-100">
-      <p class="text-center text-xs text-sepia-300 font-koburi tracking-wider">
+      <p class="text-center text-sm tracking-wide text-sepia-600">
         {t('footer.copyright')}
       </p>
     </div>

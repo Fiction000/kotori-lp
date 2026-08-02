@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import LiteraryGutters from './LiteraryGutters.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -9,7 +10,8 @@ const pairedFeatures = [
     icon: '美',
     title: t('features.vertical.title'),
     description: t('features.vertical.description'),
-    screenshot: '/screenshots/screenshot-1.png',
+    screenshot: '/screenshots/screenshot-1-800-v1.webp',
+    screenshotSet: '/screenshots/screenshot-1-480-v1.webp 480w, /screenshots/screenshot-1-800-v1.webp 800w',
     caption: lang === 'ja' ? '美しい縦書きレイアウト' : 'Beautiful vertical text layout',
     primary: true,
   },
@@ -17,41 +19,43 @@ const pairedFeatures = [
     icon: '速',
     title: t('features.furigana.title'),
     description: t('features.furigana.description'),
-    screenshot: '/screenshots/screenshot-2.png',
+    screenshot: '/screenshots/screenshot-2-800-v1.webp',
+    screenshotSet: '/screenshots/screenshot-2-480-v1.webp 480w, /screenshots/screenshot-2-800-v1.webp 800w',
     caption: lang === 'ja' ? '作家や作品をかんたん検索' : 'Search authors and works easily',
   },
   {
     icon: '調',
     title: t('features.dictionary.title'),
     description: t('features.dictionary.description'),
-    screenshot: '/screenshots/screenshot-3.png',
+    screenshot: '/screenshots/screenshot-3-800-v1.webp',
+    screenshotSet: '/screenshots/screenshot-3-480-v1.webp 480w, /screenshots/screenshot-3-800-v1.webp 800w',
     caption: lang === 'ja' ? 'タップで辞書検索' : 'Tap to look up words',
   },
   {
     icon: '記',
     title: t('features.highlights.title'),
     description: t('features.highlights.description'),
-    screenshot: '/screenshots/screenshot-4.png',
+    screenshot: '/screenshots/screenshot-4-800-v1.webp',
+    screenshotSet: '/screenshots/screenshot-4-480-v1.webp 480w, /screenshots/screenshot-4-800-v1.webp 800w',
     caption: lang === 'ja' ? 'ハイライトと読書メモ' : 'Highlights and reading notes',
   },
 ];
 
 const textOnlyFeatures = [
   {
-    icon: '彩',
     title: t('features.themes.title'),
     description: t('features.themes.description'),
   },
   {
-    icon: '場',
     title: t('features.offline.title'),
     description: t('features.offline.description'),
   },
 ];
 ---
 
-<section id="features" class="py-24 md:py-36">
-  <div class="mx-auto max-w-6xl px-6">
+<section id="features" class="relative isolate overflow-hidden pt-24 pb-12 md:pt-36 md:pb-16">
+  <LiteraryGutters />
+  <div class="relative z-[1] mx-auto max-w-6xl px-6">
 
     <!-- Primary feature: hero-scale with screenshot -->
     <div class="fade-up mb-28 md:mb-40">
@@ -61,7 +65,11 @@ const textOnlyFeatures = [
           <div class="phone-frame">
             <img
               src={pairedFeatures[0].screenshot}
+              srcset={pairedFeatures[0].screenshotSet}
+              sizes="(min-width: 768px) 360px, 70vw"
               alt={pairedFeatures[0].caption}
+              width="800"
+              height="1739"
               class="phone-screen"
               loading="lazy"
             />
@@ -95,7 +103,11 @@ const textOnlyFeatures = [
               <div class="phone-frame">
                 <img
                   src={feature.screenshot}
+                  srcset={feature.screenshotSet}
+                  sizes="(min-width: 768px) 320px, 70vw"
                   alt={feature.caption}
+                  width="800"
+                  height="1739"
                   class="phone-screen"
                   loading="lazy"
                 />
@@ -112,7 +124,7 @@ const textOnlyFeatures = [
               <h3 class="font-koburi text-2xl md:text-3xl text-sepia-800 mb-3 leading-tight">
                 {feature.title}
               </h3>
-              <p class="text-sepia-500 text-base md:text-lg leading-relaxed max-w-md">
+              <p class="max-w-md text-base leading-relaxed text-sepia-700 md:text-lg">
                 {feature.description}
               </p>
             </div>
@@ -126,13 +138,10 @@ const textOnlyFeatures = [
       <div class="text-features-grid">
         {textOnlyFeatures.map((feature) => (
           <div class="text-feature-card">
-            <span class="feature-kanji-sm font-koburi text-sepia-200 select-none" aria-hidden="true">
-              {feature.icon}
-            </span>
             <h3 class="font-koburi text-xl md:text-2xl text-sepia-800 mb-2 leading-tight">
               {feature.title}
             </h3>
-            <p class="text-sepia-500 text-base leading-relaxed">
+            <p class="text-base leading-relaxed text-sepia-700">
               {feature.description}
             </p>
           </div>
@@ -254,39 +263,38 @@ const textOnlyFeatures = [
     margin-bottom: 0.5rem;
   }
 
-  .feature-kanji-sm {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    line-height: 0.85;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  /* ── Text-only feature cards ── */
+  /* ── Text-only feature close ── */
   .text-features-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    border-top: 1px solid rgba(82, 58, 34, 0.14);
+    border-bottom: 1px solid rgba(82, 58, 34, 0.14);
   }
 
   @media (min-width: 640px) {
     .text-features-grid {
       grid-template-columns: 1fr 1fr;
-      gap: 3rem;
     }
   }
 
   .text-feature-card {
-    text-align: center;
-    padding: 2rem 1.5rem;
-    border: 1px solid rgba(82, 58, 34, 0.06);
-    border-radius: 0.75rem;
-    background: rgba(253, 248, 240, 0.5);
+    padding: 2rem 0;
+  }
+
+  .text-feature-card + .text-feature-card {
+    border-top: 1px solid rgba(82, 58, 34, 0.14);
   }
 
   @media (min-width: 640px) {
     .text-feature-card {
-      text-align: left;
-      padding: 2.5rem 2rem;
+      padding: 2.5rem 3rem 2.5rem 0;
+    }
+
+    .text-feature-card + .text-feature-card {
+      border-top: 0;
+      border-left: 1px solid rgba(82, 58, 34, 0.14);
+      padding-right: 0;
+      padding-left: 3rem;
     }
   }
 </style>

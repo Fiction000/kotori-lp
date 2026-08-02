@@ -5,7 +5,7 @@ import vercel from '@astrojs/vercel';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://kotori-aozora.app',
+  site: 'https://www.kotori-aozora.app',
   i18n: {
     defaultLocale: 'ja',
     locales: ['ja', 'en'],
@@ -16,6 +16,6 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  adapter: vercel(),
+  adapter: vercel({ experimentalStaticHeaders: true }),
   integrations: [sitemap()],
 });

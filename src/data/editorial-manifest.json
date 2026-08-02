@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "2026-08-01.1",
+  "cadence": "daily",
+  "timezone": "Asia/Tokyo",
+  "rotation": {
+    "effectiveFrom": "2026-08-01",
+    "pickIDs": [
+      "ginga-tetsudo-no-yoru",
+      "lemon",
+      "rashomon",
+      "kokoro"
+    ]
+  },
+  "picks": [
+    {
+      "id": "ginga-tetsudo-no-yoru",
+      "bookID": "043737",
+      "status": "ready",
+      "source": {
+        "cardURL": "https://www.aozora.gr.jp/cards/000081/card43737.html"
+      },
+      "locales": {
+        "ja": {
+          "title": "銀河鉄道の夜",
+          "author": "宮沢賢治",
+          "summaryLines": [
+            "夜空を走る列車に乗って、少年たちは遠い場所へ向かいます。",
+            "幻想的で美しい場面の奥に、別れと祈りが静かに残ります。",
+            "青空文庫の入口として、何度も読み返したくなる一冊です。"
+          ],
+          "whyNow": "短く区切って読めるのに、読み終えたあと長く余韻が残る作品です。",
+          "background": "未完のまま残された作品で、版によって印象が少しずつ変わります。",
+          "quote": "ではみなさんは、そういうふうに川だと云われたり、乳の流れたあとだと云われたりしていた、このぼんやりと白いものがほんとうは何かご承知ですか。"
+        },
+        "en": {
+          "title": "Night on the Galactic Railroad",
+          "author": "Kenji Miyazawa",
+          "summaryLines": [
+            "Two boys board a train crossing the night sky toward a distant place.",
+            "Beneath its beautiful dreamlike scenes, parting and prayer quietly remain.",
+            "A welcoming Aozora Bunko classic worth returning to."
+          ],
+          "whyNow": "Its short chapters are easy to enter, while the questions it leaves behind linger much longer.",
+          "background": "Miyazawa left the work unfinished, and the different surviving versions can create subtly different impressions.",
+          "quote": null
+        }
+      }
+    },
+    {
+      "id": "lemon",
+      "bookID": "046349",
+      "status": "ready",
+      "source": {
+        "cardURL": "https://www.aozora.gr.jp/cards/000074/card46349.html"
+      },
+      "locales": {
+        "ja": {
+          "title": "檸檬",
+          "author": "梶井基次郎",
+          "summaryLines": [
+            "胸の重さを抱えた青年が、街で一つの檸檬を手にします。",
+            "短い作品なのに、色、匂い、気分が鮮やかに残ります。",
+            "日本語の感覚を味わう短編としておすすめです。"
+          ],
+          "whyNow": "忙しい日でも一息で読めて、文章の美しさを強く感じられます。",
+          "background": "大正期の京都を歩く感覚と、近代文学の不安が重なった短編です。",
+          "quote": "えたいの知れない不吉な塊が私の心を始終圧えつけていた。焦燥と言おうか、嫌悪と言おうか――酒を飲んだあとに宿酔があるように、酒を毎日飲んでいると宿酔に相当した時期がやって来る。"
+        },
+        "en": {
+          "title": "Lemon",
+          "author": "Motojiro Kajii",
+          "summaryLines": [
+            "A young man carrying a heavy mood picks up a single lemon in the city.",
+            "Though brief, its colors, scents, and shifting feelings remain vivid.",
+            "A short work for savoring the texture of Japanese prose."
+          ],
+          "whyNow": "It fits into a short break while still offering an unusually vivid encounter with language.",
+          "background": "The story brings together a walk through Taisho-era Kyoto and the unease of modern literature.",
+          "quote": null
+        }
+      }
+    },
+    {
+      "id": "rashomon",
+      "bookID": "000128",
+      "status": "ready",
+      "source": {
+        "cardURL": "https://www.aozora.gr.jp/cards/000879/card128.html"
+      },
+      "locales": {
+        "ja": {
+          "title": "羅生門",
+          "author": "芥川竜之介",
+          "summaryLines": [
+            "荒れ果てた門の下で、下人は生きるための選択に追い込まれます。",
+            "短く鋭い物語の中に、人間の弱さと恐ろしさが凝縮されています。",
+            "芥川を読み始める入口として最適な一編です。"
+          ],
+          "whyNow": "短編の切れ味をすぐに味わえ、他の芥川作品へ自然に進めます。",
+          "background": "古典を下敷きにしながら、近代的な心理の揺れを描いた作品です。",
+          "quote": "ある日の暮方の事である。一人の下人が、羅生門の下で雨やみを待っていた。広い門の下には、この男のほかに誰もいない。"
+        },
+        "en": {
+          "title": "Rashomon",
+          "author": "Ryunosuke Akutagawa",
+          "summaryLines": [
+            "Beneath a ruined gate, a servant is forced to choose how he will survive.",
+            "Human weakness and terror are compressed into a short, sharp story.",
+            "An ideal place to begin reading Akutagawa."
+          ],
+          "whyNow": "Its sharpness is immediate, and it opens naturally onto Akutagawa's other short fiction.",
+          "background": "Akutagawa drew on a classical tale while giving its moral uncertainty a distinctly modern psychological form.",
+          "quote": null
+        }
+      }
+    },
+    {
+      "id": "kokoro",
+      "bookID": "000773",
+      "status": "ready",
+      "source": {
+        "cardURL": "https://www.aozora.gr.jp/cards/000148/card773.html"
+      },
+      "locales": {
+        "ja": {
+          "title": "こころ",
+          "author": "夏目漱石",
+          "summaryLines": [
+            "先生と私の関係から、明治の終わりと人の孤独が浮かび上がります。",
+            "静かな会話の奥に、取り返しのつかない記憶が隠れています。",
+            "長編をじっくり読みたいときの、コトリらしい一冊です。"
+          ],
+          "whyNow": "一日数ページずつでも、縦書きで読む時間そのものが作品に合います。",
+          "background": "明治から大正へ移る時代の空気と、個人の倫理が重なった代表作です。",
+          "quote": "私はその人を常に先生と呼んでいた。だからここでもただ先生と書くだけで本名は打ち明けない。これは世間を憚かる遠慮というよりも、その方が私にとって自然だからである。"
+        },
+        "en": {
+          "title": "Kokoro",
+          "author": "Natsume Soseki",
+          "summaryLines": [
+            "Through the relationship between Sensei and the narrator, loneliness emerges at the end of the Meiji era.",
+            "Irreversible memories hide beneath their quiet conversations.",
+            "A distinctly Kotori choice when you want to settle into a longer work."
+          ],
+          "whyNow": "Reading only a few pages each day suits the novel's quiet pace and gradual disclosures.",
+          "background": "A defining modern novel in which the transition from Meiji to Taisho meets questions of private loyalty and responsibility.",
+          "quote": null
+        }
+      }
+    }
+  ]
+}

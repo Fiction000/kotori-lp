@@ -7,19 +7,39 @@ export const defaultLang = 'ja';
 
 export const ui = {
   ja: {
+    'brand.name': 'コトリ',
+
     // Meta
-    'meta.title': 'コトリ — 青空文庫リーダー',
+    'meta.title': '青空文庫アプリ「コトリ」｜無料の縦書きリーダー',
     'meta.description': '青空文庫の名作を美しい縦書きで読める無料iOSアプリ。辞書機能・ハイライト・オフライン対応。広告なし・登録不要。',
+    'privacy.meta.description': 'コトリが収集する匿名の利用状況データ、端末内に保存される読書データ、TelemetryDeckの利用について説明します。',
+    'support.meta.description': '青空文庫アプリ「コトリ」のよくある質問とお問い合わせ窓口です。無料利用、オフライン読書、データ保存について案内します。',
+    'changelog.meta.description': '青空文庫アプリ「コトリ」の更新履歴です。読書体験に加わった新機能や改善を、公開バージョンごとに紹介します。',
 
     // Nav
     'nav.features': '機能',
+    'nav.daily': '今日の1冊',
+    'nav.changelog': '更新履歴',
     'nav.privacy': 'プライバシーポリシー',
     'nav.support': 'サポート',
+    'nav.menu': 'メニュー',
 
     // Hero
-    'hero.tagline': '日本文学を、もっと美しく。',
-    'hero.description': '青空文庫の名作を、縦書き・ルビ付きの美しいレイアウトで楽しめる無料のiOSアプリです。',
+    'hero.eyebrow': '青空文庫を、今日の読書へ',
+    'hero.tagline': 'まだ知らない名作と、読みやすい縦書きで出会う。',
+    'hero.tagline.lead': 'まだ知らない名作と、',
+    'hero.tagline.emphasis': '読みやすい縦書きで出会う。',
+    'hero.tagline.emphasis.lead': '読みやすい縦書きで',
+    'hero.tagline.emphasis.tail': '出会う。',
+    'hero.description': 'コトリは、青空文庫の作品を見つけ、調べながら読み、心に残った一節をとっておける無料のiOSアプリです。',
     'hero.download': 'App Storeでダウンロード',
+    'hero.appIconAlt': 'コトリのアプリアイコン',
+    'hero.screenshotAlt': 'コトリで銀河鉄道の夜を縦書き表示している画面',
+    'hero.free': '無料・広告なし',
+    'hero.noAccount': '登録不要',
+    'hero.offline': 'オフライン対応',
+    'hero.daily.label': '今日の1冊',
+    'hero.daily.link': '選書の紹介を読む',
 
     // Features
     'features.title': '機能',
@@ -38,20 +58,46 @@ export const ui = {
 
     // How It Works
     'howitworks.title': '3ステップで、すぐに読書',
+    'howitworks.subtitle': '探して、読んで、深める。ページをめくるたび、読書が自分のものになる。',
     'howitworks.step1.title': '探す',
     'howitworks.step1.description': '読みたい作品を検索、または作家・ジャンルから探す。',
+    'howitworks.step1.alt': '作品や作家を検索する画面',
     'howitworks.step2.title': '読む',
     'howitworks.step2.description': '美しい縦書きレイアウトと辞書、ルビで快適に読書。',
+    'howitworks.step2.alt': '縦書きで作品を読む画面',
     'howitworks.step3.title': '深める',
     'howitworks.step3.description': '辞書で調べ、ハイライトで記録。読書がもっと豊かに。',
+    'howitworks.step3.alt': 'ハイライトと読書メモの画面',
+
+    // Reviews
+    'reviews.title': '読者から届いた言葉',
+    'reviews.quote1': '小説が読みやすくて、良いと思いました。',
+    'reviews.quote2': '読みやすいので気に入りました。アイコンもかわいい。',
+    'reviews.source': 'App Storeのレビューより',
+    'reviews.note': 'App Storeに投稿されたレビューから、一部を抜粋しています。',
+    'appStore.ratingLabel': 'App Storeで5つ星のうち4.6',
+    'appStore.ratingSource': 'App Store評価',
 
     // Screenshots
     'screenshots.title': 'スクリーンショット',
 
     // Footer
+    'footer.daily': '今日の1冊',
+    'footer.changelog': '更新履歴',
     'footer.privacy': 'プライバシーポリシー',
     'footer.support': 'サポート',
     'footer.copyright': '© 2026 Kotori. All rights reserved.',
+
+    // Changelog
+    'changelog.eyebrow': 'KOTORI CHANGELOG',
+    'changelog.title': 'コトリから、更新のおしらせ',
+    'changelog.intro': '読書の時間を、少しずつ心地よく。コトリに加わった新しいことや、使いやすく整えたところを記録しています。',
+    'changelog.publishedOnly': 'アプリ側のリリース記録で、公開済みと確認できたバージョンのみ掲載しています。',
+    'changelog.history': '更新履歴',
+    'changelog.latest': '最新',
+    'changelog.support.title': 'お気づきのことがあれば',
+    'changelog.support.body': '読書中に気づいたことや、コトリへのご要望をお聞かせください。',
+    'changelog.support.link': 'サポートフォームへ',
 
     // Privacy
     'privacy.title': 'プライバシーポリシー',
@@ -68,7 +114,7 @@ export const ui = {
     'privacy.children.title': '児童について',
     'privacy.children.body': '本アプリは、13歳未満の児童からデータを意図的に収集したり、児童に対してマーケティングを行ったりすることはありません。',
     'privacy.security.title': 'セキュリティ',
-    'privacy.security.body': 'サービス提供者は、お客様の情報の機密性を保護することに注力しています。ただし、本アプリはいかなる情報も収集しないため、不正な第三者にデータがアクセスされるリスクはありません。',
+    'privacy.security.body': 'サービス提供者は、収集する匿名の利用状況データを適切に保護します。TelemetryDeckはIPアドレスや個人を特定できる情報を保存しません。読書履歴、ハイライト、メモなどの読書データは、お使いの端末内に保存されます。',
     'privacy.changes.title': '変更',
     'privacy.changes.body': '本プライバシーポリシーは、理由の如何を問わず随時更新される場合があります。サービス提供者は、本ページに新しいプライバシーポリシーを掲載することで、変更をお知らせします。本プライバシーポリシーを定期的にご確認ください。継続的なご利用は、すべての変更への同意とみなされます。本プライバシーポリシーは2026年4月11日より有効です。',
     'privacy.consent.title': 'お客様の同意',
@@ -86,7 +132,7 @@ export const ui = {
     'support.faq.q3': 'オフラインで読めますか？',
     'support.faq.a3': 'はい、一度ダウンロードした作品はオフラインでお読みいただけます。',
     'support.faq.q4': 'データはどこに保存されますか？',
-    'support.faq.a4': 'すべてのデータはお使いのデバイス上にのみ保存されます。クラウドへのアップロードは行いません。',
+    'support.faq.a4': '読書履歴、ハイライト、メモなどの読書データは、お使いの端末内に保存され、クラウドにはアップロードされません。アプリ改善のための匿名の利用状況データのみ、プライバシーポリシーに記載のTelemetryDeckへ送信されます。',
     'support.contact.title': 'お問い合わせ',
     'support.contact.body': 'ご質問やフィードバックは、以下のフォームからお気軽にどうぞ。',
     'support.form.name': 'お名前',
@@ -107,19 +153,39 @@ export const ui = {
     'support.form.error': '送信に失敗しました。お手数ですが、もう一度お試しください。',
   },
   en: {
+    'brand.name': 'Kotori',
+
     // Meta
-    'meta.title': 'Kotori — Aozora Bunko Reader',
+    'meta.title': 'Kotori | Free Aozora Bunko Reader for iOS',
     'meta.description': 'Read Japanese literary classics in beautiful vertical text. Kotori is a free iOS reader app for Aozora Bunko.',
+    'privacy.meta.description': 'Learn what anonymous usage analytics Kotori collects, which reading data stays on your device, and how TelemetryDeck is used.',
+    'support.meta.description': 'Frequently asked questions and support for Kotori, including free access, offline reading, and how reading data is stored.',
+    'changelog.meta.description': 'Release notes for Kotori, the Aozora Bunko reader. See the reader-facing features and improvements in each published version.',
 
     // Nav
     'nav.features': 'Features',
+    'nav.daily': "Today's Pick",
+    'nav.changelog': 'Changelog',
     'nav.privacy': 'Privacy Policy',
     'nav.support': 'Support',
+    'nav.menu': 'Menu',
 
     // Hero
-    'hero.tagline': 'Japanese literature, beautifully.',
-    'hero.description': 'A free iOS app for reading Aozora Bunko classics — vertical text, furigana, and a built-in dictionary.',
+    'hero.eyebrow': 'From Aozora Bunko to today’s reading',
+    'hero.tagline': 'Meet an unfamiliar classic in vertical text made to read.',
+    'hero.tagline.lead': 'Meet an unfamiliar classic in ',
+    'hero.tagline.emphasis': 'vertical text made to read.',
+    'hero.tagline.emphasis.lead': 'vertical text made to read.',
+    'hero.tagline.emphasis.tail': '',
+    'hero.description': 'Kotori is a free iOS app for finding Aozora Bunko works, reading with a dictionary at hand, and keeping the passages that stay with you.',
     'hero.download': 'Download on the App Store',
+    'hero.appIconAlt': 'Kotori app icon',
+    'hero.screenshotAlt': 'Night on the Galactic Railroad displayed vertically in Kotori',
+    'hero.free': 'Free, no ads',
+    'hero.noAccount': 'No account',
+    'hero.offline': 'Works offline',
+    'hero.daily.label': "Today's Pick",
+    'hero.daily.link': 'Read the introduction',
 
     // Features
     'features.title': 'Features',
@@ -132,26 +198,52 @@ export const ui = {
     'features.highlights.title': 'Highlights',
     'features.highlights.description': 'Highlight your favorite passages and revisit them later.',
     'features.themes.title': 'Themes',
-    'features.themes.description': 'Light, dark, and sepia — read comfortably on the train, at night, or in bright sunlight.',
+    'features.themes.description': 'Light, dark, and sepia. Read comfortably on the train, at night, or in bright sunlight.',
     'features.offline.title': 'Offline Reading',
     'features.offline.description': 'Downloaded books are available offline, anytime.',
 
     // How It Works
     'howitworks.title': 'Reading in 3 simple steps',
+    'howitworks.subtitle': 'Search, read, and go deeper. Each page makes the classics more your own.',
     'howitworks.step1.title': 'Search',
-    'howitworks.step1.description': 'Find works by title, author, or genre — instantly.',
+    'howitworks.step1.description': 'Find works by title, author, or genre instantly.',
+    'howitworks.step1.alt': 'Search screen for works and authors',
     'howitworks.step2.title': 'Read',
     'howitworks.step2.description': 'Enjoy beautiful vertical text with furigana and customizable themes.',
+    'howitworks.step2.alt': 'Reading screen with vertical text',
     'howitworks.step3.title': 'Go deeper',
     'howitworks.step3.description': 'Look up words, highlight passages, and make the classics your own.',
+    'howitworks.step3.alt': 'Highlights and reading notes screen',
+
+    // Reviews
+    'reviews.title': 'Words from our readers',
+    'reviews.quote1': 'The novels are easy to read. I think it’s very good.',
+    'reviews.quote2': 'I like how easy it is to read. The icon is cute, too.',
+    'reviews.source': 'From an App Store review',
+    'reviews.note': 'Excerpts from reviews posted on the App Store. Translated from Japanese.',
+    'appStore.ratingLabel': '4.6 out of 5 stars on the App Store',
+    'appStore.ratingSource': 'App Store rating',
 
     // Screenshots
     'screenshots.title': 'Screenshots',
 
     // Footer
+    'footer.daily': "Today's Pick",
+    'footer.changelog': 'Changelog',
     'footer.privacy': 'Privacy Policy',
     'footer.support': 'Support',
     'footer.copyright': '© 2026 Kotori. All rights reserved.',
+
+    // Changelog
+    'changelog.eyebrow': 'KOTORI CHANGELOG',
+    'changelog.title': 'Notes from each Kotori update',
+    'changelog.intro': 'Small changes that make time spent reading a little more comfortable. This is a record of what is new and what has been thoughtfully improved in Kotori.',
+    'changelog.publishedOnly': 'Only versions confirmed as released in Kotori’s release records appear here.',
+    'changelog.history': 'Release history',
+    'changelog.latest': 'Latest',
+    'changelog.support.title': 'Tell us what you notice',
+    'changelog.support.body': 'If something catches your attention while reading, or you have an idea for Kotori, we would be glad to hear from you.',
+    'changelog.support.link': 'Go to support',
 
     // Privacy
     'privacy.title': 'Privacy Policy',
@@ -168,7 +260,7 @@ export const ui = {
     'privacy.children.title': 'Children',
     'privacy.children.body': 'The App does not knowingly collect data from or market to children under the age of 13.',
     'privacy.security.title': 'Security',
-    'privacy.security.body': 'The Service Provider is committed to protecting the confidentiality of your information. Since the App does not collect any information, there is no risk of unauthorized third-party access to your data.',
+    'privacy.security.body': 'The Service Provider protects the anonymous usage analytics it collects. TelemetryDeck does not store IP addresses or personally identifiable information. Reading history, highlights, notes, and other reading data remain on your device.',
     'privacy.changes.title': 'Changes',
     'privacy.changes.body': 'This Privacy Policy may be updated from time to time for any reason. The Service Provider will notify you of changes by posting the new Privacy Policy on this page. Please review this page periodically. Continued use of the App constitutes acceptance of all changes. This Privacy Policy is effective as of April 11, 2026.',
     'privacy.consent.title': 'Your Consent',
@@ -186,7 +278,7 @@ export const ui = {
     'support.faq.q3': 'Can I read offline?',
     'support.faq.a3': 'Yes, once you download a book, you can read it offline.',
     'support.faq.q4': 'Where is my data stored?',
-    'support.faq.a4': 'All data is stored only on your device. Nothing is uploaded to the cloud.',
+    'support.faq.a4': 'Reading history, highlights, notes, and other reading data remain on your device and are not uploaded to the cloud. Only anonymous usage analytics used to improve the app are sent to TelemetryDeck as described in the Privacy Policy.',
     'support.contact.title': 'Contact',
     'support.contact.body': 'Have a question or feedback? Send us a message using the form below.',
     'support.form.name': 'Name',

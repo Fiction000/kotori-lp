@@ -1,0 +1,14 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import DailyPickIndex from '../../components/DailyPickIndex.astro';
+
+export const prerender = false;
+---
+
+<Layout title="青空文庫「今日の1冊」｜作品の読みどころ｜コトリ" description="青空文庫から今日読みたい一冊を選び、作品の読みどころと背景を紹介します。">
+  <Header />
+  <main><DailyPickIndex lang="ja" /></main>
+  <Footer />
+</Layout>

@@ -1,0 +1,50 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const reviews = [
+  t('reviews.quote1'),
+  t('reviews.quote2'),
+];
+
+const quoteMarks = lang === 'ja' ? ['「', '」'] : ['“', '”'];
+---
+
+<section class="relative overflow-hidden border-y border-sepia-200/70 bg-sepia-50/55 py-24 md:py-32" aria-labelledby="reviews-title">
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <span class="absolute -top-14 right-[8%] font-koburi text-[13rem] leading-none text-sepia-200/35">{quoteMarks[0]}</span>
+  </div>
+
+  <div class="relative mx-auto max-w-5xl px-6">
+    <div class="fade-up mb-14 max-w-2xl md:mb-18">
+      <h2 id="reviews-title" class="font-koburi text-3xl leading-tight text-sepia-900 md:text-4xl">
+        {t('reviews.title')}
+      </h2>
+    </div>
+
+    <div class="stagger-children grid gap-12 md:grid-cols-2 md:gap-0">
+      {reviews.map((quote, index) => (
+        <figure class:list={[
+          'fade-up relative flex min-h-52 flex-col justify-between',
+          index === 0
+            ? 'md:border-r md:border-sepia-300/70 md:pr-12'
+            : 'md:pl-12',
+        ]}>
+          <blockquote class="font-koburi text-[1.35rem] leading-[1.85] text-sepia-900 md:text-2xl">
+            {quoteMarks[0]}{quote}{quoteMarks[1]}
+          </blockquote>
+          <figcaption class="mt-8 flex items-center gap-3 text-sm font-medium tracking-[0.03em] text-sepia-700">
+            <span class="h-px w-8 bg-sepia-400" aria-hidden="true"></span>
+            {t('reviews.source')}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    <p class="fade-up mt-14 text-sm leading-relaxed text-sepia-700">
+      {t('reviews.note')}
+    </p>
+  </div>
+</section>

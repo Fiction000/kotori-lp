@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "source": {
+    "repository": "Fiction000/kotori",
+    "directory": "RELEASES",
+    "appStoreURL": "https://apps.apple.com/jp/app/id6759166859"
+  },
+  "releases": [
+    {
+      "version": "1.0.16",
+      "status": "released",
+      "releasedAt": "2026-07-25",
+      "dateSource": "app-store-version-history",
+      "sourceLedger": "1.0.16.md",
+      "locales": {
+        "ja": {
+          "title": "読みたい言葉と場所へ、すぐに",
+          "items": [
+            "読書中に、本文の言葉を検索できるようになりました。",
+            "目次から、読みたい場所へ移動できるようになりました。",
+            "検索や目次を開いても、読書画面が安定するよう整えました。"
+          ]
+        },
+        "en": {
+          "title": "Find the words and places you need",
+          "items": [
+            "You can now search the text while reading.",
+            "A new table of contents takes you directly to the part you want to read.",
+            "The reading view now stays stable while search or the table of contents is open."
+          ]
+        }
+      }
+    },
+    {
+      "version": "1.0.15",
+      "status": "released",
+      "releasedAt": "2026-07-21",
+      "dateSource": "app-store-version-history",
+      "sourceLedger": "1.0.15.md",
+      "locales": {
+        "ja": {
+          "title": "読書へ戻るきっかけを、そっと",
+          "items": [
+            "読書を再開したい時間に、やさしく知らせるリマインダーを設定できるようになりました。",
+            "検索では、ライブラリにある版を優先して見つけやすくしました。",
+            "レイアウトや設定を変えたあとも、読んでいた位置をより確実に保つよう整えました。"
+          ]
+        },
+        "en": {
+          "title": "A gentle way back to your books",
+          "items": [
+            "You can now set a gentle reminder for when you would like to return to reading.",
+            "Search now gives priority to editions already in your library.",
+            "Your reading position is preserved more reliably after layout or settings changes."
+          ]
+        }
+      }
+    },
+    {
+      "version": "1.0.14",
+      "status": "released",
+      "releasedAt": "2026-07-14",
+      "dateSource": "app-store-version-history",
+      "sourceLedger": "1.0.14.md",
+      "locales": {
+        "ja": {
+          "title": "読書の続きを、よりなめらかに",
+          "items": [
+            "長い作品を、これまでよりスムーズに開けるようになりました。",
+            "読書設定を開いても、読んでいたページからそのまま続きを読めるようにしました。",
+            "読書中の辞書を、より安定して使えるようにしました。"
+          ]
+        },
+        "en": {
+          "title": "A smoother return to reading",
+          "items": [
+            "Longer works now open more smoothly.",
+            "Opening reading settings no longer makes you lose your place.",
+            "Dictionary lookup is now more reliable while you read."
+          ]
+        }
+      }
+    }
+  ]
+}

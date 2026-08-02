@@ -20,13 +20,13 @@ const sections = [
 ];
 ---
 
-<Layout title={`${t('privacy.title')} — コトリ`}>
+<Layout title={`${t('privacy.title')}｜コトリ`} description={t('privacy.meta.description')}>
   <Header />
   <main class="mx-auto max-w-3xl px-6 py-16 md:py-24">
     <h1 class="text-3xl md:text-4xl font-bold text-sepia-900 mb-2" style={`font-family: var(--font-serif-jp)`}>
       {t('privacy.title')}
     </h1>
-    <p class="text-sm text-sepia-400 mb-8">{t('privacy.lastUpdated')}</p>
+    <p class="mb-8 text-sm text-sepia-700">{t('privacy.lastUpdated')}</p>
     <p class="text-sepia-700 leading-relaxed mb-10">{t('privacy.intro')}</p>
 
     {sections.map((section) => (

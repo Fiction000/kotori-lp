@@ -1,0 +1,15 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<div class="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1" role="img" aria-label={t('appStore.ratingLabel')}>
+  <span class="relative inline-block whitespace-nowrap text-base leading-none tracking-[0.1em] text-sepia-300" aria-hidden="true">
+    ★★★★★
+    <span class="absolute inset-0 block w-[92%] overflow-hidden whitespace-nowrap text-sepia-600">★★★★★</span>
+  </span>
+  <span class="text-base font-semibold tabular-nums text-sepia-900">4.6 / 5</span>
+  <span class="text-xs font-medium tracking-[0.02em] text-sepia-700">{t('appStore.ratingSource')}</span>
+</div>
