@@ -4,8 +4,10 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run check:editorial && astro build",
+    "build": "npm run check:editorial && npm run check:changelog && astro build",
     "check:editorial": "node scripts/validate-editorial.mjs",
+    "check:changelog": "node scripts/validate-changelog.mjs",
+    "check:changelog:source": "node scripts/validate-changelog.mjs --require-source",
     "sync:editorial:app": "node scripts/sync-editorial-to-app.mjs",
     "preview": "astro preview",
     "astro": "astro"

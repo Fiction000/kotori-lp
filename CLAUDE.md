@@ -1,7 +1,7 @@
 # CLAUDE.md -- Kotori Landing Page
 
 ## What This Is
-Marketing landing page for Kotori, a free iOS app for reading Japanese literature from Aozora Bunko. Site: https://kotori-aozora.app
+Marketing landing page for Kotori, a free iOS app for reading Japanese literature from Aozora Bunko. Site: https://www.kotori-aozora.app
 
 ## Stack
 - Astro 5 (SSR via @astrojs/vercel adapter)

@@ -14,10 +14,12 @@ export const ui = {
     'meta.description': '青空文庫の名作を美しい縦書きで読める無料iOSアプリ。辞書機能・ハイライト・オフライン対応。広告なし・登録不要。',
     'privacy.meta.description': 'コトリが収集する匿名の利用状況データ、端末内に保存される読書データ、TelemetryDeckの利用について説明します。',
     'support.meta.description': '青空文庫アプリ「コトリ」のよくある質問とお問い合わせ窓口です。無料利用、オフライン読書、データ保存について案内します。',
+    'changelog.meta.description': '青空文庫アプリ「コトリ」の更新履歴です。読書体験に加わった新機能や改善を、公開バージョンごとに紹介します。',
 
     // Nav
     'nav.features': '機能',
     'nav.daily': '今日の1冊',
+    'nav.changelog': '更新履歴',
     'nav.privacy': 'プライバシーポリシー',
     'nav.support': 'サポート',
     'nav.menu': 'メニュー',
@@ -81,9 +83,21 @@ export const ui = {
 
     // Footer
     'footer.daily': '今日の1冊',
+    'footer.changelog': '更新履歴',
     'footer.privacy': 'プライバシーポリシー',
     'footer.support': 'サポート',
     'footer.copyright': '© 2026 Kotori. All rights reserved.',
+
+    // Changelog
+    'changelog.eyebrow': 'KOTORI CHANGELOG',
+    'changelog.title': 'コトリから、更新のおしらせ',
+    'changelog.intro': '読書の時間を、少しずつ心地よく。コトリに加わった新しいことや、使いやすく整えたところを記録しています。',
+    'changelog.publishedOnly': 'アプリ側のリリース記録で、公開済みと確認できたバージョンのみ掲載しています。',
+    'changelog.history': '更新履歴',
+    'changelog.latest': '最新',
+    'changelog.support.title': 'お気づきのことがあれば',
+    'changelog.support.body': '読書中に気づいたことや、コトリへのご要望をお聞かせください。',
+    'changelog.support.link': 'サポートフォームへ',
 
     // Privacy
     'privacy.title': 'プライバシーポリシー',
@@ -146,10 +160,12 @@ export const ui = {
     'meta.description': 'Read Japanese literary classics in beautiful vertical text. Kotori is a free iOS reader app for Aozora Bunko.',
     'privacy.meta.description': 'Learn what anonymous usage analytics Kotori collects, which reading data stays on your device, and how TelemetryDeck is used.',
     'support.meta.description': 'Frequently asked questions and support for Kotori, including free access, offline reading, and how reading data is stored.',
+    'changelog.meta.description': 'Release notes for Kotori, the Aozora Bunko reader. See the reader-facing features and improvements in each published version.',
 
     // Nav
     'nav.features': 'Features',
     'nav.daily': "Today's Pick",
+    'nav.changelog': 'Changelog',
     'nav.privacy': 'Privacy Policy',
     'nav.support': 'Support',
     'nav.menu': 'Menu',
@@ -213,9 +229,21 @@ export const ui = {
 
     // Footer
     'footer.daily': "Today's Pick",
+    'footer.changelog': 'Changelog',
     'footer.privacy': 'Privacy Policy',
     'footer.support': 'Support',
     'footer.copyright': '© 2026 Kotori. All rights reserved.',
+
+    // Changelog
+    'changelog.eyebrow': 'KOTORI CHANGELOG',
+    'changelog.title': 'Notes from each Kotori update',
+    'changelog.intro': 'Small changes that make time spent reading a little more comfortable. This is a record of what is new and what has been thoughtfully improved in Kotori.',
+    'changelog.publishedOnly': 'Only versions confirmed as released in Kotori’s release records appear here.',
+    'changelog.history': 'Release history',
+    'changelog.latest': 'Latest',
+    'changelog.support.title': 'Tell us what you notice',
+    'changelog.support.body': 'If something catches your attention while reading, or you have an idea for Kotori, we would be glad to hear from you.',
+    'changelog.support.link': 'Go to support',
 
     // Privacy
     'privacy.title': 'Privacy Policy',

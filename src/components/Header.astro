@@ -20,16 +20,19 @@ const altPath = altLang === 'ja'
     </a>
 
     <div class="flex items-center gap-6 text-sm">
-      <a href={getLocalePath(lang, '/#features')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 sm:block">
+      <a href={getLocalePath(lang, '/#features')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
         {t('nav.features')}
       </a>
-      <a href={getLocalePath(lang, '/daily/')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 sm:block">
+      <a href={getLocalePath(lang, '/daily/')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
         {t('nav.daily')}
       </a>
-      <a href={getLocalePath(lang, '/privacy')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 sm:block">
+      <a href={getLocalePath(lang, '/changelog')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
+        {t('nav.changelog')}
+      </a>
+      <a href={getLocalePath(lang, '/privacy')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
         {t('nav.privacy')}
       </a>
-      <a href={getLocalePath(lang, '/support')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 sm:block">
+      <a href={getLocalePath(lang, '/support')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
         {t('nav.support')}
       </a>
       <a
@@ -42,7 +45,7 @@ const altPath = altLang === 'ja'
       <!-- Mobile menu button -->
       <button
         id="mobile-menu-btn"
-        class="flex h-11 w-11 items-center justify-center rounded-lg text-sepia-700 hover:text-sepia-900 sm:hidden"
+        class="flex h-11 w-11 items-center justify-center rounded-lg text-sepia-700 hover:text-sepia-900 lg:hidden"
         aria-label={t('nav.menu')}
         aria-controls="mobile-menu"
         aria-expanded="false"
@@ -55,13 +58,16 @@ const altPath = altLang === 'ja'
   </nav>
 
   <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden sm:hidden border-t border-sepia-200/50 bg-kotori-warm/95 backdrop-blur-md">
+  <div id="mobile-menu" class="hidden lg:hidden border-t border-sepia-200/50 bg-kotori-warm/95 backdrop-blur-md">
     <div class="px-6 py-4 flex flex-col gap-3">
       <a href={getLocalePath(lang, '/#features')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
         {t('nav.features')}
       </a>
       <a href={getLocalePath(lang, '/daily/')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
         {t('nav.daily')}
+      </a>
+      <a href={getLocalePath(lang, '/changelog')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
+        {t('nav.changelog')}
       </a>
       <a href={getLocalePath(lang, '/privacy')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
         {t('nav.privacy')}
