@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { resolve } from 'node:path';
 
@@ -52,6 +52,11 @@ assert.equal(new Set(manifest.rotation.pickIDs).size, manifest.rotation.pickIDs.
 for (const id of manifest.rotation.pickIDs) {
   assert(pickIDs.has(id), `Rotation references unknown pick: ${id}`);
   assert.equal(manifest.picks.find((pick) => pick.id === id).status, 'ready', `Rotation pick is not ready: ${id}`);
+  try {
+    await access(new URL(`../public/images/weekly/${id}.webp`, import.meta.url));
+  } catch {
+    assert.fail(`Rotation pick is missing its weekly illustration: ${id}`);
+  }
 }
 
 for (const pick of manifest.picks) {

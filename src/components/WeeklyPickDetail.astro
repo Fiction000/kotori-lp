@@ -11,6 +11,10 @@ interface Props {
 const { lang, pick } = Astro.props;
 const content = localizedPick(pick, lang);
 const pathPrefix = lang === 'en' ? '/en' : '';
+const imagePath = `/images/weekly/${content.id}.webp`;
+const imageAlt = lang === 'ja'
+  ? `『${content.title}』をモチーフにしたコトリの選書イラスト`
+  : `Kotori editorial illustration inspired by ${content.title}`;
 const relatedBookIDs = new Set(pick.relatedBookIDs ?? []);
 const relatedAuthors = new Set(content.relatedAuthors);
 const relatedPicks = readyPicks()
@@ -47,6 +51,15 @@ const copy = lang === 'ja'
       <p class="fade-up mt-12 text-xs font-semibold tracking-[0.22em] text-sepia-700">KOTORI WEEKLY</p>
       <h1 class="fade-up mt-4 font-koburi text-5xl leading-tight text-sepia-900 md:text-7xl">{content.title}</h1>
       <p class="fade-up mt-4 text-xl text-sepia-700">{content.author}</p>
+      <figure class="fade-up mt-10 overflow-hidden rounded-[2rem] border border-sepia-200 bg-sepia-50/70">
+        <img
+          src={imagePath}
+          alt={imageAlt}
+          width="1536"
+          height="1024"
+          class="aspect-[3/2] w-full object-cover"
+        />
+      </figure>
       <div class="fade-up mt-10 rounded-[2rem] border border-sepia-200 bg-white/35 p-7 md:p-9">
         {content.summaryLines.map((line) => <p class="mb-3 text-lg leading-9 text-sepia-800 last:mb-0">{line}</p>)}
       </div>
