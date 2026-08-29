@@ -1,152 +1,130 @@
 {
   "schemaVersion": 1,
-  "contentVersion": "2026-08-01.1",
-  "cadence": "daily",
+  "contentVersion": "2026-08-29.1",
+  "cadence": "weekly",
   "timezone": "Asia/Tokyo",
   "rotation": {
-    "effectiveFrom": "2026-08-01",
+    "effectiveFrom": "2026-08-24",
     "pickIDs": [
-      "ginga-tetsudo-no-yoru",
-      "lemon",
-      "rashomon",
-      "kokoro"
+      "ginga-tetsudo-no-yoru", "lemon", "rashomon", "kokoro", "yodaka-no-hoshi", "chumon-no-oi-ryoriten", "hashire-merosu", "kumo-no-ito", "gon-gitsune", "sangetsuki", "takasebune", "botchan", "yumejuya"
     ]
   },
   "picks": [
     {
-      "id": "ginga-tetsudo-no-yoru",
-      "bookID": "043737",
-      "status": "ready",
-      "source": {
-        "cardURL": "https://www.aozora.gr.jp/cards/000081/card43737.html"
-      },
+      "id": "ginga-tetsudo-no-yoru", "bookID": "043737", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000081/card43737.html" },
+      "relatedBookIDs": ["000473", "001927", "000470"], "relatedAuthors": { "ja": ["宮沢賢治", "新美南吉", "小川未明"], "en": ["Kenji Miyazawa", "Nankichi Niimi", "Mimei Ogawa"] },
       "locales": {
-        "ja": {
-          "title": "銀河鉄道の夜",
-          "author": "宮沢賢治",
-          "summaryLines": [
-            "夜空を走る列車に乗って、少年たちは遠い場所へ向かいます。",
-            "幻想的で美しい場面の奥に、別れと祈りが静かに残ります。",
-            "青空文庫の入口として、何度も読み返したくなる一冊です。"
-          ],
-          "whyNow": "短く区切って読めるのに、読み終えたあと長く余韻が残る作品です。",
-          "background": "未完のまま残された作品で、版によって印象が少しずつ変わります。",
-          "quote": "ではみなさんは、そういうふうに川だと云われたり、乳の流れたあとだと云われたりしていた、このぼんやりと白いものがほんとうは何かご承知ですか。"
-        },
-        "en": {
-          "title": "Night on the Galactic Railroad",
-          "author": "Kenji Miyazawa",
-          "summaryLines": [
-            "Two boys board a train crossing the night sky toward a distant place.",
-            "Beneath its beautiful dreamlike scenes, parting and prayer quietly remain.",
-            "A welcoming Aozora Bunko classic worth returning to."
-          ],
-          "whyNow": "Its short chapters are easy to enter, while the questions it leaves behind linger much longer.",
-          "background": "Miyazawa left the work unfinished, and the different surviving versions can create subtly different impressions.",
-          "quote": null
-        }
+        "ja": { "title": "銀河鉄道の夜", "author": "宮沢賢治", "summaryLines": ["夜空を走る列車に乗って、少年たちは遠い場所へ向かいます。", "幻想的で美しい場面の奥に、別れと祈りが静かに残ります。", "青空文庫の入口として、何度も読み返したくなる一冊です。"], "whyNow": "短く区切って読めるのに、読み終えたあと長く余韻が残る作品です。", "background": "未完のまま残された作品で、版によって印象が少しずつ変わります。", "quote": "ではみなさんは、そういうふうに川だと云われたり、乳の流れたあとだと云われたりしていた、このぼんやりと白いものがほんとうは何かご承知ですか。" },
+        "en": { "title": "Night on the Galactic Railroad", "author": "Kenji Miyazawa", "summaryLines": ["Two boys board a train crossing the night sky toward a distant place.", "Beneath its beautiful dreamlike scenes, parting and prayer quietly remain.", "A welcoming Aozora Bunko classic worth returning to."], "whyNow": "Its short chapters are easy to enter, while the questions it leaves behind linger much longer.", "background": "Miyazawa left the work unfinished, and the different surviving versions can create subtly different impressions.", "quote": null }
       }
     },
     {
-      "id": "lemon",
-      "bookID": "046349",
-      "status": "ready",
-      "source": {
-        "cardURL": "https://www.aozora.gr.jp/cards/000074/card46349.html"
-      },
+      "id": "lemon", "bookID": "046349", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000074/card46349.html" },
+      "relatedBookIDs": ["000329", "000623", "001567"], "relatedAuthors": { "ja": ["梶井基次郎", "堀辰雄", "太宰治"], "en": ["Motojiro Kajii", "Tatsuo Hori", "Osamu Dazai"] },
       "locales": {
-        "ja": {
-          "title": "檸檬",
-          "author": "梶井基次郎",
-          "summaryLines": [
-            "胸の重さを抱えた青年が、街で一つの檸檬を手にします。",
-            "短い作品なのに、色、匂い、気分が鮮やかに残ります。",
-            "日本語の感覚を味わう短編としておすすめです。"
-          ],
-          "whyNow": "忙しい日でも一息で読めて、文章の美しさを強く感じられます。",
-          "background": "大正期の京都を歩く感覚と、近代文学の不安が重なった短編です。",
-          "quote": "えたいの知れない不吉な塊が私の心を始終圧えつけていた。焦燥と言おうか、嫌悪と言おうか――酒を飲んだあとに宿酔があるように、酒を毎日飲んでいると宿酔に相当した時期がやって来る。"
-        },
-        "en": {
-          "title": "Lemon",
-          "author": "Motojiro Kajii",
-          "summaryLines": [
-            "A young man carrying a heavy mood picks up a single lemon in the city.",
-            "Though brief, its colors, scents, and shifting feelings remain vivid.",
-            "A short work for savoring the texture of Japanese prose."
-          ],
-          "whyNow": "It fits into a short break while still offering an unusually vivid encounter with language.",
-          "background": "The story brings together a walk through Taisho-era Kyoto and the unease of modern literature.",
-          "quote": null
-        }
+        "ja": { "title": "檸檬", "author": "梶井基次郎", "summaryLines": ["胸の重さを抱えた青年が、街で一つの檸檬を手にします。", "短い作品なのに、色、匂い、気分が鮮やかに残ります。", "日本語の感覚を味わう短編としておすすめです。"], "whyNow": "忙しい日でも一息で読めて、文章の美しさを強く感じられます。", "background": "大正期の京都を歩く感覚と、近代文学の不安が重なった短編です。", "quote": "えたいの知れない不吉な塊が私の心を始終圧えつけていた。焦燥と言おうか、嫌悪と言おうか――酒を飲んだあとに宿酔があるように、酒を毎日飲んでいると宿酔に相当した時期がやって来る。" },
+        "en": { "title": "Lemon", "author": "Motojiro Kajii", "summaryLines": ["A young man carrying a heavy mood picks up a single lemon in the city.", "Though brief, its colors, scents, and shifting feelings remain vivid.", "A short work for savoring the texture of Japanese prose."], "whyNow": "It fits into a short break while still offering an unusually vivid encounter with language.", "background": "The story brings together a walk through Taisho-era Kyoto and the unease of modern literature.", "quote": null }
       }
     },
     {
-      "id": "rashomon",
-      "bookID": "000128",
-      "status": "ready",
-      "source": {
-        "cardURL": "https://www.aozora.gr.jp/cards/000879/card128.html"
-      },
+      "id": "rashomon", "bookID": "000128", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000879/card128.html" },
+      "relatedBookIDs": ["000092", "000042", "000148"], "relatedAuthors": { "ja": ["芥川竜之介", "菊池寛", "森鴎外"], "en": ["Ryunosuke Akutagawa", "Kan Kikuchi", "Ogai Mori"] },
       "locales": {
-        "ja": {
-          "title": "羅生門",
-          "author": "芥川竜之介",
-          "summaryLines": [
-            "荒れ果てた門の下で、下人は生きるための選択に追い込まれます。",
-            "短く鋭い物語の中に、人間の弱さと恐ろしさが凝縮されています。",
-            "芥川を読み始める入口として最適な一編です。"
-          ],
-          "whyNow": "短編の切れ味をすぐに味わえ、他の芥川作品へ自然に進めます。",
-          "background": "古典を下敷きにしながら、近代的な心理の揺れを描いた作品です。",
-          "quote": "ある日の暮方の事である。一人の下人が、羅生門の下で雨やみを待っていた。広い門の下には、この男のほかに誰もいない。"
-        },
-        "en": {
-          "title": "Rashomon",
-          "author": "Ryunosuke Akutagawa",
-          "summaryLines": [
-            "Beneath a ruined gate, a servant is forced to choose how he will survive.",
-            "Human weakness and terror are compressed into a short, sharp story.",
-            "An ideal place to begin reading Akutagawa."
-          ],
-          "whyNow": "Its sharpness is immediate, and it opens naturally onto Akutagawa's other short fiction.",
-          "background": "Akutagawa drew on a classical tale while giving its moral uncertainty a distinctly modern psychological form.",
-          "quote": null
-        }
+        "ja": { "title": "羅生門", "author": "芥川竜之介", "summaryLines": ["荒れ果てた門の下で、下人は生きるための選択に追い込まれます。", "短く鋭い物語の中に、人間の弱さと恐ろしさが凝縮されています。", "短編の緊張感を、最初の数ページから感じられる一編です。"], "whyNow": "短編の切れ味をすぐに味わえ、他の芥川作品へ自然に進めます。", "background": "古典を下敷きにしながら、近代的な心理の揺れを描いた作品です。", "quote": "ある日の暮方の事である。一人の下人が、羅生門の下で雨やみを待っていた。広い門の下には、この男のほかに誰もいない。" },
+        "en": { "title": "Rashomon", "author": "Ryunosuke Akutagawa", "summaryLines": ["Beneath a ruined gate, a servant is forced to choose how he will survive.", "Human weakness and terror are compressed into a short, sharp story.", "Its tension is immediate, making it an approachable first Akutagawa story."], "whyNow": "Its sharpness is immediate, and it opens naturally onto Akutagawa's other short fiction.", "background": "Akutagawa drew on a classical tale while giving its moral uncertainty a distinctly modern psychological form.", "quote": null }
       }
     },
     {
-      "id": "kokoro",
-      "bookID": "000773",
-      "status": "ready",
-      "source": {
-        "cardURL": "https://www.aozora.gr.jp/cards/000148/card773.html"
-      },
+      "id": "kokoro", "bookID": "000773", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000148/card773.html" },
+      "relatedBookIDs": ["000789", "000752", "056143"], "relatedAuthors": { "ja": ["夏目漱石", "森鴎外", "芥川竜之介"], "en": ["Natsume Soseki", "Ogai Mori", "Ryunosuke Akutagawa"] },
       "locales": {
-        "ja": {
-          "title": "こころ",
-          "author": "夏目漱石",
-          "summaryLines": [
-            "先生と私の関係から、明治の終わりと人の孤独が浮かび上がります。",
-            "静かな会話の奥に、取り返しのつかない記憶が隠れています。",
-            "長編をじっくり読みたいときの、コトリらしい一冊です。"
-          ],
-          "whyNow": "一日数ページずつでも、縦書きで読む時間そのものが作品に合います。",
-          "background": "明治から大正へ移る時代の空気と、個人の倫理が重なった代表作です。",
-          "quote": "私はその人を常に先生と呼んでいた。だからここでもただ先生と書くだけで本名は打ち明けない。これは世間を憚かる遠慮というよりも、その方が私にとって自然だからである。"
-        },
-        "en": {
-          "title": "Kokoro",
-          "author": "Natsume Soseki",
-          "summaryLines": [
-            "Through the relationship between Sensei and the narrator, loneliness emerges at the end of the Meiji era.",
-            "Irreversible memories hide beneath their quiet conversations.",
-            "A distinctly Kotori choice when you want to settle into a longer work."
-          ],
-          "whyNow": "Reading only a few pages each day suits the novel's quiet pace and gradual disclosures.",
-          "background": "A defining modern novel in which the transition from Meiji to Taisho meets questions of private loyalty and responsibility.",
-          "quote": null
-        }
+        "ja": { "title": "こころ", "author": "夏目漱石", "summaryLines": ["先生と私の関係から、明治の終わりと人の孤独が浮かび上がります。", "静かな会話の奥に、取り返しのつかない記憶が隠れています。", "少しずつ読み進めながら、人物の言葉と沈黙をたどれる長編です。"], "whyNow": "一日数ページずつでも、縦書きで読む時間そのものが作品に合います。", "background": "明治から大正へ移る時代の空気と、個人の倫理が重なった代表作です。", "quote": "私はその人を常に先生と呼んでいた。だからここでもただ先生と書くだけで本名は打ち明けない。これは世間を憚かる遠慮というよりも、その方が私にとって自然だからである。" },
+        "en": { "title": "Kokoro", "author": "Natsume Soseki", "summaryLines": ["Through the relationship between Sensei and the narrator, loneliness emerges at the end of the Meiji era.", "Irreversible memories hide beneath their quiet conversations.", "A novel to read gradually, following what its characters say—and leave unsaid."], "whyNow": "Reading only a few pages each day suits the novel's quiet pace and gradual disclosures.", "background": "A defining modern novel in which the transition from Meiji to Taisho meets questions of private loyalty and responsibility.", "quote": null }
+      }
+    },
+    {
+      "id": "yodaka-no-hoshi", "bookID": "000473", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000081/card473.html" },
+      "relatedBookIDs": ["043737", "001927", "000470"], "relatedAuthors": { "ja": ["宮沢賢治", "新美南吉"], "en": ["Kenji Miyazawa", "Nankichi Niimi"] },
+      "locales": {
+        "ja": { "title": "よだかの星", "author": "宮沢賢治", "summaryLines": ["醜いと呼ばれる鳥よだかが、自分の居場所を求めて夜空へ飛びます。", "小さな命へのまなざしと、生きる苦しさが切実に重なります。", "短い童話のなかに、遠い星のような余韻が残ります。"], "whyNow": "夜が長く感じる週に、静かに読み終えられる物語です。", "background": "賢治らしい自然の描写のなかで、弱い者を傷つける視線を見つめます。", "quote": null },
+        "en": { "title": "The Nighthawk Star", "author": "Kenji Miyazawa", "summaryLines": ["A bird called ugly flies into the night sky in search of a place to belong.", "Its compassion for small lives and its struggle to live become inseparable.", "A brief tale that leaves a distant, starlit afterglow."], "whyNow": "A quiet story to finish in one evening when the nights feel long.", "background": "Amid Miyazawa's vivid natural world, it asks what it means to look at the vulnerable with cruelty.", "quote": null }
+      }
+    },
+    {
+      "id": "chumon-no-oi-ryoriten", "bookID": "001927", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000081/card1927.html" },
+      "relatedBookIDs": ["043754", "000473", "043737"], "relatedAuthors": { "ja": ["宮沢賢治", "芥川竜之介"], "en": ["Kenji Miyazawa", "Ryunosuke Akutagawa"] },
+      "locales": {
+        "ja": { "title": "注文の多い料理店", "author": "宮沢賢治", "summaryLines": ["山で道に迷った二人の紳士が、不思議な西洋料理店に入ります。", "扉ごとの「注文」に従うほど、客と店の立場が反転していきます。", "可笑しさの奥に少しの怖さがある、読みやすい童話です。"], "whyNow": "一週間の合間に、短くて不穏なユーモアを味わえます。", "background": "都市の紳士と山の自然の関係を、寓話のような仕掛けで描いた一編です。", "quote": null },
+        "en": { "title": "The Restaurant of Many Orders", "author": "Kenji Miyazawa", "summaryLines": ["Two gentlemen lost in the mountains enter a strange Western-style restaurant.", "With every instruction on its doors, the roles of diner and restaurant reverse.", "An accessible tale where comedy carries a faint, growing unease."], "whyNow": "A short dose of unsettling humor for the middle of a busy week.", "background": "A fable-like reversal of the relationship between urban gentlemen and the natural world.", "quote": null }
+      }
+    },
+    {
+      "id": "hashire-merosu", "bookID": "001567", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000035/card1567.html" },
+      "relatedBookIDs": ["000301", "001565", "000628"], "relatedAuthors": { "ja": ["太宰治", "新美南吉"], "en": ["Osamu Dazai", "Nankichi Niimi"] },
+      "locales": {
+        "ja": { "title": "走れメロス", "author": "太宰治", "summaryLines": ["妹の婚礼のため故郷へ戻ったメロスは、友を人質にして約束の刻限へ走ります。", "信じることと疑うことの間を、息を切らすような速さで進む物語です。", "一気に読みたい週に似合う、まっすぐな短編です。"], "whyNow": "物語に勢いがほしいとき、読書のリズムをつくってくれます。", "background": "シラーの「人質」を下敷きに、太宰が信頼とためらいを描き直しました。", "quote": null },
+        "en": { "title": "Run, Melos!", "author": "Osamu Dazai", "summaryLines": ["Returning home for his sister's wedding, Melos leaves his friend as a hostage and races toward his deadline.", "It moves breathlessly between trust and doubt.", "A direct, propulsive story for a week when you want to read in one go."], "whyNow": "Its momentum can restore the rhythm of reading when you need a story to pull you forward.", "background": "Dazai reworks Schiller's 'The Hostage' into a tale of trust and hesitation.", "quote": null }
+      }
+    },
+    {
+      "id": "kumo-no-ito", "bookID": "000092", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000879/card92.html" },
+      "relatedBookIDs": ["000128", "000148", "000170"], "relatedAuthors": { "ja": ["芥川竜之介", "宮沢賢治"], "en": ["Ryunosuke Akutagawa", "Kenji Miyazawa"] },
+      "locales": {
+        "ja": { "title": "蜘蛛の糸", "author": "芥川竜之介", "summaryLines": ["地獄の犍陀多は、かつて蜘蛛を助けたことから、天上から垂れた糸を登り始めます。", "自分だけ助かろうとする心が、細い糸の行方を変えます。", "短い寓話として、何度でも違う問いを残す一編です。"], "whyNow": "数分で読めて、読み終えたあとに考える時間をつくれます。", "background": "仏教的な世界を借りながら、利己心と救いを鮮やかに描いた童話です。", "quote": null },
+        "en": { "title": "The Spider's Thread", "author": "Ryunosuke Akutagawa", "summaryLines": ["In hell, Kandata begins climbing a thread lowered from paradise because he once spared a spider.", "The wish to be saved alone changes the fate of that slender thread.", "A brief fable that leaves a different question each time you return."], "whyNow": "It takes only minutes to read, then makes room for reflection.", "background": "Using a Buddhist setting, Akutagawa gives selfishness and salvation a startlingly clear shape.", "quote": null }
+      }
+    },
+    {
+      "id": "gon-gitsune", "bookID": "000628", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000121/card628.html" },
+      "relatedBookIDs": ["000637", "043016", "000473"], "relatedAuthors": { "ja": ["新美南吉", "宮沢賢治"], "en": ["Nankichi Niimi", "Kenji Miyazawa"] },
+      "locales": {
+        "ja": { "title": "ごん狐", "author": "新美南吉", "summaryLines": ["子狐のごんは、母を失った兵十へ、栗や松茸をひそかに届けます。", "届け主を知らない兵十とのすれ違いが、山里の暮らしのなかで深まります。", "やさしさと切なさが同時に残る、忘れがたい童話です。"], "whyNow": "気持ちを静かに整えたい週に、短い時間で読めます。", "background": "動物の視点を通して、いたわりが届かない悲しさを描いた代表作です。", "quote": null },
+        "en": { "title": "Gon, the Little Fox", "author": "Nankichi Niimi", "summaryLines": ["Gon, a young fox, secretly brings chestnuts and mushrooms to Hyoju after he loses his mother.", "Their misunderstanding deepens within the life of a mountain village.", "A memorable tale where tenderness and sorrow remain together."], "whyNow": "A short, gentle read for a week when you want to settle your thoughts.", "background": "Through an animal's perspective, Niimi portrays the pain of care that never reaches its recipient.", "quote": null }
+      }
+    },
+    {
+      "id": "sangetsuki", "bookID": "000623", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000119/card623.html" },
+      "relatedBookIDs": ["000691", "000128", "000799"], "relatedAuthors": { "ja": ["中島敦", "森鴎外", "芥川竜之介"], "en": ["Atsushi Nakajima", "Ogai Mori", "Ryunosuke Akutagawa"] },
+      "locales": {
+        "ja": { "title": "山月記", "author": "中島敦", "summaryLines": ["詩人を志した李徴は虎となり、旧友に自らの半生を語ります。", "才能への渇望と自尊心が、孤独を深めていく過程を端正な文体でたどります。", "短編で濃い読書をしたいときに手に取りたい一冊です。"], "whyNow": "自分の仕事や表現を考える時間に、鋭く響く作品です。", "background": "中国の伝奇をもとに、近代的な自意識と孤立を描いた中島敦の代表作です。", "quote": null },
+        "en": { "title": "The Moon over the Mountain", "author": "Atsushi Nakajima", "summaryLines": ["Li Zheng, once an aspiring poet, has become a tiger and tells an old friend the story of his life.", "In precise prose, ambition and pride deepen into isolation.", "A compact work for when you want a concentrated reading experience."], "whyNow": "It can strike sharply when you are thinking about your own work or expression.", "background": "Drawing on a Chinese tale, Nakajima makes modern self-consciousness and isolation its core concerns.", "quote": null }
+      }
+    },
+    {
+      "id": "takasebune", "bookID": "000691", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000129/card691.html" },
+      "relatedBookIDs": ["000682", "000623", "000773"], "relatedAuthors": { "ja": ["森鴎外", "中島敦", "夏目漱石"], "en": ["Ogai Mori", "Atsushi Nakajima", "Natsume Soseki"] },
+      "locales": {
+        "ja": { "title": "高瀬舟", "author": "森鴎外", "summaryLines": ["京都の高瀬舟で、島流しとなる喜助と同心の庄兵衛が言葉を交わします。", "弟を手にかけた事情と、貧しさのなかの小さな満足が語られます。", "裁くことと生きることを、対話の余白で考える短編です。"], "whyNow": "急いで答えを出さず、言葉をゆっくり読みたい週に合います。", "background": "江戸を舞台にしながら、安楽死や貧困をめぐる倫理を静かに問いかけます。", "quote": null },
+        "en": { "title": "Takasebune", "author": "Ogai Mori", "summaryLines": ["On Kyoto's Takasebune boat, the exile Kisuke speaks with the constable Shohei.", "He tells of his brother's death and a small contentment found amid poverty.", "A short story that lets its pauses ask how we judge and how we live."], "whyNow": "A good companion for a week when you want to read slowly without rushing toward an answer.", "background": "Set in the Edo period, it quietly raises ethical questions around mercy killing and poverty.", "quote": null }
+      }
+    },
+    {
+      "id": "botchan", "bookID": "000752", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000148/card752.html" },
+      "relatedBookIDs": ["000773", "000789", "000799"], "relatedAuthors": { "ja": ["夏目漱石", "芥川竜之介"], "en": ["Natsume Soseki", "Ryunosuke Akutagawa"] },
+      "locales": {
+        "ja": { "title": "坊っちゃん", "author": "夏目漱石", "summaryLines": ["無鉄砲な青年が、四国の中学校へ教師として赴任します。", "生徒や教師たちとの衝突を、まっすぐで可笑しい語りで進めます。", "長めの物語を気楽に読み始めたいときの一冊です。"], "whyNow": "毎日少しずつ読んでも、語り手の勢いが週を通してついてきます。", "background": "漱石の地方赴任経験を思わせる舞台で、明治の学校と人間関係を風刺します。", "quote": null },
+        "en": { "title": "Botchan", "author": "Natsume Soseki", "summaryLines": ["An impulsive young man takes a teaching post at a middle school in Shikoku.", "His clashes with students and fellow teachers unfold in a direct, comic voice.", "A welcoming longer read when you want to begin without ceremony."], "whyNow": "Read a little each day and the narrator's momentum will carry through the week.", "background": "In a setting shaped by Soseki's own provincial teaching experience, it satirizes Meiji-era schools and social ties.", "quote": null }
+      }
+    },
+    {
+      "id": "yumejuya", "bookID": "000799", "status": "ready",
+      "source": { "cardURL": "https://www.aozora.gr.jp/cards/000148/card799.html" },
+      "relatedBookIDs": ["000773", "000752", "000623"], "relatedAuthors": { "ja": ["夏目漱石", "芥川竜之介", "中島敦"], "en": ["Natsume Soseki", "Ryunosuke Akutagawa", "Atsushi Nakajima"] },
+      "locales": {
+        "ja": { "title": "夢十夜", "author": "夏目漱石", "summaryLines": ["「こんな夢を見た」で始まる十の短い物語が、異なる時間と景色を開きます。", "百年後の約束、石の仏、盲目の少年などが、夢の論理でつながります。", "一夜ずつ読みたくなる、自由で不思議な連作です。"], "whyNow": "寝る前の数分に、現実の輪郭を少し揺らす読書ができます。", "background": "明治末の漱石が、短い形式のなかで時間、芸術、記憶を試みた作品です。", "quote": null },
+        "en": { "title": "Ten Nights of Dreams", "author": "Natsume Soseki", "summaryLines": ["Ten brief stories begin with 'I had such a dream' and open onto different times and landscapes.", "A promise for a hundred years, a stone Buddha, and a blind boy connect through dream logic.", "A free, uncanny sequence that invites one night at a time."], "whyNow": "A few minutes before bed can gently unsettle the edges of the everyday.", "background": "In these short pieces, late-Meiji Soseki experiments with time, art, and memory.", "quote": null }
       }
     }
   ]

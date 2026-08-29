@@ -1,9 +1,10 @@
 # Editorial picks
 
-`src/data/editorial-manifest.json` is the canonical source for Kotori's daily
+`src/data/editorial-manifest.json` is the canonical source for Kotori's weekly
 editorial pick on the website and in the iOS app. The site publishes the same
-manifest at `/api/editorial/v1/picks.json`; the app caches that feed and ships a
-snapshot as `kotori/Resources/editorial_manifest.json` for offline use.
+manifest at `/api/editorial/v1/weekly-picks.json`. `/api/editorial/v1/picks.json`
+remains a compatibility alias for released app versions. The app caches the feed
+and ships a snapshot as `kotori/Resources/editorial_manifest.json` for offline use.
 
 ## Publishing workflow
 
@@ -20,8 +21,9 @@ snapshot as `kotori/Resources/editorial_manifest.json` for offline use.
    elsewhere, set `KOTORI_APP_ROOT` to the app repository root; the manifest is
    written to `$KOTORI_APP_ROOT/kotori/Resources/editorial_manifest.json`.
 
-The date changes at midnight in `Asia/Tokyo`. Selection is the positive modulo
-of whole Tokyo calendar days since `rotation.effectiveFrom`; the ordered
+The selection changes every Monday at midnight in `Asia/Tokyo`. Selection is the
+positive modulo of whole Tokyo calendar weeks since `rotation.effectiveFrom`, which
+must itself be a Monday; the ordered
 `rotation.pickIDs` array is shared by TypeScript and Swift. The fixtures in
 `src/data/editorial-selection-vectors.json` define the cross-platform contract.
 
@@ -30,7 +32,10 @@ of whole Tokyo calendar days since `rotation.effectiveFrom`; the ordered
 - The same book ID must be selected in Japanese and English.
 - English routes must never silently fall back to Japanese editorial prose.
 - Pick IDs and book IDs are unique.
+- A published weekly rotation contains at least 12 ready picks.
 - Every ready pick has exactly three non-empty summary lines in both locales.
 - Quotes must come from the linked Aozora Bunko source record.
-- Build a larger reviewed pool before promoting the daily feature broadly; the
-  initial four entries prove the pipeline but repeat too quickly for launch.
+- `relatedBookIDs` holds Aozora Bunko book IDs. The app can resolve them against
+  its full catalog; the website links those that are also in the reviewed pick
+  pool. Use localized `relatedAuthors.ja` and `relatedAuthors.en` values for
+  broader curated author connections.

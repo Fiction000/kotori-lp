@@ -18,7 +18,7 @@ export const ui = {
 
     // Nav
     'nav.features': '機能',
-    'nav.daily': '今日の1冊',
+    'nav.weekly': '今週の1冊',
     'nav.changelog': '更新履歴',
     'nav.privacy': 'プライバシーポリシー',
     'nav.support': 'サポート',
@@ -38,8 +38,8 @@ export const ui = {
     'hero.free': '無料・広告なし',
     'hero.noAccount': '登録不要',
     'hero.offline': 'オフライン対応',
-    'hero.daily.label': '今日の1冊',
-    'hero.daily.link': '選書の紹介を読む',
+    'hero.weekly.label': '今週の1冊',
+    'hero.weekly.link': '選書の紹介を読む',
 
     // Features
     'features.title': '機能',
@@ -82,7 +82,7 @@ export const ui = {
     'screenshots.title': 'スクリーンショット',
 
     // Footer
-    'footer.daily': '今日の1冊',
+    'footer.weekly': '今週の1冊',
     'footer.changelog': '更新履歴',
     'footer.privacy': 'プライバシーポリシー',
     'footer.support': 'サポート',
@@ -164,7 +164,7 @@ export const ui = {
 
     // Nav
     'nav.features': 'Features',
-    'nav.daily': "Today's Pick",
+    'nav.weekly': "This Week's Pick",
     'nav.changelog': 'Changelog',
     'nav.privacy': 'Privacy Policy',
     'nav.support': 'Support',
@@ -184,8 +184,8 @@ export const ui = {
     'hero.free': 'Free, no ads',
     'hero.noAccount': 'No account',
     'hero.offline': 'Works offline',
-    'hero.daily.label': "Today's Pick",
-    'hero.daily.link': 'Read the introduction',
+    'hero.weekly.label': "This Week's Pick",
+    'hero.weekly.link': 'Read the introduction',
 
     // Features
     'features.title': 'Features',
@@ -228,7 +228,7 @@ export const ui = {
     'screenshots.title': 'Screenshots',
 
     // Footer
-    'footer.daily': "Today's Pick",
+    'footer.weekly': "This Week's Pick",
     'footer.changelog': 'Changelog',
     'footer.privacy': 'Privacy Policy',
     'footer.support': 'Support',

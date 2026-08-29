@@ -1,7 +1,7 @@
 ---
 import AppStoreBadge from './AppStoreBadge.astro';
 import type { EditorialLocale, EditorialPick } from '../data/editorial';
-import { localizedPick } from '../data/editorial';
+import { localizedPick, readyPicks } from '../data/editorial';
 
 interface Props {
   lang: EditorialLocale;
@@ -11,18 +11,27 @@ interface Props {
 const { lang, pick } = Astro.props;
 const content = localizedPick(pick, lang);
 const pathPrefix = lang === 'en' ? '/en' : '';
+const relatedBookIDs = new Set(pick.relatedBookIDs ?? []);
+const relatedAuthors = new Set(content.relatedAuthors);
+const relatedPicks = readyPicks()
+  .filter((candidate) => candidate.id !== pick.id && relatedBookIDs.has(candidate.bookID))
+  .map((candidate) => localizedPick(candidate, lang));
 const copy = lang === 'ja'
   ? {
-      back: '今日の1冊へ戻る',
+      back: '今週の1冊へ戻る',
       why: 'なぜ今読むと面白いか',
       background: '読む前に知っておくとよい背景',
+      next: '次に読むなら',
+      relatedAuthors: 'あわせて読みたい作家',
       source: '青空文庫で底本情報を見る',
       cta: 'この作品を、広告なしの縦書きで。',
     }
   : {
-      back: "Back to Today's Pick",
+      back: "Back to This Week's Pick",
       why: 'Why read it now',
       background: 'Before reading',
+      next: 'Read next',
+      relatedAuthors: 'Related authors',
       source: 'View the source record at Aozora Bunko',
       cta: 'Read this work in Kotori’s focused vertical reader.',
     };
@@ -34,8 +43,8 @@ const copy = lang === 'ja'
       {content.title}
     </div>
     <div class="relative mx-auto max-w-4xl px-6">
-      <a href={`${pathPrefix}/daily/`} class="fade-up inline-flex min-h-11 items-center text-sm text-sepia-700 hover:text-sepia-900">← {copy.back}</a>
-      <p class="fade-up mt-12 text-xs font-semibold tracking-[0.22em] text-sepia-700">KOTORI DAILY</p>
+      <a href={`${pathPrefix}/weekly/`} class="fade-up inline-flex min-h-11 items-center text-sm text-sepia-700 hover:text-sepia-900">← {copy.back}</a>
+      <p class="fade-up mt-12 text-xs font-semibold tracking-[0.22em] text-sepia-700">KOTORI WEEKLY</p>
       <h1 class="fade-up mt-4 font-koburi text-5xl leading-tight text-sepia-900 md:text-7xl">{content.title}</h1>
       <p class="fade-up mt-4 text-xl text-sepia-700">{content.author}</p>
       <div class="fade-up mt-10 rounded-[2rem] border border-sepia-200 bg-white/35 p-7 md:p-9">
@@ -60,6 +69,33 @@ const copy = lang === 'ja'
   {content.quote && (
     <section class="py-16 md:py-24">
       <blockquote class="fade-up mx-auto max-w-3xl px-6 text-center font-koburi text-3xl leading-relaxed text-sepia-800 md:text-4xl">「{content.quote}」</blockquote>
+    </section>
+  )}
+
+  {(relatedPicks.length > 0 || relatedAuthors.size > 0) && (
+    <section class="py-12 md:py-16" aria-labelledby="related-heading">
+      <div class="mx-auto max-w-4xl px-6">
+        <h2 id="related-heading" class="fade-up font-koburi text-3xl text-sepia-900">{copy.next}</h2>
+        {relatedPicks.length > 0 && (
+          <div class="mt-6 grid gap-4 md:grid-cols-2">
+            {relatedPicks.map((related) => (
+              <a href={`${pathPrefix}/weekly/${related.id}/`} class="fade-up rounded-2xl border border-sepia-200 bg-white/40 p-5 transition-colors hover:bg-white/70">
+                <p class="text-xs tracking-[0.14em] text-sepia-600">{related.author}</p>
+                <p class="mt-2 font-koburi text-2xl text-sepia-900">{related.title}</p>
+                <p class="mt-3 text-sm leading-7 text-sepia-700">{related.summaryLines[0]}</p>
+              </a>
+            ))}
+          </div>
+        )}
+        {relatedAuthors.size > 0 && (
+          <div class="mt-6">
+            <p class="text-sm text-sepia-700">{copy.relatedAuthors}</p>
+            <ul class="mt-3 flex flex-wrap gap-2" aria-label={copy.relatedAuthors}>
+              {[...relatedAuthors].map((author) => <li class="rounded-full border border-sepia-200 bg-sepia-50 px-3 py-1 text-sm text-sepia-700">{author}</li>)}
+            </ul>
+          </div>
+        )}
+      </div>
     </section>
   )}
 

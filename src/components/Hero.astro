@@ -1,13 +1,21 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { dailyPick, localizedPick, type EditorialLocale } from '../data/editorial';
+import { editorialManifest, localizedPick, weeklyPick, type EditorialLocale } from '../data/editorial';
 import AppStoreBadge from './AppStoreBadge.astro';
 import AppStoreRating from './AppStoreRating.astro';
 
 const lang = getLangFromUrl(Astro.url) as EditorialLocale;
 const t = useTranslations(lang);
-const pick = localizedPick(dailyPick(), lang);
-const dailyPath = `${lang === 'en' ? '/en' : ''}/daily/${pick.id}/`;
+const pick = localizedPick(weeklyPick(), lang);
+const weeklyPath = `${lang === 'en' ? '/en' : ''}/weekly/${pick.id}/`;
+const clientPicks = editorialManifest.rotation.pickIDs
+  .map((id) => editorialManifest.picks.find((candidate) => candidate.id === id))
+  .filter((candidate): candidate is NonNullable<typeof candidate> => candidate?.status === 'ready')
+  .map((candidate) => {
+    const content = localizedPick(candidate, lang);
+    return { id: content.id, title: content.title, author: content.author, whyNow: content.whyNow };
+  });
+const rotation = editorialManifest.rotation;
 ---
 
 <section class="hero-shell" aria-labelledby="hero-title">
@@ -70,22 +78,44 @@ const dailyPath = `${lang === 'en' ? '/en' : ''}/daily/${pick.id}/`;
         />
       </div>
 
-      <a href={dailyPath} class="daily-card group">
-        <div class="daily-card__topline">
-          <span class="daily-card__bird" aria-hidden="true">●</span>
-          <span>{t('hero.daily.label')}</span>
+      <a id="weekly-hero-card" href={weeklyPath} class="weekly-card group">
+        <div class="weekly-card__topline">
+          <span class="weekly-card__bird" aria-hidden="true">●</span>
+          <span>{t('hero.weekly.label')}</span>
         </div>
-        <p class="daily-card__title font-koburi">{pick.title}</p>
-        <p class="daily-card__author">{pick.author}</p>
-        <p class="daily-card__reason">{pick.whyNow}</p>
-        <span class="daily-card__link">
-          {t('hero.daily.link')}
+        <p id="weekly-hero-title" class="weekly-card__title font-koburi">{pick.title}</p>
+        <p id="weekly-hero-author" class="weekly-card__author">{pick.author}</p>
+        <p id="weekly-hero-reason" class="weekly-card__reason">{pick.whyNow}</p>
+        <span class="weekly-card__link">
+          {t('hero.weekly.link')}
           <span aria-hidden="true">→</span>
         </span>
       </a>
     </div>
   </div>
 </section>
+
+<script define:vars={{ clientPicks, rotation, lang }}>
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit',
+  }).formatToParts(new Date());
+  const part = (type) => Number(parts.find((item) => item.type === type)?.value);
+  const serialDay = (year, month, day) => Math.floor(Date.UTC(year, month - 1, day) / 86400000);
+  const [anchorYear, anchorMonth, anchorDay] = rotation.effectiveFrom.split('-').map(Number);
+  const currentDay = serialDay(part('year'), part('month'), part('day'));
+  const weekStart = currentDay - ((currentDay + 3) % 7);
+  const elapsedWeeks = Math.floor((weekStart - serialDay(anchorYear, anchorMonth, anchorDay)) / 7);
+  const index = ((elapsedWeeks % clientPicks.length) + clientPicks.length) % clientPicks.length;
+  const current = clientPicks[index];
+  const card = document.getElementById('weekly-hero-card');
+  const title = document.getElementById('weekly-hero-title');
+  const author = document.getElementById('weekly-hero-author');
+  const reason = document.getElementById('weekly-hero-reason');
+  if (card instanceof HTMLAnchorElement) card.href = `${lang === 'en' ? '/en' : ''}/weekly/${current.id}/`;
+  if (title) title.textContent = current.title;
+  if (author) author.textContent = current.author;
+  if (reason) reason.textContent = current.whyNow;
+</script>
 
 <style>
   .hero-shell {
@@ -263,7 +293,7 @@ const dailyPath = `${lang === 'en' ? '/en' : ''}/daily/${pick.id}/`;
     object-position: top;
   }
 
-  .daily-card {
+  .weekly-card {
     position: absolute;
     bottom: 1.25rem;
     left: 0;
@@ -277,12 +307,12 @@ const dailyPath = `${lang === 'en' ? '/en' : ''}/daily/${pick.id}/`;
     transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 300ms ease;
   }
 
-  .daily-card:hover {
+  .weekly-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 24px 56px rgba(19, 63, 92, 0.21);
   }
 
-  .daily-card__topline {
+  .weekly-card__topline {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -292,30 +322,30 @@ const dailyPath = `${lang === 'en' ? '/en' : ''}/daily/${pick.id}/`;
     letter-spacing: 0.16em;
   }
 
-  .daily-card__bird {
+  .weekly-card__bird {
     font-size: 0.5rem;
   }
 
-  .daily-card__title {
+  .weekly-card__title {
     margin-top: 0.7rem;
     font-size: 1.75rem;
     line-height: 1.35;
   }
 
-  .daily-card__author {
+  .weekly-card__author {
     margin-top: 0.15rem;
     color: #5b6b75;
     font-size: 0.78rem;
   }
 
-  .daily-card__reason {
+  .weekly-card__reason {
     margin-top: 0.85rem;
     color: #405968;
     font-size: 0.82rem;
     line-height: 1.7;
   }
 
-  .daily-card__link {
+  .weekly-card__link {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -376,13 +406,13 @@ const dailyPath = `${lang === 'en' ? '/en' : ''}/daily/${pick.id}/`;
       width: 76%;
     }
 
-    .daily-card {
+    .weekly-card {
       bottom: 0;
       width: 79%;
       padding: 1.2rem;
     }
 
-    .daily-card__reason {
+    .weekly-card__reason {
       display: none;
     }
   }
@@ -392,7 +422,7 @@ const dailyPath = `${lang === 'en' ? '/en' : ''}/daily/${pick.id}/`;
       transform: none;
     }
 
-    .daily-card {
+    .weekly-card {
       transition: none;
     }
   }
