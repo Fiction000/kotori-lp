@@ -1,5 +1,17 @@
 {
   "cleanUrls": true,
+  "redirects": [
+    {
+      "source": "/weekly/kokoro/",
+      "destination": "/works/000773/kokoro/",
+      "permanent": true
+    },
+    {
+      "source": "/daily/kokoro/",
+      "destination": "/works/000773/kokoro/",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
       "source": "/api/editorial/v1/picks.json",

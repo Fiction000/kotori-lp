@@ -1,8 +1,13 @@
 ---
 import { getLangFromUrl, useTranslations, getLocalePath } from '../i18n/utils';
 
+interface Props {
+  showLanguageSwitcher?: boolean;
+}
+
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const showLanguageSwitcher = Astro.props.showLanguageSwitcher ?? true;
 const altLang = lang === 'ja' ? 'en' : 'ja';
 const pathWithoutLang = lang === 'ja'
   ? Astro.url.pathname
@@ -35,12 +40,14 @@ const altPath = altLang === 'ja'
       <a href={getLocalePath(lang, '/support')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
         {t('nav.support')}
       </a>
-      <a
-        href={altPath}
-        class="inline-flex min-h-11 items-center rounded-full border border-sepia-300 px-4 text-xs font-medium text-sepia-700 transition-colors hover:bg-sepia-100"
-      >
-        {altLang === 'ja' ? '日本語' : 'English'}
-      </a>
+      {showLanguageSwitcher && (
+        <a
+          href={altPath}
+          class="inline-flex min-h-11 items-center rounded-full border border-sepia-300 px-4 text-xs font-medium text-sepia-700 transition-colors hover:bg-sepia-100"
+        >
+          {altLang === 'ja' ? '日本語' : 'English'}
+        </a>
+      )}
 
       <!-- Mobile menu button -->
       <button

@@ -22,7 +22,10 @@ export default defineConfig({
     // compete with the canonical weekly pages in search results.
     filter: (page) => {
       const pathname = new URL(page).pathname;
-      return !pathname.startsWith('/daily/') && !pathname.startsWith('/en/daily/');
+      return !pathname.startsWith('/daily/')
+        && !pathname.startsWith('/en/daily/')
+        && pathname !== '/weekly/kokoro/'
+        && pathname !== '/en/weekly/kokoro/';
     },
     // These pages are rendered at request time so the Monday JST selection is
     // always current; include them explicitly in the otherwise static sitemap.

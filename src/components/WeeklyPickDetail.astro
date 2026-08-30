@@ -1,7 +1,7 @@
 ---
 import AppStoreBadge from './AppStoreBadge.astro';
 import type { EditorialLocale, EditorialPick } from '../data/editorial';
-import { localizedPick, readyPicks } from '../data/editorial';
+import { editorialDetailPath, localizedPick, readyPicks } from '../data/editorial';
 
 interface Props {
   lang: EditorialLocale;
@@ -92,7 +92,7 @@ const copy = lang === 'ja'
         {relatedPicks.length > 0 && (
           <div class="mt-6 grid gap-4 md:grid-cols-2">
             {relatedPicks.map((related) => (
-              <a href={`${pathPrefix}/weekly/${related.id}/`} class="fade-up rounded-2xl border border-sepia-200 bg-white/40 p-5 transition-colors hover:bg-white/70">
+              <a href={editorialDetailPath(related.id, lang)} class="fade-up rounded-2xl border border-sepia-200 bg-white/40 p-5 transition-colors hover:bg-white/70">
                 <p class="text-xs tracking-[0.14em] text-sepia-600">{related.author}</p>
                 <p class="mt-2 font-koburi text-2xl text-sepia-900">{related.title}</p>
                 <p class="mt-3 text-sm leading-7 text-sepia-700">{related.summaryLines[0]}</p>
