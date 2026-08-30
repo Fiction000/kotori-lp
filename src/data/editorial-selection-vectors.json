@@ -1,8 +1,11 @@
 [
-  { "instant": "2026-07-31T14:59:59Z", "pickID": "kokoro" },
-  { "instant": "2026-07-31T15:00:00Z", "pickID": "ginga-tetsudo-no-yoru" },
-  { "instant": "2026-08-01T15:00:00Z", "pickID": "lemon" },
-  { "instant": "2026-08-02T15:00:00Z", "pickID": "rashomon" },
-  { "instant": "2026-08-03T15:00:00Z", "pickID": "kokoro" },
-  { "instant": "2026-08-04T15:00:00Z", "pickID": "ginga-tetsudo-no-yoru" }
+  { "instant": "2026-08-23T14:59:59Z", "pickID": "yumejuya" },
+  { "instant": "2026-08-23T15:00:00Z", "pickID": "ginga-tetsudo-no-yoru" },
+  { "instant": "2026-08-30T14:59:59Z", "pickID": "ginga-tetsudo-no-yoru" },
+  { "instant": "2026-08-30T15:00:00Z", "pickID": "lemon" },
+  { "instant": "2026-11-15T15:00:00Z", "pickID": "yumejuya" },
+  { "instant": "2026-11-22T15:00:00Z", "pickID": "ginga-tetsudo-no-yoru" },
+  { "instant": "2026-12-27T14:59:59Z", "pickID": "yodaka-no-hoshi" },
+  { "instant": "2026-12-27T15:00:00Z", "pickID": "chumon-no-oi-ryoriten" },
+  { "instant": "2027-01-03T15:00:00Z", "pickID": "hashire-merosu" }
 ]

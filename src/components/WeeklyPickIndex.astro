@@ -1,0 +1,176 @@
+---
+import AppStoreBadge from './AppStoreBadge.astro';
+import type { EditorialLocale } from '../data/editorial';
+import { editorialManifest, localizedPick, readyPicks, recentWeeklySelections, weeklyPick } from '../data/editorial';
+
+interface Props {
+  lang: EditorialLocale;
+}
+
+const { lang } = Astro.props;
+const pathPrefix = lang === 'en' ? '/en' : '';
+const selections = recentWeeklySelections();
+const initialPick = localizedPick(weeklyPick(), lang);
+const imagePath = (id: string) => `/images/weekly/${id}.webp`;
+const imageAlt = (title: string) => lang === 'ja'
+  ? `『${title}』をモチーフにしたコトリの選書イラスト`
+  : `Kotori editorial illustration inspired by ${title}`;
+const formatWeekStart = (date: string) => new Intl.DateTimeFormat(lang === 'ja' ? 'ja-JP' : 'en-US', {
+  timeZone: 'UTC',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+}).format(new Date(`${date}T00:00:00Z`));
+const copy = lang === 'ja'
+  ? {
+      eyebrow: 'KOTORI WEEKLY',
+      title: '今週の1冊',
+      intro: '一週間をともに過ごしたい一冊を、青空文庫から。短い紹介を入口に、まだ知らない作品と出会えます。',
+      current: 'THIS WEEK',
+      archive: 'これまでの選書',
+      details: '読みどころを見る',
+      cta: '気になった作品は、コトリでそのまま縦書きで。',
+      weekOf: (date: string) => `${formatWeekStart(date)}からの一週間`,
+    }
+  : {
+      eyebrow: 'KOTORI WEEKLY',
+      title: "This Week's Pick",
+      intro: 'One work from Aozora Bunko to keep close for a week. A quiet doorway into Japanese literature you may not have searched for.',
+      current: 'THIS WEEK',
+      archive: 'Recent picks',
+      details: 'Read the introduction',
+      cta: 'Continue with the work in Kotori’s vertical reader.',
+      weekOf: (date: string) => `Week of ${formatWeekStart(date)}`,
+    };
+
+const archiveSelections = selections.slice(1).map(({ pick, weekStart }) => {
+  const content = localizedPick(pick, lang);
+  return { ...content, weekStart };
+});
+// This must remain in rotation order. The dated archive is deliberately newest
+// first, while the browser-side selector uses the rotation's absolute week index.
+const clientPicks = readyPicks().map((pick) => {
+  const content = localizedPick(pick, lang);
+  return {
+    id: content.id,
+    title: content.title,
+    author: content.author,
+    summary: content.summaryLines[0],
+    href: `${pathPrefix}/weekly/${content.id}/`,
+    image: imagePath(content.id),
+    imageAlt: imageAlt(content.title),
+  };
+});
+const rotation = editorialManifest.rotation;
+---
+
+<section class="relative overflow-hidden py-24 md:py-32">
+  <div class="absolute inset-y-10 right-[8%] hidden select-none font-koburi text-[7rem] leading-loose text-sepia-100 writing-vertical md:block" aria-hidden="true">
+    {lang === 'ja' ? '今週の一冊' : 'WEEKLY'}
+  </div>
+  <div class="relative mx-auto max-w-5xl px-6">
+    <p class="fade-up mb-4 text-xs font-semibold tracking-[0.22em] text-sepia-700">{copy.eyebrow}</p>
+    <div class="grid gap-12 md:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.9fr)] md:items-end">
+      <div>
+        <h1 class="fade-up font-koburi text-5xl leading-tight text-sepia-900 md:text-7xl">{copy.title}</h1>
+        <p class="fade-up mt-6 max-w-2xl text-lg leading-8 text-sepia-700">{copy.intro}</p>
+      </div>
+      <a
+        id="weekly-feature"
+        href={`${pathPrefix}/weekly/${initialPick.id}/`}
+        class="fade-up group block rounded-[2rem] border border-sepia-200 bg-sepia-50/70 p-7 shadow-sm transition-[transform,box-shadow,background-color] duration-300 hover:-translate-y-1 hover:bg-white/70 hover:shadow-lg"
+      >
+        <p class="mb-3 text-xs font-medium tracking-[0.2em] text-sepia-700">{copy.current}</p>
+        <p id="weekly-feature-date" class="mb-3 text-xs text-sepia-600">{copy.weekOf(selections[0].weekStart)}</p>
+        <img
+          id="weekly-feature-image"
+          src={imagePath(initialPick.id)}
+          alt={imageAlt(initialPick.title)}
+          width="1536"
+          height="1024"
+          class="mb-6 aspect-[3/2] w-full rounded-2xl border border-sepia-200 object-cover"
+        />
+        <h2 id="weekly-feature-title" class="font-koburi text-3xl text-sepia-900 md:text-4xl">{initialPick.title}</h2>
+        <p id="weekly-feature-author" class="mt-2 text-sm text-sepia-700">{initialPick.author}</p>
+        <p id="weekly-feature-summary" class="mt-5 text-sm leading-7 text-sepia-700">{initialPick.summaryLines[0]}</p>
+        <p class="mt-5 text-sm font-semibold text-sepia-700">{copy.details}</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="py-16 md:py-24" aria-labelledby="weekly-archive-heading">
+  <div class="mx-auto max-w-5xl px-6">
+    <h2 id="weekly-archive-heading" class="fade-up mb-8 font-koburi text-3xl text-sepia-900">{copy.archive}</h2>
+    <div class="grid gap-6 md:grid-cols-2">
+      {archiveSelections.map((pick) => (
+        <a href={`${pathPrefix}/weekly/${pick.id}/`} class="fade-up group rounded-3xl border border-sepia-200 bg-white/35 p-7 transition-colors hover:bg-white/60">
+          <img
+            src={imagePath(pick.id)}
+            alt={imageAlt(pick.title)}
+            width="1536"
+            height="1024"
+            loading="lazy"
+            class="mb-6 aspect-[3/2] w-full rounded-2xl border border-sepia-200 object-cover"
+          />
+          <p class="mb-2 text-xs text-sepia-600">{copy.weekOf(pick.weekStart)}</p>
+          <p class="mb-3 text-xs font-medium tracking-[0.16em] text-sepia-700">{pick.author}</p>
+          <h3 class="font-koburi text-3xl text-sepia-900 group-hover:text-kotori-dark">{pick.title}</h3>
+          <p class="mt-4 text-sm leading-7 text-sepia-700">{pick.summaryLines[1]}</p>
+          <p class="mt-5 text-sm font-semibold text-sepia-700">{copy.details}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="py-20 text-center">
+  <p class="fade-up mb-8 font-koburi text-2xl text-sepia-700">{copy.cta}</p>
+  <div class="fade-up"><AppStoreBadge /></div>
+</section>
+
+<script define:vars={{ clientPicks, rotation }}>
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: 'Asia/Tokyo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).formatToParts(new Date());
+  const part = (type) => Number(parts.find((item) => item.type === type)?.value);
+  const serialDay = (year, month, day) => Math.floor(Date.UTC(year, month - 1, day) / 86400000);
+  const [anchorYear, anchorMonth, anchorDay] = rotation.effectiveFrom.split('-').map(Number);
+  const currentDay = serialDay(part('year'), part('month'), part('day'));
+  const weekStart = currentDay - ((currentDay + 3) % 7);
+  const elapsedWeeks = Math.floor((weekStart - serialDay(anchorYear, anchorMonth, anchorDay)) / 7);
+  const index = ((elapsedWeeks % clientPicks.length) + clientPicks.length) % clientPicks.length;
+  const pick = clientPicks[index];
+
+  const feature = document.getElementById('weekly-feature');
+  const title = document.getElementById('weekly-feature-title');
+  const author = document.getElementById('weekly-feature-author');
+  const summary = document.getElementById('weekly-feature-summary');
+  const image = document.getElementById('weekly-feature-image');
+  const featureDate = document.getElementById('weekly-feature-date');
+  if (feature instanceof HTMLAnchorElement) feature.href = pick.href;
+  if (title) title.textContent = pick.title;
+  if (author) author.textContent = pick.author;
+  if (summary) summary.textContent = pick.summary;
+  if (image instanceof HTMLImageElement) {
+    image.src = pick.image;
+    image.alt = pick.imageAlt;
+  }
+  if (featureDate) {
+    const formatter = new Intl.DateTimeFormat(document.documentElement.lang === 'ja' ? 'ja-JP' : 'en-US', {
+      timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric',
+    });
+    const date = formatter.format(new Date(weekStart * 86400000));
+    featureDate.textContent = document.documentElement.lang === 'ja' ? `${date}からの一週間` : `Week of ${date}`;
+  }
+</script>
+
+<style>
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+</style>

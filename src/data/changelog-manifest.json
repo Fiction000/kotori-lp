@@ -7,6 +7,31 @@
   },
   "releases": [
     {
+      "version": "2.0.0",
+      "status": "released",
+      "releasedAt": "2026-08-20",
+      "dateSource": "app-store-version-history",
+      "sourceLedger": "2.0.0.md",
+      "locales": {
+        "ja": {
+          "title": "次に読む一冊と、出会いやすく",
+          "items": [
+            "新しいホームと「見つける」で、気分やテーマ、編集部のおすすめから作品を探せるようになりました。",
+            "はじめてのオンボーディングと、読みたい本・読んでいる本・読み終えた本を見渡せる新しい本棚を追加しました。",
+            "読書の入口とアクセシビリティを整え、より心地よく使えるようにしました。"
+          ]
+        },
+        "en": {
+          "title": "A clearer way to find your next read",
+          "items": [
+            "A new Home and Explore experience helps you discover works by mood, theme, and editorial recommendation.",
+            "New onboarding and a redesigned Bookshelf bring want-to-read, reading, and finished books into one view.",
+            "We refined the way into reading and improved accessibility for a more comfortable experience."
+          ]
+        }
+      }
+    },
+    {
       "version": "1.0.16",
       "status": "released",
       "releasedAt": "2026-07-25",

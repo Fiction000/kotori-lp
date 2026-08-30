@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { access, readFile } from 'node:fs/promises';
+import { homedir } from 'node:os';
+import { resolve } from 'node:path';
 
 const manifest = JSON.parse(await readFile(new URL('../src/data/editorial-manifest.json', import.meta.url)));
 const vectors = JSON.parse(await readFile(new URL('../src/data/editorial-selection-vectors.json', import.meta.url)));
 
 assert.equal(manifest.schemaVersion, 1, 'Unsupported editorial schema');
-assert.equal(manifest.cadence, 'daily');
+assert.equal(manifest.cadence, 'weekly');
 assert.equal(manifest.timezone, 'Asia/Tokyo');
 assert.match(manifest.contentVersion, /^\d{4}-\d{2}-\d{2}\.\d+$/);
 assert.match(manifest.rotation.effectiveFrom, /^\d{4}-\d{2}-\d{2}$/);
@@ -18,6 +20,19 @@ for (const pick of manifest.picks) {
   pickIDs.add(pick.id);
   bookIDs.add(pick.bookID);
   assert.match(pick.source.cardURL, /^https:\/\/www\.aozora\.gr\.jp\/cards\//);
+  if (pick.relatedBookIDs !== undefined) {
+    assert(Array.isArray(pick.relatedBookIDs), `${pick.id}.relatedBookIDs must be an array`);
+    assert(pick.relatedBookIDs.every((id) => /^\d{6}$/.test(id)), `${pick.id}.relatedBookIDs has an invalid book ID`);
+    assert.equal(new Set(pick.relatedBookIDs).size, pick.relatedBookIDs.length, `${pick.id}.relatedBookIDs contains duplicates`);
+  }
+  if (pick.relatedAuthors !== undefined) {
+    for (const locale of ['ja', 'en']) {
+      const authors = pick.relatedAuthors[locale];
+      assert(Array.isArray(authors), `${pick.id}.relatedAuthors.${locale} must be an array`);
+      assert(authors.every((author) => typeof author === 'string' && author.trim()), `${pick.id}.relatedAuthors.${locale} has an empty name`);
+      assert.equal(new Set(authors).size, authors.length, `${pick.id}.relatedAuthors.${locale} contains duplicates`);
+    }
+  }
 
   for (const locale of ['ja', 'en']) {
     const copy = pick.locales[locale];
@@ -32,10 +47,22 @@ for (const pick of manifest.picks) {
 }
 
 assert(manifest.rotation.pickIDs.length > 0, 'Rotation is empty');
+assert(manifest.rotation.pickIDs.length >= 12, 'Weekly rotation needs at least 12 reviewed picks before publishing');
 assert.equal(new Set(manifest.rotation.pickIDs).size, manifest.rotation.pickIDs.length, 'Rotation contains duplicates');
 for (const id of manifest.rotation.pickIDs) {
   assert(pickIDs.has(id), `Rotation references unknown pick: ${id}`);
   assert.equal(manifest.picks.find((pick) => pick.id === id).status, 'ready', `Rotation pick is not ready: ${id}`);
+  try {
+    await access(new URL(`../public/images/weekly/${id}.webp`, import.meta.url));
+  } catch {
+    assert.fail(`Rotation pick is missing its weekly illustration: ${id}`);
+  }
+}
+
+for (const pick of manifest.picks) {
+  for (const relatedBookID of pick.relatedBookIDs ?? []) {
+    assert.notEqual(relatedBookID, pick.bookID, `${pick.id} cannot relate to itself`);
+  }
 }
 
 const format = new Intl.DateTimeFormat('en-CA', {
@@ -47,23 +74,29 @@ const format = new Intl.DateTimeFormat('en-CA', {
 const serialDay = (year, month, day) => Math.floor(Date.UTC(year, month - 1, day) / 86_400_000);
 const [anchorYear, anchorMonth, anchorDay] = manifest.rotation.effectiveFrom.split('-').map(Number);
 const anchor = serialDay(anchorYear, anchorMonth, anchorDay);
+assert.equal((anchor + 3) % 7, 0, 'The weekly rotation anchor must be a Monday in Asia/Tokyo');
 
 for (const vector of vectors) {
   const parts = format.formatToParts(new Date(vector.instant));
   const part = (type) => Number(parts.find((item) => item.type === type)?.value);
-  const elapsed = serialDay(part('year'), part('month'), part('day')) - anchor;
-  const index = ((elapsed % manifest.rotation.pickIDs.length) + manifest.rotation.pickIDs.length)
+  const currentDay = serialDay(part('year'), part('month'), part('day'));
+  const currentWeek = currentDay - ((currentDay + 3) % 7);
+  const elapsedWeeks = Math.floor((currentWeek - anchor) / 7);
+  const index = ((elapsedWeeks % manifest.rotation.pickIDs.length) + manifest.rotation.pickIDs.length)
     % manifest.rotation.pickIDs.length;
   assert.equal(manifest.rotation.pickIDs[index], vector.pickID, `Selection mismatch at ${vector.instant}`);
 }
 
 try {
+  const appRoot = process.env.KOTORI_APP_ROOT
+    ? resolve(process.env.KOTORI_APP_ROOT)
+    : resolve(homedir(), 'code/kotori');
   const appSnapshot = JSON.parse(await readFile(
-    new URL('../../../code/kotori/kotori/Resources/editorial_manifest.json', import.meta.url)
+    resolve(appRoot, 'kotori/Resources/editorial_manifest.json')
   ));
   assert.deepEqual(appSnapshot, manifest, 'The bundled Kotori manifest is out of sync; run npm run sync:editorial:app');
 } catch (error) {
   if (error?.code !== 'ENOENT') throw error;
 }
 
-console.log(`Validated ${manifest.picks.length} bilingual editorial picks and ${vectors.length} JST selection vectors.`);
+console.log(`Validated ${manifest.picks.length} bilingual weekly picks and ${vectors.length} JST selection vectors.`);

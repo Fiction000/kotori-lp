@@ -1,0 +1,20 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import WeeklyPickDetail from '../../../components/WeeklyPickDetail.astro';
+import { localizedPick, readyPicks } from '../../../data/editorial';
+
+export function getStaticPaths() {
+  return readyPicks().map((pick) => ({ params: { slug: pick.id }, props: { pick } }));
+}
+
+const { pick } = Astro.props;
+const content = localizedPick(pick, 'en');
+---
+
+<Layout title={`${content.title} Reading Guide | Kotori`} description={`Discover why ${content.title} by ${content.author} is worth reading, with a brief introduction and literary background.`}>
+  <Header />
+  <main><WeeklyPickDetail lang="en" pick={pick} /></main>
+  <Footer />
+</Layout>

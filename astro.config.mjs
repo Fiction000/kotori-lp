@@ -17,5 +17,18 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   adapter: vercel({ experimentalStaticHeaders: true }),
-  integrations: [sitemap()],
+  integrations: [sitemap({
+    // Legacy daily URLs remain as redirects for existing links, but should not
+    // compete with the canonical weekly pages in search results.
+    filter: (page) => {
+      const pathname = new URL(page).pathname;
+      return !pathname.startsWith('/daily/') && !pathname.startsWith('/en/daily/');
+    },
+    // These pages are rendered at request time so the Monday JST selection is
+    // always current; include them explicitly in the otherwise static sitemap.
+    customPages: [
+      'https://www.kotori-aozora.app/weekly/',
+      'https://www.kotori-aozora.app/en/weekly/',
+    ],
+  })],
 });
