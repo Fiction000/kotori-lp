@@ -4,19 +4,24 @@ import Header from '../../../components/Header.astro';
 import Footer from '../../../components/Footer.astro';
 import WeeklyPickDetail from '../../../components/WeeklyPickDetail.astro';
 import { localizedPick, readyPicks } from '../../../data/editorial';
+import { workPagePathForWeeklyID } from '../../../data/work-pages';
 
 export function getStaticPaths() {
-  return readyPicks()
-    .filter((pick) => pick.id !== 'kokoro')
-    .map((pick) => ({ params: { slug: pick.id }, props: { pick } }));
+  return readyPicks().map((pick) => ({ params: { slug: pick.id }, props: { pick } }));
 }
 
 const { pick } = Astro.props;
 const content = localizedPick(pick, 'en');
+const hasCanonicalJapaneseWork = Boolean(workPagePathForWeeklyID(pick.id));
 ---
 
-<Layout title={`${content.title} Reading Guide | Kotori`} description={`Discover why ${content.title} by ${content.author} is worth reading, with a brief introduction and literary background.`}>
-  <Header />
+<Layout
+  title={`${content.title} Reading Guide | Kotori`}
+  description={`Discover why ${content.title} by ${content.author} is worth reading, with a brief introduction and literary background.`}
+  alternateLocales={hasCanonicalJapaneseWork ? ['en'] : ['ja', 'en']}
+  robots={hasCanonicalJapaneseWork ? 'noindex,follow' : undefined}
+>
+  <Header showLanguageSwitcher={!hasCanonicalJapaneseWork} />
   <main><WeeklyPickDetail lang="en" pick={pick} /></main>
   <Footer />
 </Layout>

@@ -1,12 +1,12 @@
 ---
 import { readyPicks } from '../../data/editorial';
+import { workPagePathForWeeklyID } from '../../data/work-pages';
 
 export function getStaticPaths() {
-  return readyPicks()
-    .filter((pick) => pick.id !== 'kokoro')
-    .map((pick) => ({ params: { slug: pick.id }, props: { pick } }));
+  return readyPicks().map((pick) => ({ params: { slug: pick.id }, props: { pick } }));
 }
 
 const { pick } = Astro.props;
-return Astro.redirect(`/weekly/${pick.id}/`, 308);
+const permanentPath = workPagePathForWeeklyID(pick.id);
+return Astro.redirect(permanentPath ?? `/weekly/${pick.id}/`, 308);
 ---

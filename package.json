@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run check:editorial && npm run check:changelog && astro build",
+    "build": "npm run check:works && npm run check:editorial && npm run check:changelog && astro build",
+    "check:works": "node scripts/validate-work-pages.mjs",
     "check:editorial": "node scripts/validate-editorial.mjs",
     "check:changelog": "node scripts/validate-changelog.mjs",
     "check:changelog:source": "node scripts/validate-changelog.mjs --require-source",

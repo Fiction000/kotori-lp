@@ -1,4 +1,5 @@
 import manifestData from './editorial-manifest.json';
+import { workPagePathForWeeklyID } from './work-pages';
 
 export type EditorialLocale = 'ja' | 'en';
 
@@ -37,12 +38,8 @@ export type EditorialManifest = {
 
 export const editorialManifest = manifestData as EditorialManifest;
 
-const permanentWorkPaths: Partial<Record<string, string>> = {
-  kokoro: '/works/000773/kokoro/',
-};
-
 export function editorialDetailPath(id: string, locale: EditorialLocale): string {
-  const permanentPath = permanentWorkPaths[id];
+  const permanentPath = workPagePathForWeeklyID(id);
   if (locale === 'ja' && permanentPath) return permanentPath;
   return `${locale === 'en' ? '/en' : ''}/weekly/${id}/`;
 }
