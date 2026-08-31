@@ -54,7 +54,7 @@ const { work } = Astro.props;
       </div>
       <div>
         <p class="fade-up text-xs font-semibold tracking-[0.22em] text-kotori-green">SYNOPSIS</p>
-        <h2 id="synopsis-heading" class="fade-up mt-4 font-koburi text-4xl leading-tight text-sepia-900 md:text-5xl">結末に触れないあらすじ</h2>
+        <h2 id="synopsis-heading" class="fade-up mt-4 font-koburi text-4xl leading-tight text-sepia-900 md:text-5xl">あらすじ</h2>
         <div class="mt-9 max-w-3xl space-y-6">
           {work.synopsis.map((paragraph) => (
             <p class="fade-up text-lg leading-9 text-sepia-800">{paragraph}</p>
@@ -116,8 +116,8 @@ const { work } = Astro.props;
     <div class="mx-auto grid max-w-5xl gap-12 px-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
       <div>
         <p class="fade-up text-xs font-semibold tracking-[0.22em] text-sepia-300">READ IN KOTORI</p>
-        <h2 id="kotori-reading-heading" class="fade-up mt-4 font-koburi text-4xl md:text-5xl">Kotoriで読む</h2>
-        <p class="fade-up mt-7 max-w-2xl text-lg leading-9 text-sepia-100">Kotoriなら、『こころ』を縦書きで、数ページずつ読み進められます。広告のない静かな画面から、長い作品を自分の速度で。</p>
+        <h2 id="kotori-reading-heading" class="fade-up mt-4 font-koburi text-4xl md:text-5xl">コトリで読む</h2>
+        <p class="fade-up mt-7 max-w-2xl text-lg leading-9 text-sepia-100">コトリなら、『こころ』を美しい縦書きで数ページずつ読み進められます。広告のない静かな空間で、作品に没入してみませんか。</p>
       </div>
       <div class="fade-up md:pb-1"><AppStoreBadge variant="light" /></div>
     </div>
@@ -131,7 +131,7 @@ const { work } = Astro.props;
           <h2 id="related-heading" class="fade-up mt-4 font-koburi text-4xl leading-tight text-sepia-900">夏目漱石を<br />続けて読むなら</h2>
         </div>
         <div>
-          <p class="fade-up max-w-2xl leading-8 text-sepia-700">はじめて夏目漱石を読む順番としては、『坊っちゃん』の次に『こころ』を置く案内があります。作品ページは順次公開します。</p>
+          <p class="fade-up max-w-2xl leading-8 text-sepia-700">はじめて夏目漱石を読む順番としては、『坊っちゃん』の次に『こころ』を読むのがおすすめです。</p>
           <ul class="mt-8 border-t border-sepia-300">
             {work.relatedWorks.map((related) => (
               <li class="fade-up flex items-baseline justify-between gap-5 border-b border-sepia-200 py-5">
