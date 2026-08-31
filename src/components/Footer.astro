@@ -41,6 +41,11 @@ const t = useTranslations(lang);
 
       <!-- Right: Navigation -->
       <nav class="flex flex-col items-center md:items-end gap-2 text-sm">
+        {lang === 'ja' && (
+          <a href="/works/" class="text-sepia-700 transition-colors hover:text-sepia-900">
+            {t('footer.works')}
+          </a>
+        )}
         <a href={getLocalePath(lang, '/weekly/')} class="text-sepia-700 transition-colors hover:text-sepia-900">
           {t('footer.weekly')}
         </a>

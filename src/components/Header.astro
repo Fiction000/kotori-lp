@@ -28,6 +28,11 @@ const altPath = altLang === 'ja'
       <a href={getLocalePath(lang, '/#features')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
         {t('nav.features')}
       </a>
+      {lang === 'ja' && (
+        <a href="/works/" class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
+          {t('nav.works')}
+        </a>
+      )}
       <a href={getLocalePath(lang, '/weekly/')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
         {t('nav.weekly')}
       </a>
@@ -70,6 +75,11 @@ const altPath = altLang === 'ja'
       <a href={getLocalePath(lang, '/#features')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
         {t('nav.features')}
       </a>
+      {lang === 'ja' && (
+        <a href="/works/" class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
+          {t('nav.works')}
+        </a>
+      )}
       <a href={getLocalePath(lang, '/weekly/')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
         {t('nav.weekly')}
       </a>

@@ -18,6 +18,7 @@ export const ui = {
 
     // Nav
     'nav.features': '機能',
+    'nav.works': '作品案内',
     'nav.weekly': '今週の1冊',
     'nav.changelog': '更新履歴',
     'nav.privacy': 'プライバシーポリシー',
@@ -82,6 +83,7 @@ export const ui = {
     'screenshots.title': 'スクリーンショット',
 
     // Footer
+    'footer.works': '作品案内',
     'footer.weekly': '今週の1冊',
     'footer.changelog': '更新履歴',
     'footer.privacy': 'プライバシーポリシー',
@@ -164,6 +166,7 @@ export const ui = {
 
     // Nav
     'nav.features': 'Features',
+    'nav.works': 'Work Guides',
     'nav.weekly': "This Week's Pick",
     'nav.changelog': 'Changelog',
     'nav.privacy': 'Privacy Policy',
@@ -228,6 +231,7 @@ export const ui = {
     'screenshots.title': 'Screenshots',
 
     // Footer
+    'footer.works': 'Work Guides',
     'footer.weekly': "This Week's Pick",
     'footer.changelog': 'Changelog',
     'footer.privacy': 'Privacy Policy',
