@@ -112,14 +112,37 @@ const { work } = Astro.props;
     </div>
   </section>
 
-  <section class="bg-kotori-dark py-20 text-sepia-50 md:py-28" aria-labelledby="kotori-reading-heading">
-    <div class="mx-auto grid max-w-5xl gap-12 px-6 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-      <div>
+  <section class="work-reading-cta overflow-hidden bg-kotori-dark text-sepia-50" aria-labelledby="kotori-reading-heading">
+    <div class="mx-auto grid max-w-5xl gap-14 px-6 py-20 md:grid-cols-[minmax(0,1fr)_minmax(15rem,0.62fr)] md:items-center md:gap-16 md:py-24">
+      <div class="relative z-10">
         <p class="fade-up text-xs font-semibold tracking-[0.22em] text-sepia-300">READ IN KOTORI</p>
-        <h2 id="kotori-reading-heading" class="fade-up mt-4 font-koburi text-4xl md:text-5xl">コトリで読む</h2>
-        <p class="fade-up mt-7 max-w-2xl text-lg leading-9 text-sepia-100">コトリなら、『こころ』を美しい縦書きで数ページずつ読み進められます。広告のない静かな空間で、作品に没入してみませんか。</p>
+        <h2 id="kotori-reading-heading" class="fade-up mt-4 max-w-xl font-koburi text-4xl leading-tight md:text-5xl">
+          『{work.title}』を、縦書きで。
+        </h2>
+        <p class="fade-up mt-7 max-w-xl text-lg leading-9 text-sepia-100">広告も登録もなく、数ページずつ自分のペースで読み進められます。</p>
+
+        <ul class="fade-up mt-8 flex flex-wrap text-sm font-semibold text-sepia-200" aria-label="コトリの特徴">
+          <li class="mr-5 border-r border-sepia-500/60 pr-5">無料</li>
+          <li class="mr-5 border-r border-sepia-500/60 pr-5">広告なし</li>
+          <li>オフライン対応</li>
+        </ul>
+
+        <div class="fade-up mt-9">
+          <AppStoreBadge variant="light" />
+        </div>
       </div>
-      <div class="fade-up md:pb-1"><AppStoreBadge variant="light" /></div>
+
+      <figure class="fade-up work-reading-cta__preview relative mx-auto w-full max-w-sm md:mx-0">
+        <div class="absolute -inset-3 border border-sepia-400/25" aria-hidden="true"></div>
+        <img
+          src="/screenshots/screenshot-1-800-v1.webp"
+          alt="コトリの縦書き読書画面"
+          width="800"
+          height="1739"
+          loading="lazy"
+          class="relative aspect-[4/5] w-full bg-sepia-50 object-cover object-top"
+        />
+      </figure>
     </div>
   </section>
 
@@ -181,12 +204,26 @@ const { work } = Astro.props;
     user-select: none;
   }
 
+  .work-reading-cta {
+    background:
+      radial-gradient(circle at 86% 18%, rgb(232 213 176 / 0.12), transparent 30%),
+      var(--color-kotori-dark);
+  }
+
+  .work-reading-cta__preview {
+    transform: rotate(1.25deg);
+  }
+
   @media (max-width: 767px) {
     .work-hero__title {
       right: -0.6rem;
       top: 5rem;
       font-size: 7rem;
       opacity: 0.7;
+    }
+
+    .work-reading-cta__preview {
+      transform: none;
     }
   }
 </style>
