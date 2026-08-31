@@ -18,33 +18,27 @@ const altPath = altLang === 'ja'
 ---
 
 <header class="sticky top-0 z-50 bg-kotori-warm/80 backdrop-blur-md border-b border-sepia-200/50">
-  <nav class="mx-auto max-w-7xl flex items-center justify-between px-6 py-4">
+  <nav aria-label={t('nav.primaryLabel')} class="mx-auto max-w-7xl flex items-center justify-between px-6 py-4">
     <a href={getLocalePath(lang, '/')} class="flex min-h-11 items-center gap-2 rounded-lg font-bold text-lg text-sepia-800">
       <img src="/app-icon-288-v1.webp" alt="" width="288" height="288" class="w-8 h-8 rounded-lg" />
       <span class="font-koburi">{t('brand.name')}</span>
     </a>
 
-    <div class="flex items-center gap-6 text-sm">
-      <a href={getLocalePath(lang, '/#features')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
-        {t('nav.features')}
-      </a>
-      {lang === 'ja' && (
-        <a href="/works/" class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
-          {t('nav.works')}
+    <div class="flex items-center gap-3 text-sm">
+      <div class="hidden items-center gap-1 lg:flex">
+        {lang === 'ja' && (
+          <a href="/works/" class="flex min-h-11 items-center rounded-full px-4 text-sepia-700 transition-colors hover:bg-sepia-100 hover:text-sepia-900">
+            {t('nav.works')}
+          </a>
+        )}
+        <a href={getLocalePath(lang, '/weekly/')} class="flex min-h-11 items-center rounded-full px-4 text-sepia-700 transition-colors hover:bg-sepia-100 hover:text-sepia-900">
+          {t('nav.weekly')}
         </a>
-      )}
-      <a href={getLocalePath(lang, '/weekly/')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
-        {t('nav.weekly')}
-      </a>
-      <a href={getLocalePath(lang, '/changelog')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
-        {t('nav.changelog')}
-      </a>
-      <a href={getLocalePath(lang, '/privacy')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
-        {t('nav.privacy')}
-      </a>
-      <a href={getLocalePath(lang, '/support')} class="hidden text-sepia-700 transition-colors hover:text-sepia-900 lg:block">
-        {t('nav.support')}
-      </a>
+        <a href={getLocalePath(lang, '/#features')} class="flex min-h-11 items-center rounded-full px-4 text-sepia-700 transition-colors hover:bg-sepia-100 hover:text-sepia-900">
+          {t('nav.features')}
+        </a>
+      </div>
+      {showLanguageSwitcher && <span class="hidden h-5 w-px bg-sepia-200 lg:block" aria-hidden="true"></span>}
       {showLanguageSwitcher && (
         <a
           href={altPath}
@@ -71,28 +65,37 @@ const altPath = altLang === 'ja'
 
   <!-- Mobile menu -->
   <div id="mobile-menu" class="hidden lg:hidden border-t border-sepia-200/50 bg-kotori-warm/95 backdrop-blur-md">
-    <div class="px-6 py-4 flex flex-col gap-3">
-      <a href={getLocalePath(lang, '/#features')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
-        {t('nav.features')}
-      </a>
-      {lang === 'ja' && (
-        <a href="/works/" class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
-          {t('nav.works')}
+    <nav aria-label={t('nav.mobileLabel')} class="mx-auto grid max-w-7xl gap-6 px-6 py-6 sm:grid-cols-2">
+      <section aria-labelledby="mobile-reading-heading">
+        <h2 id="mobile-reading-heading" class="mb-2 text-[0.65rem] font-semibold tracking-[0.2em] text-sepia-500 uppercase">
+          {t('nav.readingGroup')}
+        </h2>
+        <ul>
+          {lang === 'ja' && (
+            <li><a href="/works/" class="flex min-h-11 items-center rounded-lg text-sepia-800 transition-colors hover:text-sepia-900">{t('nav.works')}</a></li>
+          )}
+          <li><a href={getLocalePath(lang, '/weekly/')} class="flex min-h-11 items-center rounded-lg text-sepia-800 transition-colors hover:text-sepia-900">{t('nav.weekly')}</a></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="mobile-about-heading">
+        <h2 id="mobile-about-heading" class="mb-2 text-[0.65rem] font-semibold tracking-[0.2em] text-sepia-500 uppercase">
+          {t('nav.aboutGroup')}
+        </h2>
+        <ul>
+          <li><a href={getLocalePath(lang, '/#features')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">{t('nav.features')}</a></li>
+          <li><a href={getLocalePath(lang, '/changelog')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">{t('nav.changelog')}</a></li>
+          <li><a href={getLocalePath(lang, '/support')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">{t('nav.support')}</a></li>
+        </ul>
+      </section>
+
+      <section aria-labelledby="mobile-policy-heading" class="sm:col-span-2">
+        <h2 id="mobile-policy-heading" class="sr-only">{t('nav.policyGroup')}</h2>
+        <a href={getLocalePath(lang, '/privacy')} class="inline-flex min-h-11 items-center text-xs text-sepia-600 transition-colors hover:text-sepia-900">
+          {t('nav.privacy')}
         </a>
-      )}
-      <a href={getLocalePath(lang, '/weekly/')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
-        {t('nav.weekly')}
-      </a>
-      <a href={getLocalePath(lang, '/changelog')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
-        {t('nav.changelog')}
-      </a>
-      <a href={getLocalePath(lang, '/privacy')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
-        {t('nav.privacy')}
-      </a>
-      <a href={getLocalePath(lang, '/support')} class="flex min-h-11 items-center rounded-lg text-sepia-700 transition-colors hover:text-sepia-900">
-        {t('nav.support')}
-      </a>
-    </div>
+      </section>
+    </nav>
   </div>
 </header>
 
@@ -112,7 +115,11 @@ const altPath = altLang === 'ja'
   }
 
   btn?.addEventListener('click', () => {
-    setMenuOpen(menu?.classList.contains('hidden') ?? false);
+    const open = menu?.classList.contains('hidden') ?? false;
+    setMenuOpen(open);
+    if (open) {
+      requestAnimationFrame(() => menu?.querySelector<HTMLElement>('a')?.focus());
+    }
   });
 
   menu?.querySelectorAll('a').forEach((link) => {

@@ -24,6 +24,11 @@ export const ui = {
     'nav.privacy': 'プライバシーポリシー',
     'nav.support': 'サポート',
     'nav.menu': 'メニュー',
+    'nav.primaryLabel': '主要メニュー',
+    'nav.mobileLabel': 'モバイルメニュー',
+    'nav.readingGroup': '読む',
+    'nav.aboutGroup': 'コトリ',
+    'nav.policyGroup': 'ポリシー',
 
     // Hero
     'hero.eyebrow': '青空文庫を、今日の読書へ',
@@ -172,6 +177,11 @@ export const ui = {
     'nav.privacy': 'Privacy Policy',
     'nav.support': 'Support',
     'nav.menu': 'Menu',
+    'nav.primaryLabel': 'Primary navigation',
+    'nav.mobileLabel': 'Mobile navigation',
+    'nav.readingGroup': 'Discover',
+    'nav.aboutGroup': 'Kotori',
+    'nav.policyGroup': 'Policy',
 
     // Hero
     'hero.eyebrow': 'From Aozora Bunko to today’s reading',
