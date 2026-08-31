@@ -37,6 +37,16 @@ export type EditorialManifest = {
 
 export const editorialManifest = manifestData as EditorialManifest;
 
+const permanentWorkPaths: Partial<Record<string, string>> = {
+  kokoro: '/works/000773/kokoro/',
+};
+
+export function editorialDetailPath(id: string, locale: EditorialLocale): string {
+  const permanentPath = permanentWorkPaths[id];
+  if (locale === 'ja' && permanentPath) return permanentPath;
+  return `${locale === 'en' ? '/en' : ''}/weekly/${id}/`;
+}
+
 export function readyPicks(manifest = editorialManifest): EditorialPick[] {
   const pickByID = new Map(manifest.picks.map((pick) => [pick.id, pick]));
   return manifest.rotation.pickIDs.flatMap((id) => {

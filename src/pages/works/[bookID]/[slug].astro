@@ -1,0 +1,76 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Header from '../../../components/Header.astro';
+import Footer from '../../../components/Footer.astro';
+import WorkPageDetail from '../../../components/WorkPageDetail.astro';
+import { readyWorkPages, workPagePath, type WorkPage } from '../../../data/work-pages';
+
+export function getStaticPaths() {
+  return readyWorkPages().map((work) => ({
+    params: { bookID: work.bookID, slug: work.slug },
+    props: { work },
+  }));
+}
+
+interface Props {
+  work: WorkPage;
+}
+
+const { work } = Astro.props;
+const canonicalURL = new URL(workPagePath(work), Astro.site).toString();
+const worksURL = new URL('/works/', Astro.site).toString();
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Book',
+      '@id': `${canonicalURL}#book`,
+      url: canonicalURL,
+      name: work.title,
+      alternateName: work.aliases,
+      inLanguage: 'ja',
+      isAccessibleForFree: true,
+      author: {
+        '@type': 'Person',
+        name: work.author,
+        identifier: work.authorAozoraID,
+      },
+      identifier: work.bookID,
+      sameAs: [work.sources.cardURL, work.sources.textURL],
+      image: new URL(work.image, Astro.site).toString(),
+      description: work.seo.description,
+    },
+    {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'ホーム', item: new URL('/', Astro.site).toString() },
+        { '@type': 'ListItem', position: 2, name: '作品案内', item: worksURL },
+        { '@type': 'ListItem', position: 3, name: work.title, item: canonicalURL },
+      ],
+    },
+    {
+      '@type': 'FAQPage',
+      mainEntity: work.faq.map((item) => ({
+        '@type': 'Question',
+        name: item.question,
+        acceptedAnswer: { '@type': 'Answer', text: item.answer },
+      })),
+    },
+  ],
+};
+---
+
+<Layout
+  title={work.seo.title}
+  description={work.seo.description}
+  socialTitle={work.seo.socialTitle}
+  socialDescription={work.seo.socialDescription}
+  alternateLocales={['ja']}
+  structuredData={structuredData}
+  ogType="book"
+  ogImage={work.image}
+>
+  <Header showLanguageSwitcher={false} />
+  <main><WorkPageDetail work={work} /></main>
+  <Footer />
+</Layout>

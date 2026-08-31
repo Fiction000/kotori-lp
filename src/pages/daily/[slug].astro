@@ -2,7 +2,9 @@
 import { readyPicks } from '../../data/editorial';
 
 export function getStaticPaths() {
-  return readyPicks().map((pick) => ({ params: { slug: pick.id }, props: { pick } }));
+  return readyPicks()
+    .filter((pick) => pick.id !== 'kokoro')
+    .map((pick) => ({ params: { slug: pick.id }, props: { pick } }));
 }
 
 const { pick } = Astro.props;

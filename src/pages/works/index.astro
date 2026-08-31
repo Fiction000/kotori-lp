@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { readyWorkPages, workPagePath } from '../../data/work-pages';
+
+const works = readyWorkPages();
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'コトリの青空文庫 作品案内',
+  itemListElement: works.map((work, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: work.title,
+    url: new URL(workPagePath(work), Astro.site).toString(),
+  })),
+};
+---
+
+<Layout
+  title="青空文庫の作品案内｜コトリ"
+  description="青空文庫の名作を、あらすじと読みどころから紹介します。コトリおすすめの作品を案内ご案内します。"
+  alternateLocales={['ja']}
+  structuredData={structuredData}
+>
+  <Header showLanguageSwitcher={false} />
+  <main>
+    <section class="relative overflow-hidden border-b border-sepia-200/70 py-24 md:py-32">
+      <div class="absolute right-[8%] top-14 hidden select-none font-koburi text-[7rem] leading-loose text-sepia-100 writing-vertical md:block" aria-hidden="true">作品案内</div>
+      <div class="relative mx-auto max-w-5xl px-6">
+        <p class="fade-up text-xs font-semibold tracking-[0.22em] text-sepia-600">KOTORI WORKS</p>
+        <h1 class="fade-up mt-5 font-koburi text-5xl leading-tight text-sepia-900 md:text-7xl">あらすじから<br />名作に出会う。</h1>
+        <p class="fade-up mt-7 max-w-2xl text-lg leading-9 text-sepia-700">青空文庫の名作を、あらすじと読みどころから紹介します。</p>
+      </div>
+    </section>
+
+    <section class="py-20 md:py-28" aria-labelledby="works-list-heading">
+      <div class="mx-auto max-w-5xl px-6">
+        <h2 id="works-list-heading" class="sr-only">公開中の作品案内</h2>
+        <div class="border-t border-sepia-300">
+          {works.map((work, index) => (
+            <a href={workPagePath(work)} class="fade-up group grid gap-6 border-b border-sepia-300 py-8 md:grid-cols-[4rem_minmax(0,0.8fr)_minmax(15rem,1.2fr)_auto] md:items-center">
+              <span class="font-koburi text-2xl text-sepia-700">{String(index + 1).padStart(2, '0')}</span>
+              <img src={work.image} alt="" width="1536" height="1024" class="aspect-[3/2] w-full max-w-48 object-cover" />
+              <span>
+                <span class="block font-koburi text-3xl text-sepia-900 group-hover:text-kotori-green">{work.titleDisplay}</span>
+                <span class="mt-2 block text-sm text-sepia-600">{work.author}</span>
+              </span>
+              <span class="text-sm text-sepia-600 group-hover:text-sepia-900">作品案内を読む →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .writing-vertical {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+  }
+</style>

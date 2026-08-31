@@ -34,13 +34,18 @@ const t = useTranslations(lang);
 
       <!-- Center: Vertical text accent -->
       <div class="hidden md:block select-none" aria-hidden="true">
-        <span class="font-koburi text-kotori-dark/25 writing-vertical text-lg tracking-[0.3em] leading-relaxed">
+        <span class="font-koburi text-sepia-600 writing-vertical text-lg tracking-[0.3em] leading-relaxed">
           {lang === 'ja' ? '読書は心の旅である' : '読書は心の旅である'}
         </span>
       </div>
 
       <!-- Right: Navigation -->
       <nav class="flex flex-col items-center md:items-end gap-2 text-sm">
+        {lang === 'ja' && (
+          <a href="/works/" class="text-sepia-700 transition-colors hover:text-sepia-900">
+            {t('footer.works')}
+          </a>
+        )}
         <a href={getLocalePath(lang, '/weekly/')} class="text-sepia-700 transition-colors hover:text-sepia-900">
           {t('footer.weekly')}
         </a>

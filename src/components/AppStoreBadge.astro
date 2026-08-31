@@ -1,8 +1,16 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
+interface Props {
+  variant?: 'dark' | 'light';
+}
+
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+const variant = Astro.props.variant ?? 'dark';
+const variantClass = variant === 'light'
+  ? 'border border-sepia-200 bg-sepia-50 text-kotori-dark hover:bg-white'
+  : 'bg-kotori-dark text-white hover:bg-sepia-900';
 
 const appStoreUrl = 'https://apps.apple.com/jp/app/%E3%82%B3%E3%83%88%E3%83%AA-%E3%83%A2%E3%83%80%E3%83%B3%E9%9D%92%E7%A9%BA%E6%96%87%E5%BA%AB%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC/id6759166859';
 ---
@@ -11,7 +19,10 @@ const appStoreUrl = 'https://apps.apple.com/jp/app/%E3%82%B3%E3%83%88%E3%83%AA-%
   href={appStoreUrl}
   target="_blank"
   rel="noopener noreferrer"
-  class="inline-flex min-h-11 items-center gap-3 rounded-xl bg-kotori-dark px-6 py-3 text-white shadow-md transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:bg-sepia-900 hover:shadow-lg active:translate-y-0"
+  class:list={[
+    'inline-flex min-h-11 items-center gap-3 rounded-xl px-6 py-3 shadow-md transition-[background-color,transform,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0',
+    variantClass,
+  ]}
   aria-label={t('hero.download')}
 >
   <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">

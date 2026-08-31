@@ -1,13 +1,13 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { editorialManifest, localizedPick, weeklyPick, type EditorialLocale } from '../data/editorial';
+import { editorialDetailPath, editorialManifest, localizedPick, weeklyPick, type EditorialLocale } from '../data/editorial';
 import AppStoreBadge from './AppStoreBadge.astro';
 import AppStoreRating from './AppStoreRating.astro';
 
 const lang = getLangFromUrl(Astro.url) as EditorialLocale;
 const t = useTranslations(lang);
 const pick = localizedPick(weeklyPick(), lang);
-const weeklyPath = `${lang === 'en' ? '/en' : ''}/weekly/${pick.id}/`;
+const weeklyPath = editorialDetailPath(pick.id, lang);
 const clientPicks = editorialManifest.rotation.pickIDs
   .map((id) => editorialManifest.picks.find((candidate) => candidate.id === id))
   .filter((candidate): candidate is NonNullable<typeof candidate> => candidate?.status === 'ready')
@@ -111,7 +111,11 @@ const rotation = editorialManifest.rotation;
   const title = document.getElementById('weekly-hero-title');
   const author = document.getElementById('weekly-hero-author');
   const reason = document.getElementById('weekly-hero-reason');
-  if (card instanceof HTMLAnchorElement) card.href = `${lang === 'en' ? '/en' : ''}/weekly/${current.id}/`;
+  if (card instanceof HTMLAnchorElement) {
+    card.href = lang === 'ja' && current.id === 'kokoro'
+      ? '/works/000773/kokoro/'
+      : `${lang === 'en' ? '/en' : ''}/weekly/${current.id}/`;
+  }
   if (title) title.textContent = current.title;
   if (author) author.textContent = current.author;
   if (reason) reason.textContent = current.whyNow;

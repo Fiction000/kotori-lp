@@ -5,6 +5,13 @@ import { getLangFromUrl, useTranslations } from '../i18n/utils';
 interface Props {
   title?: string;
   description?: string;
+  alternateLocales?: Array<'ja' | 'en'>;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  ogType?: 'website' | 'article' | 'book';
+  ogImage?: string;
+  socialTitle?: string;
+  socialDescription?: string;
+  robots?: string;
 }
 
 const lang = getLangFromUrl(Astro.url);
@@ -12,6 +19,12 @@ const t = useTranslations(lang);
 
 const title = Astro.props.title || t('meta.title');
 const description = Astro.props.description || t('meta.description');
+const alternateLocales = Astro.props.alternateLocales ?? ['ja', 'en'];
+const structuredData = Astro.props.structuredData;
+const ogType = Astro.props.ogType ?? 'website';
+const ogImage = new URL(Astro.props.ogImage ?? '/app-icon.png', Astro.site);
+const socialTitle = Astro.props.socialTitle ?? title;
+const socialDescription = Astro.props.socialDescription ?? description;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const basePath = lang === 'en'
   ? (Astro.url.pathname.replace(/^\/en/, '') || '/')
@@ -30,26 +43,27 @@ const enURL = new URL(`/en${basePath === '/' ? '/' : basePath}`, Astro.site);
     <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/app-icon-180.png" />
     <link rel="canonical" href={canonicalURL} />
-    <link rel="alternate" hreflang="ja" href={jaURL} />
-    <link rel="alternate" hreflang="en" href={enURL} />
-    <link rel="alternate" hreflang="x-default" href={jaURL} />
+    {alternateLocales.includes('ja') && <link rel="alternate" hreflang="ja" href={jaURL} />}
+    {alternateLocales.includes('en') && <link rel="alternate" hreflang="en" href={enURL} />}
+    {alternateLocales.includes('ja') && <link rel="alternate" hreflang="x-default" href={jaURL} />}
 
     <title>{title}</title>
     <meta name="description" content={description} />
+    {Astro.props.robots && <meta name="robots" content={Astro.props.robots} />}
 
     <!-- OGP -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={socialTitle} />
+    <meta property="og:description" content={socialDescription} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={new URL('/app-icon.png', Astro.site)} />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:locale" content={lang === 'ja' ? 'ja_JP' : 'en_US'} />
 
     <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL('/app-icon.png', Astro.site)} />
+    <meta name="twitter:card" content={Astro.props.ogImage ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:title" content={socialTitle} />
+    <meta name="twitter:description" content={socialDescription} />
+    <meta name="twitter:image" content={ogImage} />
 
     <!-- Structured Data -->
     <script
@@ -71,6 +85,12 @@ const enURL = new URL(`/en${basePath === '/' ? '/' : basePath}`, Astro.site);
         },
       })}
     />
+    {structuredData && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(structuredData)}
+      />
+    )}
 
     <link rel="preload" href="/fonts/GenEiKoburiMin6-R.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="generator" content={Astro.generator} />
