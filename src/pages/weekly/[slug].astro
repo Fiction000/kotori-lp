@@ -4,14 +4,14 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import WeeklyPickDetail from '../../components/WeeklyPickDetail.astro';
 import { localizedPick, readyPicks } from '../../data/editorial';
+import { workPagePathForWeeklyID } from '../../data/work-pages';
 
-export function getStaticPaths() {
-  return readyPicks()
-    .filter((pick) => pick.id !== 'kokoro')
-    .map((pick) => ({ params: { slug: pick.id }, props: { pick } }));
-}
+export const prerender = false;
 
-const { pick } = Astro.props;
+const pick = readyPicks().find((candidate) => candidate.id === Astro.params.slug);
+if (!pick) return new Response(null, { status: 404 });
+const permanentPath = workPagePathForWeeklyID(pick.id);
+if (permanentPath) return Astro.redirect(permanentPath, 308);
 const content = localizedPick(pick, 'ja');
 ---
 

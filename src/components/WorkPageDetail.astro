@@ -1,12 +1,16 @@
 ---
 import AppStoreBadge from './AppStoreBadge.astro';
-import type { WorkPage } from '../data/work-pages';
+import { workPagePathForBookID, type WorkPage } from '../data/work-pages';
 
 interface Props {
   work: WorkPage;
 }
 
 const { work } = Astro.props;
+const relatedWorks = work.relatedWorks.map((related) => ({
+  ...related,
+  path: workPagePathForBookID(related.bookID),
+}));
 ---
 
 <article class="work-page">
@@ -99,10 +103,10 @@ const { work } = Astro.props;
 
       <aside class="fade-up self-start border-l border-sepia-300 pl-7 lg:mt-20">
         <p class="font-koburi text-2xl text-sepia-900">青空文庫で読む</p>
-        <p class="mt-5 leading-8 text-sepia-700">『こころ』の公開テキストは青空文庫で確認できます。このページには全文を掲載していません。</p>
+        <p class="mt-5 leading-8 text-sepia-700">『{work.title}』の公開テキストは青空文庫で確認できます。このページには全文を掲載していません。</p>
         <div class="mt-8 flex flex-col items-start gap-4 text-sm">
           <a href={work.sources.textURL} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center border-b border-sepia-700 font-semibold text-sepia-800 hover:text-kotori-green">
-            青空文庫で『こころ』を読む ↗
+            青空文庫で『{work.title}』を読む ↗
           </a>
           <a href={work.sources.cardURL} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-11 items-center text-sepia-600 underline decoration-sepia-300 underline-offset-4 hover:text-sepia-900">
             作品カードと底本情報 ↗
@@ -151,14 +155,18 @@ const { work } = Astro.props;
       <div class="grid gap-10 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
         <div>
           <p class="fade-up text-xs font-semibold tracking-[0.22em] text-kotori-green">READ NEXT</p>
-          <h2 id="related-heading" class="fade-up mt-4 font-koburi text-4xl leading-tight text-sepia-900">夏目漱石を<br />続けて読むなら</h2>
+          <h2 id="related-heading" class="fade-up mt-4 font-koburi text-4xl leading-tight text-sepia-900">{work.author}を<br />続けて読むなら</h2>
         </div>
         <div>
-          <p class="fade-up max-w-2xl leading-8 text-sepia-700">はじめて夏目漱石を読む順番としては、『坊っちゃん』の次に『こころ』を読むのがおすすめです。</p>
+          <p class="fade-up max-w-2xl leading-8 text-sepia-700">{work.relatedIntro}</p>
           <ul class="mt-8 border-t border-sepia-300">
-            {work.relatedWorks.map((related) => (
+            {relatedWorks.map((related) => (
               <li class="fade-up flex items-baseline justify-between gap-5 border-b border-sepia-200 py-5">
-                <span class="font-koburi text-2xl text-sepia-900">『{related.title}』</span>
+                {related.path ? (
+                  <a href={related.path} class="font-koburi text-2xl text-sepia-900 underline decoration-sepia-300 underline-offset-8 hover:text-kotori-green">『{related.title}』</a>
+                ) : (
+                  <span class="font-koburi text-2xl text-sepia-900">『{related.title}』</span>
+                )}
                 <span class="text-xs tracking-[0.12em] text-sepia-700">{related.bookID}</span>
               </li>
             ))}
