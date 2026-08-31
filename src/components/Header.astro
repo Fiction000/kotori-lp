@@ -38,7 +38,10 @@ const altPath = altLang === 'ja'
           {t('nav.features')}
         </a>
       </div>
-      {showLanguageSwitcher && <span class="hidden h-5 w-px bg-sepia-200 lg:block" aria-hidden="true"></span>}
+      <span class="hidden h-5 w-px bg-sepia-200 lg:block" aria-hidden="true"></span>
+      <a href={getLocalePath(lang, '/support')} class="hidden min-h-11 items-center rounded-full px-3 text-sepia-600 transition-colors hover:text-sepia-900 lg:flex">
+        {t('nav.support')}
+      </a>
       {showLanguageSwitcher && (
         <a
           href={altPath}
