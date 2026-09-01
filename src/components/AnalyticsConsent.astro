@@ -1,0 +1,94 @@
+---
+import { analyticsEnabled } from '../lib/analytics';
+import { getLangFromUrl, getLocalePath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const copy = lang === 'ja'
+  ? {
+      label: 'アクセス解析の設定',
+      message: 'サイトの利用状況を把握し、改善に役立てるためGoogle Analyticsを使用します。お問い合わせ内容は送信せず、同意するまで分析データは送信しません。',
+      privacy: '詳しく見る',
+      decline: '拒否する',
+      accept: '同意する',
+    }
+  : {
+      label: 'Analytics settings',
+      message: 'We use Google Analytics to understand site usage and improve Kotori. Contact-form contents are not sent, and no analytics data is sent until you consent.',
+      privacy: 'Learn more',
+      decline: 'Decline',
+      accept: 'Accept',
+    };
+---
+
+{analyticsEnabled && (
+  <aside
+    id="analytics-consent"
+    class="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-3xl rounded-2xl border border-sepia-200 bg-kotori-warm/95 p-5 shadow-xl backdrop-blur md:flex md:items-center md:gap-6 md:p-6"
+    role="dialog"
+    aria-label={copy.label}
+    hidden
+  >
+    <p class="text-sm leading-6 text-sepia-800 md:flex-1">
+      {copy.message}
+      <a href={getLocalePath(lang, '/privacy')} class="ml-1 underline decoration-sepia-400 underline-offset-4 hover:text-sepia-900">
+        {copy.privacy}
+      </a>
+    </p>
+    <div class="mt-4 flex gap-3 md:mt-0 md:shrink-0">
+      <button
+        type="button"
+        data-analytics-consent="denied"
+        class="min-h-11 rounded-lg border border-sepia-300 px-4 py-2 text-sm text-sepia-800 transition-colors hover:bg-white/70"
+      >
+        {copy.decline}
+      </button>
+      <button
+        type="button"
+        data-analytics-consent="granted"
+        class="min-h-11 rounded-lg bg-sepia-800 px-4 py-2 text-sm text-white transition-colors hover:bg-sepia-900"
+      >
+        {copy.accept}
+      </button>
+    </div>
+  </aside>
+
+  <script>
+    const consentPanel = document.getElementById('analytics-consent');
+    const analytics = window.kotoriAnalytics;
+
+    if (!analytics?.isAvailable()) {
+      document.querySelectorAll('[data-analytics-settings]').forEach((button) => {
+        button.setAttribute('hidden', '');
+      });
+    } else if (consentPanel) {
+      const showConsent = () => {
+        consentPanel.hidden = false;
+      };
+
+      if (!analytics.getChoice()) showConsent();
+
+      document.querySelectorAll('[data-analytics-settings]').forEach((button) => {
+        button.addEventListener('click', showConsent);
+      });
+
+      consentPanel.querySelectorAll('[data-analytics-consent]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const choice = button.getAttribute('data-analytics-consent');
+          if (choice === 'granted') {
+            analytics.grant();
+          } else if (choice === 'denied') {
+            const shouldReload = analytics.deny();
+            if (shouldReload) window.location.reload();
+          }
+          consentPanel.hidden = true;
+        });
+      });
+    }
+  </script>
+)}
+
+<style>
+  #analytics-consent[hidden] {
+    display: none !important;
+  }
+</style>
