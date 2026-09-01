@@ -41,3 +41,7 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Analytics
+
+GA4 is optional and enabled only in production builds with a valid `PUBLIC_GA_MEASUREMENT_ID`. See [ANALYTICS.md](./ANALYTICS.md) for the consent model, tracking plan, setup, and validation steps.

@@ -1,0 +1,110 @@
+---
+import { analyticsEnabled, gaMeasurementId } from '../lib/analytics';
+---
+
+{analyticsEnabled && gaMeasurementId && (
+  <script is:inline define:vars={{ measurementId: gaMeasurementId }}>
+    (() => {
+      const consentKey = 'kotori_analytics_consent';
+      const canonicalHosts = new Set(['www.kotori-aozora.app', 'kotori-aozora.app']);
+      const debugMode = new URLSearchParams(window.location.search).get('ga_debug') === '1';
+      const isAvailable = canonicalHosts.has(window.location.hostname) || debugMode;
+      let loaded = false;
+      let volatileChoice = null;
+
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () {
+        window.dataLayer.push(arguments);
+      };
+
+      const deniedConsent = {
+        analytics_storage: 'denied',
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+      };
+
+      window.gtag('consent', 'default', deniedConsent);
+      window.gtag('js', new Date());
+
+      function getChoice() {
+        try {
+          return window.localStorage.getItem(consentKey) ?? volatileChoice;
+        } catch {
+          return volatileChoice;
+        }
+      }
+
+      function setChoice(choice) {
+        volatileChoice = choice;
+        try {
+          window.localStorage.setItem(consentKey, choice);
+        } catch {
+          // The current page can still honor the choice when storage is unavailable.
+        }
+      }
+
+      function load() {
+        if (!isAvailable || loaded) return;
+        loaded = true;
+
+        window.gtag('consent', 'update', { analytics_storage: 'granted' });
+        window.gtag('config', measurementId, {
+          allow_google_signals: false,
+          allow_ad_personalization_signals: false,
+          debug_mode: debugMode,
+        });
+
+        const script = document.createElement('script');
+        script.id = 'ga4-script';
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(measurementId)}`;
+        document.head.append(script);
+      }
+
+      function clearAnalyticsCookies() {
+        const rootDomain = window.location.hostname.replace(/^www\./, '');
+        document.cookie.split(';').forEach((cookie) => {
+          const name = cookie.split('=')[0]?.trim();
+          if (!name || (name !== '_ga' && !name.startsWith('_ga_'))) return;
+
+          document.cookie = `${name}=; Max-Age=0; path=/; SameSite=Lax`;
+          document.cookie = `${name}=; Max-Age=0; path=/; domain=.${rootDomain}; SameSite=Lax`;
+        });
+      }
+
+      window.kotoriAnalytics = {
+        isAvailable: () => isAvailable,
+        getChoice,
+        grant() {
+          setChoice('granted');
+          load();
+        },
+        deny() {
+          const wasLoaded = loaded;
+          setChoice('denied');
+          window.gtag('consent', 'update', deniedConsent);
+          clearAnalyticsCookies();
+          return wasLoaded;
+        },
+      };
+
+      if (getChoice() === 'granted') load();
+
+      document.addEventListener('click', (event) => {
+        const origin = event.target;
+        if (!(origin instanceof Element)) return;
+
+        const link = origin.closest('[data-analytics-event]');
+        if (!(link instanceof HTMLAnchorElement)) return;
+        if (!loaded || getChoice() !== 'granted') return;
+
+        window.gtag('event', link.dataset.analyticsEvent, {
+          cta_location: link.dataset.analyticsLocation,
+          site_language: document.documentElement.lang,
+          link_url: link.href,
+        });
+      });
+    })();
+  </script>
+)}

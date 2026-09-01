@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import AnalyticsConsent from '../components/AnalyticsConsent.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 interface Props {
@@ -94,9 +96,11 @@ const enURL = new URL(`/en${basePath === '/' ? '/' : basePath}`, Astro.site);
 
     <link rel="preload" href="/fonts/GenEiKoburiMin6-R.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="generator" content={Astro.generator} />
+    <GoogleAnalytics />
   </head>
   <body class="bg-kotori-warm text-kotori-dark antialiased">
     <slot />
+    <AnalyticsConsent />
     <script>
       function startObserver() {
         const observer = new IntersectionObserver(
