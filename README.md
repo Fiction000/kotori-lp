@@ -45,3 +45,7 @@ Feel free to check [our documentation](https://docs.astro.build) or jump into ou
 ## Analytics
 
 GA4 is optional and enabled only in production builds with a valid `PUBLIC_GA_MEASUREMENT_ID`. See [ANALYTICS.md](./ANALYTICS.md) for the consent model, tracking plan, setup, and validation steps.
+
+## SEO deployment QA
+
+`npm run check:work-deployment` validates generated routes, static SEO artifacts, and sitemap inclusion. `/works/` is an SSR route: after a preview or production deployment, make an HTTP request to a filtered URL and confirm its canonical remains `/works/` and its robots value is `noindex,follow`. A local build cannot prove response metadata for a query-string request.

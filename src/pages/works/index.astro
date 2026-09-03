@@ -2,9 +2,29 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import WorkCardList from '../../components/WorkCardList.astro';
 import { readyWorkPages, workPagePath } from '../../data/work-pages';
+import {
+  hasActiveDiscoveryFilter,
+  authorNameForSlug,
+  editorialGenreLabels,
+  editorialGenres,
+  parseDiscoveryFilters,
+  publicationEraLabels,
+  publicationEras,
+  readyAuthorHubs,
+  readyCatalogWorks,
+  workPagesForSelector,
+} from '../../data/work-catalog';
 
-const works = readyWorkPages();
+export const prerender = false;
+
+const filters = parseDiscoveryFilters(Astro.url.searchParams);
+const hasActiveFilter = hasActiveDiscoveryFilter(filters);
+const works = hasActiveFilter ? workPagesForSelector(filters) : readyWorkPages();
+const readyAuthors = readyAuthorHubs();
+const catalogWorks = readyCatalogWorks();
+const authorSlugs = Array.from(new Set(catalogWorks.map((work) => work.authorSlug)));
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
@@ -23,6 +43,7 @@ const structuredData = {
   description="青空文庫の名作を、あらすじと読みどころから紹介します。コトリおすすめの作品をご案内します。"
   alternateLocales={['ja']}
   structuredData={structuredData}
+  robots={hasActiveFilter ? 'noindex,follow' : undefined}
 >
   <Header showLanguageSwitcher={false} />
   <main>
@@ -31,28 +52,43 @@ const structuredData = {
       <div class="relative mx-auto max-w-5xl px-6">
         <p class="fade-up text-xs font-semibold tracking-[0.22em] text-sepia-600">KOTORI WORKS</p>
         <h1 class="fade-up mt-5 font-koburi text-5xl leading-tight text-sepia-900 md:text-7xl">あらすじから<br />名作に出会う。</h1>
-        <p class="fade-up mt-7 max-w-2xl text-lg leading-9 text-sepia-700">青空文庫の名作を、あらすじと読みどころから紹介します。</p>
+        <p class="fade-up mt-7 max-w-2xl text-lg leading-9 text-sepia-700">青空文庫の名作を、あらすじと読みどころから紹介します。ジャンルや発表時期、読む時間の目安から探せます。</p>
       </div>
     </section>
 
     <section class="py-20 md:py-28" aria-labelledby="works-list-heading">
       <div class="mx-auto max-w-5xl px-6">
         <h2 id="works-list-heading" class="sr-only">公開中の作品案内</h2>
-        <div class="border-t border-sepia-300">
-          {works.map((work, index) => (
-            <a href={workPagePath(work)} class="fade-up group grid gap-6 border-b border-sepia-300 py-8 md:grid-cols-[4rem_minmax(0,0.8fr)_minmax(15rem,1.2fr)_auto] md:items-center">
-              <span class="font-koburi text-2xl text-sepia-700">{String(index + 1).padStart(2, '0')}</span>
-              <img src={work.image} alt="" width="1536" height="1024" class="aspect-[3/2] w-full max-w-48 object-cover" />
-              <span>
-                <span class="block font-koburi text-3xl text-sepia-900 group-hover:text-kotori-green">{work.titleDisplay}</span>
-                <span class="mt-2 block text-sm text-sepia-600">{work.author}</span>
-              </span>
-              <span class="text-sm text-sepia-600 group-hover:text-sepia-900">作品案内を読む →</span>
-            </a>
-          ))}
-        </div>
+        <form method="get" action="/works/" class="fade-up mb-12 grid gap-4 border-y border-sepia-300 py-6 text-sm md:grid-cols-4 md:items-end" aria-label="作品を絞り込む">
+          <label class="grid gap-2 text-sepia-700">作者
+            <select name="author" class="border border-sepia-300 bg-kotori-warm px-3 py-2 text-sepia-900">
+              <option value="">すべて</option>
+              {authorSlugs.map((slug) => <option value={slug} selected={filters.author === slug}>{authorNameForSlug(slug)}</option>)}
+            </select>
+          </label>
+          <label class="grid gap-2 text-sepia-700">発表時期
+            <select name="era" class="border border-sepia-300 bg-kotori-warm px-3 py-2 text-sepia-900">
+              <option value="">すべて</option>{publicationEras.map((era) => <option value={era} selected={filters.publicationEra === era}>{publicationEraLabels[era]}</option>)}
+            </select>
+          </label>
+          <label class="grid gap-2 text-sepia-700">ジャンル
+            <select name="genre" class="border border-sepia-300 bg-kotori-warm px-3 py-2 text-sepia-900">
+              <option value="">すべて</option>{editorialGenres.map((genre) => <option value={genre} selected={filters.genre === genre}>{editorialGenreLabels[genre]}</option>)}
+            </select>
+          </label>
+          <label class="grid gap-2 text-sepia-700">読む時間の目安
+            <select name="maxMinutes" class="border border-sepia-300 bg-kotori-warm px-3 py-2 text-sepia-900">
+              <option value="">指定なし</option><option value="15" selected={filters.maxMinutes === 15}>15分以内</option><option value="30" selected={filters.maxMinutes === 30}>30分以内</option><option value="45" selected={filters.maxMinutes === 45}>45分以内</option><option value="60" selected={filters.maxMinutes === 60}>60分以内</option>
+            </select>
+          </label>
+          <div class="md:col-span-4 flex items-center gap-5"><button type="submit" class="border border-sepia-700 px-5 py-2 font-semibold text-sepia-800 hover:bg-sepia-100">絞り込む</button>{hasActiveFilter && <a href="/works/" class="text-sepia-700 underline decoration-sepia-300 underline-offset-4">条件を解除</a>}</div>
+        </form>
+        {hasActiveFilter && <p class="mb-7 text-sm leading-7 text-sepia-700">条件に合う作品案内は {works.length} 件です。気になる一作から、ゆっくり選んでみてください。</p>}
+        {works.length > 0 ? <WorkCardList works={works} /> : <p class="border-y border-sepia-300 py-10 leading-8 text-sepia-700">この条件に合う公開中の作品案内は、まだありません。</p>}
       </div>
     </section>
+
+    {readyAuthors.length > 0 && <section class="border-t border-sepia-200/70 bg-sepia-50/55 py-20" aria-labelledby="authors-heading"><div class="mx-auto max-w-5xl px-6"><p class="text-xs font-semibold tracking-[0.22em] text-kotori-green">AUTHORS</p><h2 id="authors-heading" class="mt-4 font-koburi text-4xl text-sepia-900">作家から探す</h2><ul class="mt-9 border-t border-sepia-300">{readyAuthors.map((author) => <li class="border-b border-sepia-300 py-5"><a href={`/authors/${author.slug}/`} class="font-koburi text-2xl text-sepia-900 underline decoration-sepia-300 underline-offset-8 hover:text-kotori-green">{author.name}の作品案内</a></li>)}</ul></div></section>}
   </main>
   <Footer />
 </Layout>
