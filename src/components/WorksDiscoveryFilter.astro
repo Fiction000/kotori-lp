@@ -69,7 +69,7 @@ const readingTimes = [15, 30, 45, 60] as const;
             aria-autocomplete="list"
             aria-expanded="false"
             aria-controls="author-options"
-            aria-describedby="author-search-help"
+            aria-describedby="author-search-help author-search-error"
             class="author-search min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-base text-sepia-900 outline-none placeholder:text-sepia-600"
             data-author-search
           />
@@ -83,6 +83,7 @@ const readingTimes = [15, 30, 45, 60] as const;
             消す
           </button>
         </div>
+        <p id="author-search-error" class="mt-2 text-sm leading-6 text-sepia-700" role="status" hidden data-author-error></p>
         <input type="hidden" value={selectedAuthor?.slug ?? ''} data-author-value />
 
         <div
@@ -274,14 +275,21 @@ const readingTimes = [15, 30, 45, 60] as const;
     const valueInput = root.querySelector<HTMLInputElement>('[data-author-value]');
     const optionsPopup = root.querySelector<HTMLElement>('[data-author-popup]');
     const emptyMessage = root.querySelector<HTMLElement>('[data-author-empty]');
+    const errorMessage = root.querySelector<HTMLElement>('[data-author-error]');
     const clearButton = root.querySelector<HTMLButtonElement>('[data-author-clear]');
     const options = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-author-option]'));
-    if (!form || !search || !valueInput || !optionsPopup || !emptyMessage || !clearButton) return;
+    if (!form || !search || !valueInput || !optionsPopup || !emptyMessage || !errorMessage || !clearButton) return;
 
     valueInput.name = 'author';
     valueInput.disabled = valueInput.value === '';
     let visibleOptions = options;
     let activeIndex = -1;
+
+    const clearAuthorError = () => {
+      errorMessage.hidden = true;
+      errorMessage.textContent = '';
+      search.removeAttribute('aria-invalid');
+    };
 
     const setActive = (index: number) => {
       options.forEach((option) => delete option.dataset.active);
@@ -320,6 +328,7 @@ const readingTimes = [15, 30, 45, 60] as const;
       valueInput.value = value;
       valueInput.disabled = value === '';
       clearButton.hidden = value === '';
+      clearAuthorError();
       options.forEach((candidate) => candidate.setAttribute('aria-selected', String(candidate === option)));
       setOpen(false);
       search.focus();
@@ -331,6 +340,7 @@ const readingTimes = [15, 30, 45, 60] as const;
     });
 
     search.addEventListener('input', () => {
+      clearAuthorError();
       valueInput.value = '';
       valueInput.disabled = true;
       clearButton.hidden = search.value === '';
@@ -367,6 +377,7 @@ const readingTimes = [15, 30, 45, 60] as const;
       valueInput.value = '';
       valueInput.disabled = true;
       clearButton.hidden = true;
+      clearAuthorError();
       options.forEach((option) => option.setAttribute('aria-selected', 'false'));
       filterOptions();
       setOpen(true);
@@ -377,14 +388,32 @@ const readingTimes = [15, 30, 45, 60] as const;
       if (event.target instanceof Node && !root.contains(event.target)) setOpen(false);
     });
 
-    form.addEventListener('submit', () => {
-      if (valueInput.disabled) {
+    form.addEventListener('submit', (event) => {
+      if (valueInput.disabled && normalize(search.value) !== '') {
         const exactMatch = options.find((option) => normalize(option.dataset.authorName ?? '') === normalize(search.value));
-        if (exactMatch) selectAuthor(exactMatch);
+        const authorMatch = exactMatch ?? (visibleOptions.length === 1 ? visibleOptions[0] : undefined);
+        if (authorMatch) {
+          selectAuthor(authorMatch);
+        } else {
+          event.preventDefault();
+          errorMessage.textContent = visibleOptions.length === 0
+            ? '該当する作家が見つかりません。別の名前を入力してください。'
+            : '作家が一人に絞れません。候補から選んでください。';
+          errorMessage.hidden = false;
+          search.setAttribute('aria-invalid', 'true');
+          search.focus();
+          setOpen(true);
+          if (visibleOptions.length > 0) setActive(0);
+          return;
+        }
       }
       form.querySelectorAll<HTMLInputElement>('input[type="radio"]:checked').forEach((input) => {
         if (input.value === '') input.disabled = true;
       });
+      if (Array.from(new FormData(form).values()).every((value) => String(value) === '')) {
+        event.preventDefault();
+        window.location.assign(form.action);
+      }
     });
   });
 </script>
