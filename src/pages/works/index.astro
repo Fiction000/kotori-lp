@@ -53,8 +53,10 @@ const structuredData = {
       <div class="mx-auto max-w-5xl px-6">
         <h2 id="works-list-heading" class="sr-only">公開中の作品案内</h2>
         <WorksDiscoveryFilter filters={filters} resultCount={works.length} />
-        {hasActiveFilter && <p class="mb-7 text-sm leading-7 text-sepia-700">条件に合う作品案内は {works.length} 件です。気になる一作から、ゆっくり選んでみてください。</p>}
-        {works.length > 0 ? <WorkCardList works={works} /> : <p class="border-y border-sepia-300 py-10 leading-8 text-sepia-700">この条件に合う公開中の作品案内は、まだありません。</p>}
+        <div data-works-results aria-live="polite">
+          {hasActiveFilter && <p class="mb-7 text-sm leading-7 text-sepia-700">条件に合う作品案内は {works.length} 件です。気になる一作から、ゆっくり選んでみてください。</p>}
+          {works.length > 0 ? <WorkCardList works={works} /> : <p class="border-y border-sepia-300 py-10 leading-8 text-sepia-700">この条件に合う公開中の作品案内は、まだありません。</p>}
+        </div>
       </div>
     </section>
 

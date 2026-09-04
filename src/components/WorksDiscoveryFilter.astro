@@ -40,13 +40,13 @@ const hasActiveFilter = hasActiveDiscoveryFilter(filters);
 const readingTimes = [15, 30, 45, 60] as const;
 ---
 
-<form id="works-filter" method="get" action="/works/#works-filter" class="discovery-filter fade-up mb-12 scroll-mt-24" aria-label="作品を絞り込む" data-discovery-form>
+<form id="works-filter" method="get" action="/works/" class="discovery-filter fade-up mb-12" aria-label="作品を絞り込む" data-discovery-form>
   <div class="flex flex-col gap-3 border-b border-sepia-300 pb-6 sm:flex-row sm:items-end sm:justify-between">
     <div>
       <h2 class="font-koburi text-3xl text-sepia-900">作品を選ぶ</h2>
       <p class="mt-2 text-sm leading-7 text-sepia-700">作者名で探すか、読みたい条件を選んでください。</p>
     </div>
-    <p class="shrink-0 text-sm tabular-nums text-sepia-700" aria-live="polite">{resultCount}件の作品案内</p>
+    <p class="shrink-0 text-sm tabular-nums text-sepia-700" aria-live="polite" data-filter-result-count>{resultCount}件の作品案内</p>
   </div>
 
   <div class="grid gap-x-10 gap-y-9 py-8 lg:grid-cols-[minmax(17rem,0.82fr)_minmax(0,1.18fr)]">
@@ -178,7 +178,7 @@ const readingTimes = [15, 30, 45, 60] as const;
 
   <div class="mt-8 flex flex-wrap items-center gap-5">
     <button type="submit" class="border border-kotori-green bg-kotori-green px-6 py-3 font-semibold text-kotori-warm hover:bg-kotori-dark active:translate-y-px" data-filter-submit>この条件で探す</button>
-    {hasActiveFilter && <a href="/works/" class="text-sm text-sepia-700 underline decoration-sepia-300 underline-offset-4 hover:text-kotori-green">条件をすべて解除</a>}
+    <a href="/works/" class="text-sm text-sepia-700 underline decoration-sepia-300 underline-offset-4 hover:text-kotori-green" hidden={!hasActiveFilter} data-filter-reset>条件をすべて解除</a>
   </div>
 </form>
 
@@ -282,14 +282,17 @@ const readingTimes = [15, 30, 45, 60] as const;
     const errorMessage = root.querySelector<HTMLElement>('[data-author-error]');
     const clearButton = root.querySelector<HTMLButtonElement>('[data-author-clear]');
     const submitButton = form?.querySelector<HTMLButtonElement>('[data-filter-submit]');
+    const resetLink = form?.querySelector<HTMLAnchorElement>('[data-filter-reset]');
+    const resultCount = form?.querySelector<HTMLElement>('[data-filter-result-count]');
     const options = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-author-option]'));
-    if (!form || !search || !valueInput || !optionsPopup || !emptyMessage || !errorMessage || !clearButton || !submitButton) return;
+    if (!form || !search || !valueInput || !optionsPopup || !emptyMessage || !errorMessage || !clearButton || !submitButton || !resetLink || !resultCount) return;
 
     form.dataset.enhanced = 'true';
     valueInput.name = 'author';
     valueInput.disabled = valueInput.value === '';
     let visibleOptions = options;
     let activeIndex = -1;
+    let activeRequest: AbortController | undefined;
 
     const clearAuthorError = () => {
       errorMessage.hidden = true;
@@ -325,6 +328,100 @@ const readingTimes = [15, 30, 45, 60] as const;
       });
       emptyMessage.hidden = visibleOptions.length > 0;
       setActive(-1);
+    };
+
+    const buildFilterURL = () => {
+      const targetURL = new URL(form.action, window.location.href);
+      targetURL.hash = '';
+      targetURL.search = '';
+      new FormData(form).forEach((value, key) => {
+        const normalizedValue = String(value).trim();
+        if (normalizedValue !== '') targetURL.searchParams.append(key, normalizedValue);
+      });
+      return targetURL;
+    };
+
+    const syncFormState = (nextDocument: Document) => {
+      const nextForm = nextDocument.querySelector<HTMLFormElement>('[data-discovery-form]');
+      if (!nextForm) throw new Error('Filter form missing from response');
+
+      const nextSearch = nextForm.querySelector<HTMLInputElement>('[data-author-search]');
+      const nextValueInput = nextForm.querySelector<HTMLInputElement>('[data-author-value]');
+      search.value = nextSearch?.value ?? '';
+      valueInput.value = nextValueInput?.value ?? '';
+      valueInput.disabled = valueInput.value === '';
+      clearButton.hidden = valueInput.value === '';
+      clearAuthorError();
+
+      form.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((input) => {
+        const nextInput = Array.from(nextForm.querySelectorAll<HTMLInputElement>(`input[type="radio"][name="${input.name}"]`))
+          .find((candidate) => candidate.value === input.value);
+        input.checked = nextInput?.checked ?? false;
+      });
+
+      options.forEach((option) => {
+        option.setAttribute('aria-selected', String(option.dataset.authorValue === valueInput.value));
+      });
+      filterOptions();
+      setOpen(false);
+    };
+
+    const syncRobotsMeta = (nextDocument: Document) => {
+      const nextRobots = nextDocument.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+      const currentRobots = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+      if (!nextRobots) {
+        currentRobots?.remove();
+        return;
+      }
+      const robots = currentRobots ?? document.head.appendChild(document.createElement('meta'));
+      robots.name = 'robots';
+      robots.content = nextRobots.content;
+    };
+
+    const updateResults = async (targetURL: URL, pushHistory: boolean, updateForm: boolean) => {
+      activeRequest?.abort();
+      const request = new AbortController();
+      activeRequest = request;
+      const currentResults = document.querySelector<HTMLElement>('[data-works-results]');
+      if (!currentResults) {
+        window.location.assign(targetURL);
+        return;
+      }
+
+      form.setAttribute('aria-busy', 'true');
+      currentResults.setAttribute('aria-busy', 'true');
+      try {
+        const response = await fetch(targetURL, {
+          headers: { Accept: 'text/html' },
+          signal: request.signal,
+        });
+        if (!response.ok) throw new Error(`Filter request failed: ${response.status}`);
+
+        const nextDocument = new DOMParser().parseFromString(await response.text(), 'text/html');
+        const nextResults = nextDocument.querySelector<HTMLElement>('[data-works-results]');
+        const nextResultCount = nextDocument.querySelector<HTMLElement>('[data-filter-result-count]');
+        const nextResetLink = nextDocument.querySelector<HTMLAnchorElement>('[data-filter-reset]');
+        if (!nextResults || !nextResultCount || !nextResetLink) throw new Error('Filter response is incomplete');
+        if (request.signal.aborted) return;
+
+        currentResults.innerHTML = nextResults.innerHTML;
+        resultCount.textContent = nextResultCount.textContent;
+        resetLink.hidden = nextResetLink.hidden;
+        syncRobotsMeta(nextDocument);
+        if (updateForm) syncFormState(nextDocument);
+        if (pushHistory && targetURL.href !== window.location.href) {
+          window.history.pushState({}, '', `${targetURL.pathname}${targetURL.search}`);
+        }
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        window.location.assign(targetURL);
+      } finally {
+        if (activeRequest === request) {
+          activeRequest = undefined;
+          form.removeAttribute('aria-busy');
+          currentResults.removeAttribute('aria-busy');
+        }
+      }
     };
 
     const selectAuthor = (option: HTMLButtonElement, applyFilters = false) => {
@@ -397,6 +494,15 @@ const readingTimes = [15, 30, 45, 60] as const;
       input.addEventListener('change', () => form.requestSubmit());
     });
 
+    resetLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      void updateResults(new URL(resetLink.href), true, true);
+    });
+
+    window.addEventListener('popstate', () => {
+      void updateResults(new URL(window.location.href), false, true);
+    });
+
     document.addEventListener('pointerdown', (event) => {
       if (event.target instanceof Node && !root.contains(event.target)) setOpen(false);
     });
@@ -420,18 +526,8 @@ const readingTimes = [15, 30, 45, 60] as const;
           return;
         }
       }
-      form.querySelectorAll<HTMLInputElement>('input[type="radio"]:checked').forEach((input) => {
-        if (input.value === '') input.disabled = true;
-      });
-      if (Array.from(new FormData(form).values()).every((value) => String(value) === '')) {
-        event.preventDefault();
-        form.setAttribute('aria-busy', 'true');
-        const cleanURL = new URL(form.action);
-        cleanURL.hash = '';
-        window.location.assign(cleanURL);
-        return;
-      }
-      form.setAttribute('aria-busy', 'true');
+      event.preventDefault();
+      void updateResults(buildFilterURL(), true, false);
     });
   });
 </script>
