@@ -40,7 +40,7 @@ const hasActiveFilter = hasActiveDiscoveryFilter(filters);
 const readingTimes = [15, 30, 45, 60] as const;
 ---
 
-<form method="get" action="/works/" class="discovery-filter fade-up mb-12" aria-label="作品を絞り込む" data-discovery-form>
+<form id="works-filter" method="get" action="/works/#works-filter" class="discovery-filter fade-up mb-12 scroll-mt-24" aria-label="作品を絞り込む" data-discovery-form>
   <div class="flex flex-col gap-3 border-b border-sepia-300 pb-6 sm:flex-row sm:items-end sm:justify-between">
     <div>
       <h2 class="font-koburi text-3xl text-sepia-900">作品を選ぶ</h2>
@@ -177,7 +177,7 @@ const readingTimes = [15, 30, 45, 60] as const;
   </fieldset>
 
   <div class="mt-8 flex flex-wrap items-center gap-5">
-    <button type="submit" class="border border-kotori-green bg-kotori-green px-6 py-3 font-semibold text-kotori-warm hover:bg-kotori-dark active:translate-y-px">この条件で探す</button>
+    <button type="submit" class="border border-kotori-green bg-kotori-green px-6 py-3 font-semibold text-kotori-warm hover:bg-kotori-dark active:translate-y-px" data-filter-submit>この条件で探す</button>
     {hasActiveFilter && <a href="/works/" class="text-sm text-sepia-700 underline decoration-sepia-300 underline-offset-4 hover:text-kotori-green">条件をすべて解除</a>}
   </div>
 </form>
@@ -191,6 +191,10 @@ const readingTimes = [15, 30, 45, 60] as const;
 
   .filter-choice {
     cursor: pointer;
+  }
+
+  .discovery-filter[data-enhanced='true'] [data-filter-submit] {
+    display: none;
   }
 
   .author-search {
@@ -277,9 +281,11 @@ const readingTimes = [15, 30, 45, 60] as const;
     const emptyMessage = root.querySelector<HTMLElement>('[data-author-empty]');
     const errorMessage = root.querySelector<HTMLElement>('[data-author-error]');
     const clearButton = root.querySelector<HTMLButtonElement>('[data-author-clear]');
+    const submitButton = form?.querySelector<HTMLButtonElement>('[data-filter-submit]');
     const options = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-author-option]'));
-    if (!form || !search || !valueInput || !optionsPopup || !emptyMessage || !errorMessage || !clearButton) return;
+    if (!form || !search || !valueInput || !optionsPopup || !emptyMessage || !errorMessage || !clearButton || !submitButton) return;
 
+    form.dataset.enhanced = 'true';
     valueInput.name = 'author';
     valueInput.disabled = valueInput.value === '';
     let visibleOptions = options;
@@ -321,7 +327,7 @@ const readingTimes = [15, 30, 45, 60] as const;
       setActive(-1);
     };
 
-    const selectAuthor = (option: HTMLButtonElement) => {
+    const selectAuthor = (option: HTMLButtonElement, applyFilters = false) => {
       const name = option.dataset.authorName ?? '';
       const value = option.dataset.authorValue ?? '';
       search.value = name;
@@ -332,6 +338,7 @@ const readingTimes = [15, 30, 45, 60] as const;
       options.forEach((candidate) => candidate.setAttribute('aria-selected', String(candidate === option)));
       setOpen(false);
       search.focus();
+      if (applyFilters) form.requestSubmit();
     };
 
     search.addEventListener('focus', () => {
@@ -366,13 +373,14 @@ const readingTimes = [15, 30, 45, 60] as const;
       }
       if (event.key === 'Enter' && activeIndex >= 0) {
         event.preventDefault();
-        selectAuthor(visibleOptions[activeIndex]);
+        selectAuthor(visibleOptions[activeIndex], true);
       }
     });
 
-    options.forEach((option) => option.addEventListener('click', () => selectAuthor(option)));
+    options.forEach((option) => option.addEventListener('click', () => selectAuthor(option, true)));
 
     clearButton.addEventListener('click', () => {
+      const hadSelectedAuthor = valueInput.value !== '';
       search.value = '';
       valueInput.value = '';
       valueInput.disabled = true;
@@ -382,6 +390,11 @@ const readingTimes = [15, 30, 45, 60] as const;
       filterOptions();
       setOpen(true);
       search.focus();
+      if (hadSelectedAuthor) form.requestSubmit();
+    });
+
+    form.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((input) => {
+      input.addEventListener('change', () => form.requestSubmit());
     });
 
     document.addEventListener('pointerdown', (event) => {
@@ -412,8 +425,13 @@ const readingTimes = [15, 30, 45, 60] as const;
       });
       if (Array.from(new FormData(form).values()).every((value) => String(value) === '')) {
         event.preventDefault();
-        window.location.assign(form.action);
+        form.setAttribute('aria-busy', 'true');
+        const cleanURL = new URL(form.action);
+        cleanURL.hash = '';
+        window.location.assign(cleanURL);
+        return;
       }
+      form.setAttribute('aria-busy', 'true');
     });
   });
 </script>
