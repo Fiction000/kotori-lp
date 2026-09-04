@@ -405,6 +405,9 @@ const readingTimes = [15, 30, 45, 60] as const;
         if (request.signal.aborted) return;
 
         currentResults.innerHTML = nextResults.innerHTML;
+        currentResults.querySelectorAll<HTMLElement>('.fade-up').forEach((element) => {
+          element.classList.add('is-visible');
+        });
         resultCount.textContent = nextResultCount.textContent;
         resetLink.hidden = nextResetLink.hidden;
         syncRobotsMeta(nextDocument);
