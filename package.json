@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run check:works && npm run check:editorial && npm run check:changelog && astro build && npm run check:work-deployment",
+    "build": "npm run check:works && npm run check:seo-pages && npm run check:editorial && npm run check:changelog && astro build && npm run check:work-deployment",
     "check:works": "node scripts/validate-work-pages.mjs",
+    "check:seo-pages": "node scripts/validate-seo-pages.mjs",
     "check:work-deployment": "node scripts/validate-work-deployment.mjs",
     "check:editorial": "node scripts/validate-editorial.mjs",
     "check:changelog": "node scripts/validate-changelog.mjs",

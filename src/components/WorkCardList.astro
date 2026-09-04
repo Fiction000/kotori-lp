@@ -1,0 +1,26 @@
+---
+import { workPagePath, type WorkPage } from '../data/work-pages';
+
+interface Props {
+  works: WorkPage[];
+  linkLabel?: string;
+  reasonsByBookID?: Record<string, string>;
+}
+
+const { works, linkLabel = '作品案内を読む →', reasonsByBookID = {} } = Astro.props;
+---
+
+<div class="border-t border-sepia-300">
+  {works.map((work, index) => (
+    <a href={workPagePath(work)} class="fade-up group grid gap-6 border-b border-sepia-300 py-8 md:grid-cols-[4rem_minmax(0,0.8fr)_minmax(15rem,1.2fr)_auto] md:items-center">
+      <span class="font-koburi text-2xl text-sepia-700">{String(index + 1).padStart(2, '0')}</span>
+      <img src={work.image} alt="" width="1536" height="1024" class="aspect-[3/2] w-full max-w-48 object-cover" />
+      <span>
+        <span class="block font-koburi text-3xl text-sepia-900 group-hover:text-kotori-green">{work.titleDisplay}</span>
+        <span class="mt-2 block text-sm text-sepia-600">{work.author}</span>
+        {reasonsByBookID[work.bookID] && <span class="mt-3 block text-sm leading-7 text-sepia-700">{reasonsByBookID[work.bookID]}</span>}
+      </span>
+      <span class="text-sm text-sepia-600 group-hover:text-sepia-900">{linkLabel}</span>
+    </a>
+  ))}
+</div>

@@ -2,9 +2,22 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import WorkCardList from '../../components/WorkCardList.astro';
+import WorksDiscoveryFilter from '../../components/WorksDiscoveryFilter.astro';
 import { readyWorkPages, workPagePath } from '../../data/work-pages';
+import {
+  hasActiveDiscoveryFilter,
+  parseDiscoveryFilters,
+  readyAuthorHubs,
+  workPagesForSelector,
+} from '../../data/work-catalog';
 
-const works = readyWorkPages();
+export const prerender = false;
+
+const filters = parseDiscoveryFilters(Astro.url.searchParams);
+const hasActiveFilter = hasActiveDiscoveryFilter(filters);
+const works = hasActiveFilter ? workPagesForSelector(filters) : readyWorkPages();
+const readyAuthors = readyAuthorHubs();
 const structuredData = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
@@ -23,6 +36,7 @@ const structuredData = {
   description="青空文庫の名作を、あらすじと読みどころから紹介します。コトリおすすめの作品をご案内します。"
   alternateLocales={['ja']}
   structuredData={structuredData}
+  robots={hasActiveFilter ? 'noindex,follow' : undefined}
 >
   <Header showLanguageSwitcher={false} />
   <main>
@@ -31,28 +45,22 @@ const structuredData = {
       <div class="relative mx-auto max-w-5xl px-6">
         <p class="fade-up text-xs font-semibold tracking-[0.22em] text-sepia-600">KOTORI WORKS</p>
         <h1 class="fade-up mt-5 font-koburi text-5xl leading-tight text-sepia-900 md:text-7xl">あらすじから<br />名作に出会う。</h1>
-        <p class="fade-up mt-7 max-w-2xl text-lg leading-9 text-sepia-700">青空文庫の名作を、あらすじと読みどころから紹介します。</p>
+        <p class="fade-up mt-7 max-w-2xl text-lg leading-9 text-sepia-700">青空文庫の名作を、あらすじと読みどころから紹介します。ジャンルや発表時期、読む時間の目安から探せます。</p>
       </div>
     </section>
 
     <section class="py-20 md:py-28" aria-labelledby="works-list-heading">
       <div class="mx-auto max-w-5xl px-6">
         <h2 id="works-list-heading" class="sr-only">公開中の作品案内</h2>
-        <div class="border-t border-sepia-300">
-          {works.map((work, index) => (
-            <a href={workPagePath(work)} class="fade-up group grid gap-6 border-b border-sepia-300 py-8 md:grid-cols-[4rem_minmax(0,0.8fr)_minmax(15rem,1.2fr)_auto] md:items-center">
-              <span class="font-koburi text-2xl text-sepia-700">{String(index + 1).padStart(2, '0')}</span>
-              <img src={work.image} alt="" width="1536" height="1024" class="aspect-[3/2] w-full max-w-48 object-cover" />
-              <span>
-                <span class="block font-koburi text-3xl text-sepia-900 group-hover:text-kotori-green">{work.titleDisplay}</span>
-                <span class="mt-2 block text-sm text-sepia-600">{work.author}</span>
-              </span>
-              <span class="text-sm text-sepia-600 group-hover:text-sepia-900">作品案内を読む →</span>
-            </a>
-          ))}
+        <WorksDiscoveryFilter filters={filters} resultCount={works.length} />
+        <div data-works-results aria-live="polite">
+          {hasActiveFilter && <p class="mb-7 text-sm leading-7 text-sepia-700">条件に合う作品案内は {works.length} 件です。気になる一作から、ゆっくり選んでみてください。</p>}
+          {works.length > 0 ? <WorkCardList works={works} /> : <p class="border-y border-sepia-300 py-10 leading-8 text-sepia-700">この条件に合う公開中の作品案内は、まだありません。</p>}
         </div>
       </div>
     </section>
+
+    {readyAuthors.length > 0 && <section class="border-t border-sepia-200/70 bg-sepia-50/55 py-20" aria-labelledby="authors-heading"><div class="mx-auto max-w-5xl px-6"><p class="text-xs font-semibold tracking-[0.22em] text-kotori-green">AUTHORS</p><h2 id="authors-heading" class="mt-4 font-koburi text-4xl text-sepia-900">作家から探す</h2><ul class="mt-9 border-t border-sepia-300">{readyAuthors.map((author) => <li class="border-b border-sepia-300 py-5"><a href={`/authors/${author.slug}/`} class="font-koburi text-2xl text-sepia-900 underline decoration-sepia-300 underline-offset-8 hover:text-kotori-green">{author.name}の作品案内</a></li>)}</ul></div></section>}
   </main>
   <Footer />
 </Layout>

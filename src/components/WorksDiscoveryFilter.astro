@@ -1,0 +1,536 @@
+---
+import {
+  authorNameForSlug,
+  editorialGenreLabels,
+  editorialGenres,
+  hasActiveDiscoveryFilter,
+  publicationEraLabels,
+  publicationEras,
+  readyCatalogWorks,
+  type DiscoveryFilters,
+} from '../data/work-catalog';
+
+interface Props {
+  filters: DiscoveryFilters;
+  resultCount: number;
+}
+
+type AuthorOption = {
+  slug: string;
+  name: string;
+  workCount: number;
+};
+
+const { filters, resultCount } = Astro.props;
+const catalogWorks = readyCatalogWorks();
+const authorOptions = Array.from(new Set(catalogWorks.map((work) => work.authorSlug)))
+  .map((slug): AuthorOption | undefined => {
+    const name = authorNameForSlug(slug);
+    if (!name) return undefined;
+    return {
+      slug,
+      name,
+      workCount: catalogWorks.filter((work) => work.authorSlug === slug).length,
+    };
+  })
+  .filter((author): author is AuthorOption => author !== undefined)
+  .sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+const selectedAuthor = authorOptions.find((author) => author.slug === filters.author);
+const hasActiveFilter = hasActiveDiscoveryFilter(filters);
+const readingTimes = [15, 30, 45, 60] as const;
+---
+
+<form id="works-filter" method="get" action="/works/" class="discovery-filter fade-up mb-12" aria-label="作品を絞り込む" data-discovery-form>
+  <div class="flex flex-col gap-3 border-b border-sepia-300 pb-6 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h2 class="font-koburi text-3xl text-sepia-900">作品を選ぶ</h2>
+      <p class="mt-2 text-sm leading-7 text-sepia-700">作者名で探すか、読みたい条件を選んでください。</p>
+    </div>
+    <p class="shrink-0 text-sm tabular-nums text-sepia-700" aria-live="polite" data-filter-result-count>{resultCount}件の作品案内</p>
+  </div>
+
+  <div class="grid gap-x-10 gap-y-9 py-8 lg:grid-cols-[minmax(17rem,0.82fr)_minmax(0,1.18fr)]">
+    <section aria-labelledby="author-filter-heading">
+      <div class="flex items-baseline justify-between gap-4">
+        <label id="author-filter-heading" for="author-search" class="font-semibold text-sepia-900">作者名</label>
+        <span class="text-xs text-sepia-600">{authorOptions.length}名</span>
+      </div>
+      <p id="author-search-help" class="mt-2 text-sm leading-6 text-sepia-700">名前を入力すると候補を絞り込めます。</p>
+
+      <div class="author-combobox relative mt-4" data-author-combobox>
+        <div class="flex border border-sepia-400 bg-kotori-warm focus-within:border-kotori-green focus-within:ring-1 focus-within:ring-kotori-green">
+          <input
+            id="author-search"
+            type="search"
+            value={selectedAuthor?.name ?? ''}
+            placeholder="作家名を入力"
+            autocomplete="off"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded="false"
+            aria-controls="author-options"
+            aria-describedby="author-search-help author-search-error"
+            class="author-search min-w-0 flex-1 border-0 bg-transparent px-4 py-3 text-base text-sepia-900 outline-none placeholder:text-sepia-600"
+            data-author-search
+          />
+          <button
+            type="button"
+            class="border-l border-sepia-300 px-4 text-sm font-semibold text-sepia-700 hover:bg-sepia-50 active:translate-y-px"
+            aria-label="作者名の入力を消す"
+            hidden={!selectedAuthor}
+            data-author-clear
+          >
+            消す
+          </button>
+        </div>
+        <p id="author-search-error" class="mt-2 text-sm leading-6 text-sepia-700" role="status" hidden data-author-error></p>
+        <input type="hidden" value={selectedAuthor?.slug ?? ''} data-author-value />
+
+        <div
+          class="author-options absolute inset-x-0 top-full z-20 mt-2 max-h-72 overflow-y-auto border border-sepia-400 bg-kotori-warm shadow-[0_18px_45px_rgba(82,58,34,0.14)]"
+          hidden
+          data-author-popup
+        >
+          <div id="author-options" role="listbox" aria-label="作者の候補" aria-live="polite" data-author-options>
+            {authorOptions.map((author) => (
+              <button
+                id={`author-option-${author.slug}`}
+                type="button"
+                role="option"
+                tabindex="-1"
+                aria-selected={author.slug === filters.author ? 'true' : 'false'}
+                class="author-option flex w-full items-center justify-between gap-5 border-b border-sepia-200 px-4 py-3 text-left last:border-b-0 hover:bg-sepia-50"
+                data-author-option
+                data-author-name={author.name}
+                data-author-value={author.slug}
+                data-author-search-text={`${author.name} ${author.slug}`}
+              >
+                <span class="font-koburi text-lg text-sepia-900">{author.name}</span>
+                <span class="shrink-0 text-xs tabular-nums text-sepia-600">{author.workCount}作品</span>
+              </button>
+            ))}
+            <p class="px-4 py-5 text-sm text-sepia-700" role="option" aria-disabled="true" hidden data-author-empty>該当する作家が見つかりません。</p>
+          </div>
+        </div>
+      </div>
+
+      <noscript>
+        <label class="mt-4 grid gap-2 text-sm text-sepia-700">
+          作者を選ぶ
+          <select name="author" class="border border-sepia-400 bg-kotori-warm px-3 py-3 text-sepia-900">
+            <option value="">すべての作家</option>
+            {authorOptions.map((author) => <option value={author.slug} selected={author.slug === filters.author}>{author.name}</option>)}
+          </select>
+        </label>
+      </noscript>
+    </section>
+
+    <div class="grid gap-8">
+      <fieldset>
+        <legend class="font-semibold text-sepia-900">発表時期</legend>
+        <div class="mt-3 flex flex-wrap gap-2">
+          <label class="filter-choice">
+            <input type="radio" name="era" value="" checked={!filters.publicationEra} />
+            <span>すべて</span>
+          </label>
+          {publicationEras.map((era) => (
+            <label class="filter-choice">
+              <input type="radio" name="era" value={era} checked={filters.publicationEra === era} />
+              <span>{publicationEraLabels[era]}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="font-semibold text-sepia-900">読む時間の目安</legend>
+        <div class="mt-3 flex flex-wrap gap-2">
+          <label class="filter-choice">
+            <input type="radio" name="maxMinutes" value="" checked={!filters.maxMinutes} />
+            <span>指定なし</span>
+          </label>
+          {readingTimes.map((minutes) => (
+            <label class="filter-choice">
+              <input type="radio" name="maxMinutes" value={minutes} checked={filters.maxMinutes === minutes} />
+              <span>{minutes}分以内</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <fieldset class="border-t border-sepia-300 pt-7">
+    <legend class="px-0 pr-5 font-semibold text-sepia-900">ジャンル</legend>
+    <div class="mt-3 flex flex-wrap gap-2">
+      <label class="filter-choice">
+        <input type="radio" name="genre" value="" checked={!filters.genre} />
+        <span>すべて</span>
+      </label>
+      {editorialGenres.map((genre) => (
+        <label class="filter-choice">
+          <input type="radio" name="genre" value={genre} checked={filters.genre === genre} />
+          <span>{editorialGenreLabels[genre]}</span>
+        </label>
+      ))}
+    </div>
+  </fieldset>
+
+  <div class="mt-8 flex flex-wrap items-center gap-5">
+    <button type="submit" class="border border-kotori-green bg-kotori-green px-6 py-3 font-semibold text-kotori-warm hover:bg-kotori-dark active:translate-y-px" data-filter-submit>この条件で探す</button>
+    <a href="/works/" class="text-sm text-sepia-700 underline decoration-sepia-300 underline-offset-4 hover:text-kotori-green" hidden={!hasActiveFilter} data-filter-reset>条件をすべて解除</a>
+  </div>
+</form>
+
+<style>
+  .discovery-filter {
+    border-block: 1px solid var(--color-sepia-300);
+    background: color-mix(in srgb, var(--color-sepia-50) 42%, transparent);
+    padding: 1.75rem;
+  }
+
+  .filter-choice {
+    cursor: pointer;
+  }
+
+  .discovery-filter[data-enhanced='true'] [data-filter-submit] {
+    display: none;
+  }
+
+  .author-search {
+    appearance: none;
+  }
+
+  .author-search:focus-visible {
+    outline: none;
+  }
+
+  .author-search::-webkit-search-cancel-button {
+    display: none;
+    appearance: none;
+  }
+
+  .filter-choice input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    clip-path: inset(50%);
+  }
+
+  .filter-choice span {
+    display: block;
+    border: 1px solid var(--color-sepia-300);
+    padding: 0.55rem 0.85rem;
+    color: var(--color-sepia-700);
+    background: var(--color-kotori-warm);
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, transform 100ms ease;
+  }
+
+  .filter-choice:hover span {
+    border-color: var(--color-sepia-600);
+  }
+
+  .filter-choice input:checked + span {
+    border-color: var(--color-kotori-green);
+    background: var(--color-kotori-green);
+    color: var(--color-kotori-warm);
+  }
+
+  .filter-choice input:focus-visible + span {
+    outline: 2px solid var(--color-sepia-700);
+    outline-offset: 3px;
+  }
+
+  .filter-choice:active span {
+    transform: translateY(1px);
+  }
+
+  .author-option[aria-selected='true'],
+  .author-option[data-active='true'] {
+    box-shadow: inset 3px 0 0 var(--color-kotori-green);
+    background: var(--color-sepia-50);
+  }
+
+  @media (max-width: 639px) {
+    .discovery-filter {
+      margin-inline: -0.5rem;
+      padding: 1.5rem 1rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .filter-choice span {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const normalize = (value: string) => value.normalize('NFKC').trim().toLocaleLowerCase('ja');
+
+  document.querySelectorAll<HTMLElement>('[data-author-combobox]').forEach((root) => {
+    const form = root.closest<HTMLFormElement>('[data-discovery-form]');
+    const search = root.querySelector<HTMLInputElement>('[data-author-search]');
+    const valueInput = root.querySelector<HTMLInputElement>('[data-author-value]');
+    const optionsPopup = root.querySelector<HTMLElement>('[data-author-popup]');
+    const emptyMessage = root.querySelector<HTMLElement>('[data-author-empty]');
+    const errorMessage = root.querySelector<HTMLElement>('[data-author-error]');
+    const clearButton = root.querySelector<HTMLButtonElement>('[data-author-clear]');
+    const submitButton = form?.querySelector<HTMLButtonElement>('[data-filter-submit]');
+    const resetLink = form?.querySelector<HTMLAnchorElement>('[data-filter-reset]');
+    const resultCount = form?.querySelector<HTMLElement>('[data-filter-result-count]');
+    const options = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-author-option]'));
+    if (!form || !search || !valueInput || !optionsPopup || !emptyMessage || !errorMessage || !clearButton || !submitButton || !resetLink || !resultCount) return;
+
+    form.dataset.enhanced = 'true';
+    valueInput.name = 'author';
+    valueInput.disabled = valueInput.value === '';
+    let visibleOptions = options;
+    let activeIndex = -1;
+    let activeRequest: AbortController | undefined;
+
+    const clearAuthorError = () => {
+      errorMessage.hidden = true;
+      errorMessage.textContent = '';
+      search.removeAttribute('aria-invalid');
+    };
+
+    const setActive = (index: number) => {
+      options.forEach((option) => delete option.dataset.active);
+      activeIndex = index;
+      const activeOption = visibleOptions[activeIndex];
+      if (!activeOption) {
+        search.removeAttribute('aria-activedescendant');
+        return;
+      }
+      activeOption.dataset.active = 'true';
+      search.setAttribute('aria-activedescendant', activeOption.id);
+      activeOption.scrollIntoView({ block: 'nearest' });
+    };
+
+    const setOpen = (open: boolean) => {
+      optionsPopup.hidden = !open;
+      search.setAttribute('aria-expanded', String(open));
+      if (!open) setActive(-1);
+    };
+
+    const filterOptions = () => {
+      const query = normalize(search.value);
+      visibleOptions = options.filter((option) => {
+        const matches = normalize(option.dataset.authorSearchText ?? '').includes(query);
+        option.hidden = !matches;
+        return matches;
+      });
+      emptyMessage.hidden = visibleOptions.length > 0;
+      setActive(-1);
+    };
+
+    const buildFilterURL = () => {
+      const targetURL = new URL(form.action, window.location.href);
+      targetURL.hash = '';
+      targetURL.search = '';
+      new FormData(form).forEach((value, key) => {
+        const normalizedValue = String(value).trim();
+        if (normalizedValue !== '') targetURL.searchParams.append(key, normalizedValue);
+      });
+      return targetURL;
+    };
+
+    const syncFormState = (nextDocument: Document) => {
+      const nextForm = nextDocument.querySelector<HTMLFormElement>('[data-discovery-form]');
+      if (!nextForm) throw new Error('Filter form missing from response');
+
+      const nextSearch = nextForm.querySelector<HTMLInputElement>('[data-author-search]');
+      const nextValueInput = nextForm.querySelector<HTMLInputElement>('[data-author-value]');
+      search.value = nextSearch?.value ?? '';
+      valueInput.value = nextValueInput?.value ?? '';
+      valueInput.disabled = valueInput.value === '';
+      clearButton.hidden = valueInput.value === '';
+      clearAuthorError();
+
+      form.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((input) => {
+        const nextInput = Array.from(nextForm.querySelectorAll<HTMLInputElement>(`input[type="radio"][name="${input.name}"]`))
+          .find((candidate) => candidate.value === input.value);
+        input.checked = nextInput?.checked ?? false;
+      });
+
+      options.forEach((option) => {
+        option.setAttribute('aria-selected', String(option.dataset.authorValue === valueInput.value));
+      });
+      filterOptions();
+      setOpen(false);
+    };
+
+    const syncRobotsMeta = (nextDocument: Document) => {
+      const nextRobots = nextDocument.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+      const currentRobots = document.head.querySelector<HTMLMetaElement>('meta[name="robots"]');
+      if (!nextRobots) {
+        currentRobots?.remove();
+        return;
+      }
+      const robots = currentRobots ?? document.head.appendChild(document.createElement('meta'));
+      robots.name = 'robots';
+      robots.content = nextRobots.content;
+    };
+
+    const updateResults = async (targetURL: URL, pushHistory: boolean, updateForm: boolean) => {
+      activeRequest?.abort();
+      const request = new AbortController();
+      activeRequest = request;
+      const currentResults = document.querySelector<HTMLElement>('[data-works-results]');
+      if (!currentResults) {
+        window.location.assign(targetURL);
+        return;
+      }
+
+      form.setAttribute('aria-busy', 'true');
+      currentResults.setAttribute('aria-busy', 'true');
+      try {
+        const response = await fetch(targetURL, {
+          headers: { Accept: 'text/html' },
+          signal: request.signal,
+        });
+        if (!response.ok) throw new Error(`Filter request failed: ${response.status}`);
+
+        const nextDocument = new DOMParser().parseFromString(await response.text(), 'text/html');
+        const nextResults = nextDocument.querySelector<HTMLElement>('[data-works-results]');
+        const nextResultCount = nextDocument.querySelector<HTMLElement>('[data-filter-result-count]');
+        const nextResetLink = nextDocument.querySelector<HTMLAnchorElement>('[data-filter-reset]');
+        if (!nextResults || !nextResultCount || !nextResetLink) throw new Error('Filter response is incomplete');
+        if (request.signal.aborted) return;
+
+        currentResults.innerHTML = nextResults.innerHTML;
+        currentResults.querySelectorAll<HTMLElement>('.fade-up').forEach((element) => {
+          element.classList.add('is-visible');
+        });
+        resultCount.textContent = nextResultCount.textContent;
+        resetLink.hidden = nextResetLink.hidden;
+        syncRobotsMeta(nextDocument);
+        if (updateForm) syncFormState(nextDocument);
+        if (pushHistory && targetURL.href !== window.location.href) {
+          window.history.pushState({}, '', `${targetURL.pathname}${targetURL.search}`);
+        }
+      } catch (error) {
+        if (error instanceof DOMException && error.name === 'AbortError') return;
+        window.location.assign(targetURL);
+      } finally {
+        if (activeRequest === request) {
+          activeRequest = undefined;
+          form.removeAttribute('aria-busy');
+          currentResults.removeAttribute('aria-busy');
+        }
+      }
+    };
+
+    const selectAuthor = (option: HTMLButtonElement, applyFilters = false) => {
+      const name = option.dataset.authorName ?? '';
+      const value = option.dataset.authorValue ?? '';
+      search.value = name;
+      valueInput.value = value;
+      valueInput.disabled = value === '';
+      clearButton.hidden = value === '';
+      clearAuthorError();
+      options.forEach((candidate) => candidate.setAttribute('aria-selected', String(candidate === option)));
+      setOpen(false);
+      search.focus();
+      if (applyFilters) form.requestSubmit();
+    };
+
+    search.addEventListener('focus', () => {
+      filterOptions();
+      setOpen(true);
+    });
+
+    search.addEventListener('input', () => {
+      clearAuthorError();
+      valueInput.value = '';
+      valueInput.disabled = true;
+      clearButton.hidden = search.value === '';
+      options.forEach((option) => option.setAttribute('aria-selected', 'false'));
+      filterOptions();
+      setOpen(true);
+    });
+
+    search.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        return;
+      }
+      if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault();
+        if (optionsPopup.hidden) setOpen(true);
+        const direction = event.key === 'ArrowDown' ? 1 : -1;
+        const nextIndex = activeIndex < 0
+          ? (direction === 1 ? 0 : visibleOptions.length - 1)
+          : (activeIndex + direction + visibleOptions.length) % visibleOptions.length;
+        if (visibleOptions.length > 0) setActive(nextIndex);
+        return;
+      }
+      if (event.key === 'Enter' && activeIndex >= 0) {
+        event.preventDefault();
+        selectAuthor(visibleOptions[activeIndex], true);
+      }
+    });
+
+    options.forEach((option) => option.addEventListener('click', () => selectAuthor(option, true)));
+
+    clearButton.addEventListener('click', () => {
+      const hadSelectedAuthor = valueInput.value !== '';
+      search.value = '';
+      valueInput.value = '';
+      valueInput.disabled = true;
+      clearButton.hidden = true;
+      clearAuthorError();
+      options.forEach((option) => option.setAttribute('aria-selected', 'false'));
+      filterOptions();
+      setOpen(true);
+      search.focus();
+      if (hadSelectedAuthor) form.requestSubmit();
+    });
+
+    form.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((input) => {
+      input.addEventListener('change', () => form.requestSubmit());
+    });
+
+    resetLink.addEventListener('click', (event) => {
+      event.preventDefault();
+      void updateResults(new URL(resetLink.href), true, true);
+    });
+
+    window.addEventListener('popstate', () => {
+      void updateResults(new URL(window.location.href), false, true);
+    });
+
+    document.addEventListener('pointerdown', (event) => {
+      if (event.target instanceof Node && !root.contains(event.target)) setOpen(false);
+    });
+
+    form.addEventListener('submit', (event) => {
+      if (valueInput.disabled && normalize(search.value) !== '') {
+        const exactMatch = options.find((option) => normalize(option.dataset.authorName ?? '') === normalize(search.value));
+        const authorMatch = exactMatch ?? (visibleOptions.length === 1 ? visibleOptions[0] : undefined);
+        if (authorMatch) {
+          selectAuthor(authorMatch);
+        } else {
+          event.preventDefault();
+          errorMessage.textContent = visibleOptions.length === 0
+            ? '該当する作家が見つかりません。別の名前を入力してください。'
+            : '作家が一人に絞れません。候補から選んでください。';
+          errorMessage.hidden = false;
+          search.setAttribute('aria-invalid', 'true');
+          search.focus();
+          setOpen(true);
+          if (visibleOptions.length > 0) setActive(0);
+          return;
+        }
+      }
+      event.preventDefault();
+      void updateResults(buildFilterURL(), true, false);
+    });
+  });
+</script>

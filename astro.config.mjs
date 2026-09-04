@@ -38,6 +38,7 @@ export default defineConfig({
     customPages: [
       'https://www.kotori-aozora.app/weekly/',
       'https://www.kotori-aozora.app/en/weekly/',
+      'https://www.kotori-aozora.app/works/',
     ],
   })],
 });

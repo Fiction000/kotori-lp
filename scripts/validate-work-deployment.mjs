@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { access, readFile } from 'node:fs/promises';
 import { readyWorkPages, workPagePath } from '../src/data/work-pages.ts';
+import { authorHubPath, readyAuthorHubs, readyCollections } from '../src/data/work-catalog.ts';
 
 const site = 'https://www.kotori-aozora.app';
 const vercelConfig = JSON.parse(await readFile(
@@ -18,6 +19,10 @@ const renderRoutes = new Set(
 );
 assert(renderRoutes.has('^/weekly/([^/]+?)/?$'), 'Japanese weekly detail routes must render dynamically');
 assert(renderRoutes.has('^/daily/([^/]+?)/?$'), 'Japanese daily detail routes must render dynamically');
+assert(renderRoutes.has('^/works/?$'), 'The filtered works directory must render dynamically');
+// This build check proves that /works/ is a Vercel function route, not the headers
+// generated for a query-string response. Verify canonical and robots metadata for
+// filtered URLs with HTTP QA against a preview or deployed environment.
 
 async function assertMissing(url, message) {
   try {
@@ -69,4 +74,40 @@ for (const work of readyWorkPages()) {
   }
 }
 
-console.log(`Validated deployment output for ${readyWorkPages().length} canonical work pages.`);
+const worksURL = new URL('/works/', site).toString();
+assert(sitemap.includes(`<loc>${worksURL}</loc>`), '/works/ must be included explicitly in the sitemap');
+assert(!sitemap.includes('/works/?'), 'Filtered /works/ URLs must not enter the sitemap');
+
+await access(new URL('../.vercel/output/static/authors/index.html', import.meta.url));
+for (const author of readyAuthorHubs()) {
+  const authorURL = new URL(authorHubPath(author), site).toString();
+  assert(sitemap.includes(`<loc>${authorURL}</loc>`), `${author.slug} is missing from the sitemap`);
+  const authorPage = await readFile(
+    new URL(`../.vercel/output/static${authorHubPath(author)}index.html`, import.meta.url),
+    'utf8',
+  );
+  assert(authorPage.includes('"@type":"Person"'), `${author.slug} is missing Person schema`);
+  assert(authorPage.includes('"@type":"CollectionPage"'), `${author.slug} is missing CollectionPage schema`);
+  assert(authorPage.includes('"@type":"BreadcrumbList"'), `${author.slug} is missing BreadcrumbList schema`);
+}
+
+for (const collection of readyCollections()) {
+  const collectionPath = `/collections/${collection.slug}/`;
+  const collectionURL = new URL(collectionPath, site).toString();
+  assert(sitemap.includes(`<loc>${collectionURL}</loc>`), `${collection.slug} is missing from the sitemap`);
+  const collectionPage = await readFile(
+    new URL(`../.vercel/output/static${collectionPath}index.html`, import.meta.url),
+    'utf8',
+  );
+  assert(collectionPage.includes(`rel="canonical" href="${collectionURL}"`), `${collection.slug} has the wrong canonical URL`);
+  for (const schemaType of ['CollectionPage', 'BreadcrumbList']) {
+    assert(collectionPage.includes(`"@type":"${schemaType}"`), `${collection.slug} is missing ${schemaType} schema`);
+  }
+}
+assert(!sitemap.includes('meiji-kaidan'), 'Draft meiji-kaidan must not enter the sitemap');
+await assertMissing(
+  new URL('../.vercel/output/static/collections/meiji-kaidan/index.html', import.meta.url),
+  'Draft meiji-kaidan must not render as a static page',
+);
+
+console.log(`Validated deployment output for ${readyWorkPages().length} canonical work pages. Filtered /works/ metadata still needs preview/deployment HTTP QA.`);

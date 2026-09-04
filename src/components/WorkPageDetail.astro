@@ -1,6 +1,7 @@
 ---
 import AppStoreBadge from './AppStoreBadge.astro';
 import { workPagePathForBookID, type WorkPage } from '../data/work-pages';
+import { authorHubPath, collectionMembershipForWork, readyAuthorHubForWork } from '../data/work-catalog';
 
 interface Props {
   work: WorkPage;
@@ -11,6 +12,8 @@ const relatedWorks = work.relatedWorks.map((related) => ({
   ...related,
   path: workPagePathForBookID(related.bookID),
 }));
+const authorHub = readyAuthorHubForWork(work);
+const collections = collectionMembershipForWork(work);
 ---
 
 <article class="work-page">
@@ -159,6 +162,10 @@ const relatedWorks = work.relatedWorks.map((related) => ({
         </div>
         <div>
           <p class="fade-up max-w-2xl leading-8 text-sepia-700">{work.relatedIntro}</p>
+          {(authorHub || collections.length > 0) && <div class="fade-up mt-7 flex flex-wrap gap-x-5 gap-y-3 text-sm">
+            {authorHub && <a href={authorHubPath(authorHub)} class="text-sepia-800 underline decoration-sepia-300 underline-offset-4 hover:text-kotori-green">{authorHub.name}の作品案内を見る →</a>}
+            {collections.map((collection) => <a href={`/collections/${collection.slug}/`} class="text-sepia-800 underline decoration-sepia-300 underline-offset-4 hover:text-kotori-green">「{collection.name}」を見る →</a>)}
+          </div>}
           <ul class="mt-8 border-t border-sepia-300">
             {relatedWorks.map((related) => (
               <li class="fade-up flex items-baseline justify-between gap-5 border-b border-sepia-200 py-5">
