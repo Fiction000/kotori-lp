@@ -41,6 +41,11 @@ const steps = [
       <p class="max-w-md text-base leading-relaxed text-sepia-700 md:text-lg">
         {t('howitworks.subtitle')}
       </p>
+      {lang === 'ja' && (
+        <a href="/guides/aozora-tategaki/" class="inline-flex min-h-11 w-fit items-center text-sm font-medium text-sepia-800 underline decoration-sepia-300 underline-offset-4 transition-colors hover:text-kotori-green">
+          {t('howitworks.guideLink')}
+        </a>
+      )}
       <div class="how-it-works__rule" aria-hidden="true"></div>
     </div>
 
