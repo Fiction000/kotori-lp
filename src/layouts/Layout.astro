@@ -9,6 +9,7 @@ interface Props {
   description?: string;
   alternateLocales?: Array<'ja' | 'en'>;
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  includeSoftwareApplicationSchema?: boolean;
   ogType?: 'website' | 'article' | 'book';
   ogImage?: string;
   socialTitle?: string;
@@ -23,6 +24,7 @@ const title = Astro.props.title || t('meta.title');
 const description = Astro.props.description || t('meta.description');
 const alternateLocales = Astro.props.alternateLocales ?? ['ja', 'en'];
 const structuredData = Astro.props.structuredData;
+const includeSoftwareApplicationSchema = Astro.props.includeSoftwareApplicationSchema ?? true;
 const ogType = Astro.props.ogType ?? 'website';
 const ogImage = new URL(Astro.props.ogImage ?? '/app-icon.png', Astro.site);
 const socialTitle = Astro.props.socialTitle ?? title;
@@ -68,25 +70,27 @@ const enURL = new URL(`/en${basePath === '/' ? '/' : basePath}`, Astro.site);
     <meta name="twitter:image" content={ogImage} />
 
     <!-- Structured Data -->
-    <script
-      type="application/ld+json"
-      set:html={JSON.stringify({
-        '@context': 'https://schema.org',
-        '@type': 'SoftwareApplication',
-        name: 'Kotori',
-        url: new URL('/', Astro.site).toString(),
-        downloadUrl: 'https://apps.apple.com/jp/app/%E3%82%B3%E3%83%88%E3%83%AA-%E3%83%A2%E3%83%80%E3%83%B3%E9%9D%92%E7%A9%BA%E6%96%87%E5%BA%AB%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC/id6759166859',
-        operatingSystem: 'iOS',
-        applicationCategory: 'BooksApplication',
-        description: description,
-        inLanguage: lang,
-        offers: {
-          '@type': 'Offer',
-          price: '0',
-          priceCurrency: 'JPY',
-        },
-      })}
-    />
+    {includeSoftwareApplicationSchema && (
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'SoftwareApplication',
+          name: 'Kotori',
+          url: new URL('/', Astro.site).toString(),
+          downloadUrl: 'https://apps.apple.com/jp/app/%E3%82%B3%E3%83%88%E3%83%AA-%E3%83%A2%E3%83%80%E3%83%B3%E9%9D%92%E7%A9%BA%E6%96%87%E5%BA%AB%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC/id6759166859',
+          operatingSystem: 'iOS',
+          applicationCategory: 'BooksApplication',
+          description: description,
+          inLanguage: lang,
+          offers: {
+            '@type': 'Offer',
+            price: '0',
+            priceCurrency: 'JPY',
+          },
+        })}
+      />
+    )}
     {structuredData && (
       <script
         type="application/ld+json"

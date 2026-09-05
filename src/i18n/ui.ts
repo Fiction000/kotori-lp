@@ -74,6 +74,7 @@ export const ui = {
     'howitworks.step3.title': '深める',
     'howitworks.step3.description': '辞書で調べ、ハイライトで記録。読書がもっと豊かに。',
     'howitworks.step3.alt': 'ハイライトと読書メモの画面',
+    'howitworks.guideLink': 'iPhoneで青空文庫を縦書きで読む手順を見る',
 
     // Reviews
     'reviews.title': '読者から届いた言葉',
@@ -231,6 +232,7 @@ export const ui = {
     'howitworks.step3.title': 'Go deeper',
     'howitworks.step3.description': 'Look up words, highlight passages, and make the classics your own.',
     'howitworks.step3.alt': 'Highlights and reading notes screen',
+    'howitworks.guideLink': 'See how to read Aozora Bunko vertically on iPhone',
 
     // Reviews
     'reviews.title': 'Words from our readers',
