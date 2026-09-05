@@ -3,9 +3,12 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import AppStoreBadge from '../../components/AppStoreBadge.astro';
+import GuideScreenshot from '../../components/GuideScreenshot.astro';
+import exploreScreen from '../../assets/guides/aozora-tategaki/explore.jpg';
+import readerScreen from '../../assets/guides/aozora-tategaki/reader.jpg';
 
 const title = '青空文庫をiPhoneで縦書きで読む方法｜コトリの操作例';
-const description = 'iPhoneで青空文庫を縦書きで読むために、コトリで作品を探し、ダウンロードして読むまでの手順を紹介します。読書設定の開き方も確認できます。';
+const description = 'iPhoneにコトリをインストールして、青空文庫の作品を縦書きで読むまでの手順を画面とともに紹介します。作品の探し方や読書設定の開き方も確認できます。';
 const canonicalURL = new URL('/guides/aozora-tategaki/', Astro.site).toString();
 const structuredData = {
   '@context': 'https://schema.org',
@@ -34,27 +37,51 @@ const structuredData = {
           <div class="max-w-[38rem]">
             <p class="text-xs font-semibold tracking-[0.22em] text-sepia-600">KOTORI GUIDE</p>
             <h1 class="mt-5 font-koburi text-3xl leading-snug text-sepia-900 sm:text-4xl md:text-5xl">iPhoneで青空文庫を縦書きで読む方法<span class="sr-only">｜</span><span class="mt-4 block text-xl text-sepia-700 md:text-2xl">コトリの操作例</span></h1>
-            <p class="mt-7 text-lg leading-9 text-sepia-700"><a href="https://apps.apple.com/jp/app/%E3%82%B3%E3%83%88%E3%83%AA-%E3%83%A2%E3%83%80%E3%83%B3%E9%9D%92%E7%A9%BA%E6%96%87%E5%BA%AB%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC/id6759166859" class="font-medium text-sepia-800 underline decoration-sepia-300 underline-offset-4">コトリ</a>では、青空文庫の作品を縦書きで読めます。ここでは、iPhoneで作品を探し、読み始めるまでの操作を紹介します。はじめに、iPhoneにコトリを入れておきます。</p>
+            <p class="mt-7 text-lg leading-9 text-sepia-700"><a href="https://apps.apple.com/jp/app/%E3%82%B3%E3%83%88%E3%83%AA-%E3%83%A2%E3%83%80%E3%83%B3%E9%9D%92%E7%A9%BA%E6%96%87%E5%BA%AB%E3%83%AA%E3%83%BC%E3%83%80%E3%83%BC/id6759166859" class="font-medium text-sepia-800 underline decoration-sepia-300 underline-offset-4">コトリ</a>では、青空文庫の作品を縦書きで読めます。ここでは、iPhoneにアプリを入れてから、作品を探して読み始めるまでの操作を紹介します。</p>
           </div>
         </div>
       </header>
 
       <section class="py-16 md:py-24" aria-labelledby="steps-heading">
         <div class="mx-auto max-w-5xl px-6">
-          <div class="max-w-[38rem]">
+          <div>
             <h2 id="steps-heading" class="font-koburi text-3xl leading-tight text-sepia-900 md:text-4xl">コトリで読む手順</h2>
+            <p class="mt-4 max-w-[38rem] text-sm leading-7 text-sepia-700">掲載画面はコトリ2.2.0（開発版）で撮影しています。公開版とは表示が異なる場合があります。</p>
             <ol class="mt-9 ml-7 list-decimal space-y-0 marker:font-koburi marker:text-kotori-green">
-              <li class="border-t border-sepia-300 py-7 pl-2 first:pt-0">
+              <li class="guide-step border-t border-sepia-300 py-7 pl-2 ">
+                <div class="guide-step-layout">
+                <div class="max-w-[38rem]">
+                <h3 class="font-koburi text-2xl leading-tight text-sepia-900">コトリをインストールする</h3>
+                <p class="mt-4 leading-8 text-sepia-700">下のリンクからApp Storeのコトリを開き、iPhoneにインストールします。インストールが終わったら、コトリを開きます。</p>
+                <div class="guide-download mt-5"><AppStoreBadge location="guide_aozora_tategaki_install" /></div>
+                </div>
+                </div>
+              </li>
+              <li class="guide-step border-t border-sepia-300 py-7 pl-2 ">
+                <div class="guide-step-layout">
+                <div class="max-w-[38rem]">
                 <h3 class="font-koburi text-2xl leading-tight text-sepia-900">作品を探す</h3>
                 <p class="mt-4 leading-8 text-sepia-700">下部の<strong>探す</strong>から<strong>作品・作家名から探す</strong>を選びます。作品名、作家名、または読みで検索し、読みたい作品を選びます。</p>
+                </div>
+                <GuideScreenshot src={exploreScreen} alt="コトリの「探す」画面。上部に「作品・作家名から探す」があります。" caption="「探す」から作品や作家の検索へ。" />
+                </div>
               </li>
-              <li class="border-t border-sepia-300 py-7 pl-2">
+              <li class="guide-step border-t border-sepia-300 py-7 pl-2">
+                <div class="guide-step-layout">
+                <div class="max-w-[38rem]">
                 <h3 class="font-koburi text-2xl leading-tight text-sepia-900">ダウンロードして読む</h3>
                 <p class="mt-4 leading-8 text-sepia-700">作品情報で、まだダウンロードしていない作品は<strong>ダウンロードして読む</strong>、ダウンロード済みの作品は<strong>読む</strong>を選びます。ダウンロードが完了すると、本文が縦書きの読書画面で開きます。ダウンロード済みなら、そのまま読み始められます。</p>
+                </div>
+                <GuideScreenshot src={readerScreen} alt="コトリで『羅生門』を縦書き表示している読書画面。本文の一部に黄色いマーカーがあります。" caption="『羅生門』の読書画面。" />
+                </div>
               </li>
-              <li class="border-y border-sepia-300 py-7 pl-2">
+              <li class="guide-step border-y border-sepia-300 py-7 pl-2">
+                <div class="guide-step-layout">
+                <div class="max-w-[38rem]">
                 <h3 class="font-koburi text-2xl leading-tight text-sepia-900">読書設定を開く</h3>
                 <p class="mt-4 leading-8 text-sepia-700">画面中央をタップして操作ボタンを表示します。操作ボタンから<strong>読書設定</strong>を開くと、文字サイズ、フォント、テーマを選べます。</p>
+                </div>
+                </div>
               </li>
             </ol>
           </div>
@@ -77,6 +104,21 @@ const structuredData = {
 </Layout>
 
 <style>
+  .guide-step-layout > figure {
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .guide-step-layout:has(figure) {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 16rem;
+      gap: 2.5rem;
+    }
+    .guide-step-layout > figure {
+      margin-top: 0;
+    }
+  }
+
   .guide-download :global(a) {
     max-width: 100%;
     padding-inline: clamp(12px, 4vw, 24px);
