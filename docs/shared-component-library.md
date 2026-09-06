@@ -7,7 +7,7 @@ Reusable Astro components live in `src/components/shared/`. The Japanese and Eng
 - Pass `lang="ja"` or `lang="en"` explicitly when composing content. The caller supplies translated titles, summaries, labels, reviews, and book data; components localize their own controls. Do not translate Japanese book titles automatically or imply an English edition exists.
 - Use the existing `global.css` tokens, font families, focus styles, and reduced-motion rules through `Layout`. Content containers have fluid widths; titles wrap without truncation.
 - Use real anchors for navigation, buttons for actions, native details for disclosures, and unique IDs when a component requests one. No autoplay. Browse content and menus remain available without JavaScript.
-- Review and rating data must be sourced. Preview examples are labeled fixtures, not customer evidence. Contact submission restoration is blocked by automatic approval review. The form validates input and reports that no message was sent. Do not deploy this branch until the original Web3Forms integration is restored with explicit approval.
+- Review and rating data must be sourced. Preview examples are labeled fixtures, not customer evidence. Contact submissions use the existing Web3Forms integration. Success requires both a successful HTTP response and an explicit success response from the service. Preview QA must mock requests rather than send test messages.
 - QR codes and a demo video player remain optional and are not included until those assets are selected.
 
 ## Families
@@ -107,4 +107,4 @@ All primitives accept `lang?: Lang` (`'ja' | 'en'`) and otherwise infer the URL 
 - ReleaseLabel: `{ lang?, version, releasedAt, isLatest?, latestLabel? }`.
 - ReleaseEntry: `{ lang?, release: LocalizedRelease, isLatest?, latestLabel? }`.
 
-ContactForm accepts `{ id?, lang? }`. Its element IDs and client behavior scope to the rendered form instance. It validates with keyboard-accessible error feedback and reports submission unavailability. Restoration of the existing Web3Forms request is pending explicit approval; this branch is not ready to deploy.
+ContactForm accepts `{ id?, lang? }`. Its element IDs and client behavior scope to the rendered form instance. It validates input, prevents duplicate pending submissions, preserves entered values on errors, and focuses success or error feedback. Submission uses the existing Web3Forms destination and form fields.

@@ -11,6 +11,8 @@ const t = useTranslations(lang);
 const formId = Astro.props.id ?? `contact-form-${Math.random().toString(36).slice(2, 10)}`;
 const fieldId = (name: string) => `${formId}-${name}`;
 
+const ACCESS_KEY = 'd0a5d644-0596-4875-bc7f-852199e3efaf';
+
 const categories = [
   t('support.form.cat.bug'),
   t('support.form.cat.feature'),
@@ -37,9 +39,9 @@ const categories = [
     data-success={t('support.form.success')}
     data-error={t('support.form.error')}
     data-submit={t('support.form.submit')}
-    data-unavailable={lang === 'ja' ? '現在、このフォームから送信できません。メッセージは送信されていません。' : 'This form is currently unavailable. Your message has not been sent.'}
     novalidate
   >
+    <input type="hidden" name="access_key" value={ACCESS_KEY} />
     <input type="hidden" name="from_name" value="Kotori Support Form" />
     <input type="checkbox" name="botcheck" class="hidden" style="display:none" tabindex="-1" autocomplete="off" />
 
@@ -154,8 +156,9 @@ const categories = [
 
     form.addEventListener('input', clearValidation);
     form.addEventListener('change', clearValidation);
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (form.getAttribute('aria-busy') === 'true') return;
 
       const invalidField = Array.from(form.elements).find((field) => (
         field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement
@@ -177,14 +180,28 @@ const categories = [
       errorEl.classList.add('hidden');
       form.setAttribute('aria-busy', 'true');
 
-      // Submission is unavailable until the original integration can be restored.
-      form.removeAttribute('aria-busy');
-      submitBtn.disabled = false;
-      submitBtn.textContent = form.dataset.submit ?? '';
-      errorEl.textContent = form.dataset.unavailable ?? '';
-      errorEl.classList.remove('hidden');
-      statusEl.textContent = form.dataset.unavailable ?? '';
-      errorEl.focus();
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: new FormData(form),
+        });
+        const json = await res.json();
+        if (!res.ok || json.success !== true) throw new Error('Submission failed');
+
+        form.classList.add('hidden');
+        successMsg.textContent = form.dataset.success ?? '';
+        successEl.classList.remove('hidden');
+        successEl.focus();
+      } catch {
+        errorEl.textContent = form.dataset.error ?? '';
+        errorEl.classList.remove('hidden');
+        statusEl.textContent = form.dataset.error ?? '';
+        errorEl.focus();
+      } finally {
+        form.removeAttribute('aria-busy');
+        submitBtn.disabled = false;
+        submitBtn.textContent = form.dataset.submit ?? '';
+      }
     });
   });
 </script>
