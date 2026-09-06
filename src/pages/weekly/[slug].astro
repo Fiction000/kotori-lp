@@ -17,6 +17,6 @@ const content = localizedPick(pick, 'ja');
 
 <Layout title={`${content.title}の読みどころ｜${content.author}｜コトリ`} description={`青空文庫の${content.title}（${content.author}）について、読みどころと読む前に知っておきたい背景を紹介します。`}>
   <Header />
-  <main><WeeklyPickDetail lang="ja" pick={pick} /></main>
+  <main id="main-content"><WeeklyPickDetail lang="ja" pick={pick} /></main>
   <Footer />
 </Layout>

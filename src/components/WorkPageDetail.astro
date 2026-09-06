@@ -18,7 +18,6 @@ const collections = collectionMembershipForWork(work);
 
 <article class="work-page">
   <section class="work-hero relative overflow-hidden border-b border-sepia-200/70">
-    <div class="work-hero__title" aria-hidden="true">{work.title}</div>
     <div class="relative mx-auto max-w-6xl px-6 pb-20 pt-10 md:pb-28 md:pt-14">
       <nav aria-label="パンくず" class="fade-up flex flex-wrap items-center gap-2 text-xs text-sepia-600">
         <a href="/" class="rounded-sm hover:text-sepia-900">ホーム</a>
@@ -30,25 +29,22 @@ const collections = collectionMembershipForWork(work);
 
       <div class="mt-14 grid gap-12 lg:grid-cols-[minmax(0,0.82fr)_minmax(26rem,1.18fr)] lg:items-end">
         <div class="relative z-10">
-          <p class="fade-up text-xs font-semibold tracking-[0.24em] text-sepia-600">AOZORA WORK · {work.bookID}</p>
-          <h1 class="fade-up mt-5 font-koburi text-sepia-900">
-            <span class="block text-[clamp(4.8rem,13vw,9.5rem)] leading-[0.86] tracking-[-0.06em]">{work.title}</span>
-            <span class="mt-8 block text-xl font-normal tracking-[0.16em] text-sepia-700 md:text-2xl">{work.author}</span>
+          <h1 class="fade-up font-koburi text-sepia-900">
+            <span class="block text-[clamp(2.5rem,5vw,4rem)] leading-[1.15] tracking-[-0.03em]">{work.title}</span>
+            <span class="mt-6 block text-xl font-normal tracking-[0.1em] text-sepia-700 md:text-2xl">{work.author}</span>
           </h1>
           <p class="fade-up mt-9 max-w-xl text-base leading-8 text-sepia-700 md:text-lg md:leading-9">{work.lead}</p>
         </div>
 
         <figure class="fade-up relative">
-          <div class="absolute -left-4 -top-4 h-full w-full border border-sepia-300/70" aria-hidden="true"></div>
           <img
             src={work.image}
             alt={work.imageAlt}
             width="1536"
             height="1024"
             fetchpriority="high"
-            class="relative aspect-[3/2] w-full bg-sepia-100 object-cover"
+            class="aspect-[3/2] w-full bg-sepia-100 object-cover"
           />
-          <figcaption class="mt-3 text-right text-[0.68rem] tracking-[0.12em] text-sepia-700">KOTORI EDITORIAL · {work.bookID}</figcaption>
         </figure>
       </div>
     </div>
@@ -60,9 +56,8 @@ const collections = collectionMembershipForWork(work);
         <p class="font-koburi text-sm leading-7 text-sepia-600">結末には<br />触れません</p>
       </div>
       <div>
-        <p class="fade-up text-xs font-semibold tracking-[0.22em] text-kotori-green">SYNOPSIS</p>
-        <h2 id="synopsis-heading" class="fade-up mt-4 font-koburi text-4xl leading-tight text-sepia-900 md:text-5xl">あらすじ</h2>
-        <div class="mt-9 max-w-3xl space-y-6">
+        <h2 id="synopsis-heading" class="fade-up font-koburi text-4xl leading-tight text-sepia-900 md:text-5xl">あらすじ</h2>
+        <div class="mt-8 max-w-3xl space-y-6">
           {work.synopsis.map((paragraph) => (
             <p class="fade-up text-lg leading-9 text-sepia-800">{paragraph}</p>
           ))}
@@ -74,8 +69,7 @@ const collections = collectionMembershipForWork(work);
   <section class="border-y border-sepia-200/70 bg-sepia-50/55 py-20 md:py-28" aria-labelledby="guide-heading">
     <div class="mx-auto max-w-5xl px-6">
       <div class="max-w-2xl">
-        <p class="fade-up text-xs font-semibold tracking-[0.22em] text-kotori-green">READING GUIDE</p>
-        <h2 id="guide-heading" class="fade-up mt-4 font-koburi text-4xl text-sepia-900 md:text-5xl">読みどころ</h2>
+        <h2 id="guide-heading" class="fade-up font-koburi text-4xl text-sepia-900 md:text-5xl">読みどころ</h2>
       </div>
       <ol class="mt-14 border-t border-sepia-300">
         {work.readingPoints.map((point, index) => (
@@ -92,9 +86,8 @@ const collections = collectionMembershipForWork(work);
   <section class="py-20 md:py-28" aria-labelledby="data-heading">
     <div class="mx-auto grid max-w-5xl gap-14 px-6 lg:grid-cols-[minmax(0,1fr)_minmax(20rem,0.72fr)]">
       <div>
-        <p class="fade-up text-xs font-semibold tracking-[0.22em] text-kotori-green">BIBLIOGRAPHY</p>
-        <h2 id="data-heading" class="fade-up mt-4 font-koburi text-4xl text-sepia-900 md:text-5xl">作品データ</h2>
-        <dl class="mt-10 border-t border-sepia-300">
+        <h2 id="data-heading" class="fade-up font-koburi text-4xl text-sepia-900 md:text-5xl">作品データ</h2>
+        <dl class="mt-9 border-t border-sepia-300">
           {work.metadata.map((item) => (
             <div class="fade-up grid grid-cols-[7.5rem_1fr] gap-5 border-b border-sepia-200 py-4 text-sm leading-7">
               <dt class="text-sepia-700">{item.label}</dt>
@@ -119,16 +112,15 @@ const collections = collectionMembershipForWork(work);
     </div>
   </section>
 
-  <section class="work-reading-cta overflow-hidden bg-kotori-dark text-sepia-50" aria-labelledby="kotori-reading-heading">
+  <section class="work-reading-cta overflow-hidden bg-sepia-50 text-sepia-900" aria-labelledby="kotori-reading-heading">
     <div class="mx-auto grid max-w-5xl gap-14 px-6 py-20 md:grid-cols-[minmax(0,1fr)_minmax(15rem,0.62fr)] md:items-center md:gap-16 md:py-24">
       <div class="relative z-10">
-        <p class="fade-up text-xs font-semibold tracking-[0.22em] text-sepia-300">READ IN KOTORI</p>
-        <h2 id="kotori-reading-heading" class="fade-up mt-4 max-w-xl font-koburi text-4xl leading-tight md:text-5xl">
+        <h2 id="kotori-reading-heading" class="fade-up max-w-xl font-koburi text-4xl leading-tight text-sepia-900 md:text-5xl">
           『{work.title}』を、縦書きで。
         </h2>
-        <p class="fade-up mt-7 max-w-xl text-lg leading-9 text-sepia-100">広告も登録もなく、数ページずつ自分のペースで読み進められます。</p>
+        <p class="fade-up mt-7 max-w-xl text-lg leading-9 text-sepia-700">広告も登録もなく、数ページずつ自分のペースで読み進められます。</p>
 
-        <ul class="fade-up mt-8 flex flex-wrap text-sm font-semibold text-sepia-200" aria-label="コトリの特徴">
+        <ul class="fade-up mt-8 flex flex-wrap text-sm font-semibold text-sepia-700" aria-label="コトリの特徴">
           <li class="mr-5 border-r border-sepia-500/60 pr-5">無料</li>
           <li class="mr-5 border-r border-sepia-500/60 pr-5">広告なし</li>
           <li>オフライン対応</li>
@@ -157,8 +149,7 @@ const collections = collectionMembershipForWork(work);
     <div class="mx-auto max-w-5xl px-6">
       <div class="grid gap-10 md:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
         <div>
-          <p class="fade-up text-xs font-semibold tracking-[0.22em] text-kotori-green">READ NEXT</p>
-          <h2 id="related-heading" class="fade-up mt-4 font-koburi text-4xl leading-tight text-sepia-900">{work.author}を<br />続けて読むなら</h2>
+          <h2 id="related-heading" class="fade-up font-koburi text-4xl leading-tight text-sepia-900">{work.author}を<br />続けて読むなら</h2>
         </div>
         <div>
           <p class="fade-up max-w-2xl leading-8 text-sepia-700">{work.relatedIntro}</p>
@@ -185,9 +176,8 @@ const collections = collectionMembershipForWork(work);
 
   <section class="border-t border-sepia-200/70 py-20 md:py-28" aria-labelledby="faq-heading">
     <div class="mx-auto max-w-4xl px-6">
-      <p class="fade-up text-xs font-semibold tracking-[0.22em] text-kotori-green">QUESTIONS</p>
-      <h2 id="faq-heading" class="fade-up mt-4 font-koburi text-4xl text-sepia-900">よくある質問</h2>
-      <div class="mt-10 divide-y divide-sepia-300 border-y border-sepia-300">
+      <h2 id="faq-heading" class="fade-up font-koburi text-4xl text-sepia-900">よくある質問</h2>
+      <div class="mt-9 divide-y divide-sepia-300 border-y border-sepia-300">
         {work.faq.map((item) => (
           <div class="fade-up grid gap-4 py-7 md:grid-cols-[minmax(13rem,0.75fr)_minmax(0,1.25fr)]">
             <h3 class="font-koburi text-xl leading-8 text-sepia-900">{item.question}</h3>
@@ -202,27 +192,12 @@ const collections = collectionMembershipForWork(work);
 <style>
   .work-hero {
     background:
-      linear-gradient(90deg, transparent 0, transparent calc(50% - 0.5px), rgb(232 213 176 / 0.32) 50%, transparent calc(50% + 0.5px)),
-      radial-gradient(circle at 78% 18%, rgb(232 213 176 / 0.52), transparent 36%);
-  }
-
-  .work-hero__title {
-    position: absolute;
-    right: clamp(1rem, 6vw, 6rem);
-    top: 2.5rem;
-    writing-mode: vertical-rl;
-    font-family: var(--font-koburi);
-    font-size: clamp(5rem, 12vw, 10rem);
-    line-height: 1;
-    letter-spacing: 0.08em;
-    color: rgb(232 213 176 / 0.42);
-    user-select: none;
+      radial-gradient(circle at 78% 18%, rgb(176 204 220 / 0.44), transparent 36%),
+      var(--surface);
   }
 
   .work-reading-cta {
-    background:
-      radial-gradient(circle at 86% 18%, rgb(232 213 176 / 0.12), transparent 30%),
-      var(--color-kotori-dark);
+    background: var(--surface-alt);
   }
 
   .work-reading-cta__preview {
@@ -230,13 +205,6 @@ const collections = collectionMembershipForWork(work);
   }
 
   @media (max-width: 767px) {
-    .work-hero__title {
-      right: -0.6rem;
-      top: 5rem;
-      font-size: 7rem;
-      opacity: 0.7;
-    }
-
     .work-reading-cta__preview {
       transform: none;
     }

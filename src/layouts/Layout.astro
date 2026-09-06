@@ -103,6 +103,7 @@ const enURL = new URL(`/en${basePath === '/' ? '/' : basePath}`, Astro.site);
     <GoogleAnalytics />
   </head>
   <body class="bg-kotori-warm text-kotori-dark antialiased">
+    <a class="skip-link" href="#main-content">{lang === 'ja' ? '本文へ移動' : 'Skip to content'}</a>
     <slot />
     <AnalyticsConsent />
     <script>

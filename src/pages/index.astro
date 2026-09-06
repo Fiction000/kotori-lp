@@ -3,6 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Hero from '../components/Hero.astro';
 import Features from '../components/Features.astro';
+import DownloadCTA from '../components/DownloadCTA.astro';
+import FAQ from '../components/FAQ.astro';
 import HowItWorks from '../components/HowItWorks.astro';
 import Reviews from '../components/Reviews.astro';
 import ClosingCTA from '../components/ClosingCTA.astro';
@@ -11,11 +13,13 @@ import Footer from '../components/Footer.astro';
 
 <Layout>
   <Header />
-  <main>
+  <main id="main-content">
     <Hero />
     <Features />
+    <DownloadCTA variant="compact" location="mid_page" />
     <HowItWorks />
     <Reviews />
+    <FAQ variant="homepage" />
     <ClosingCTA />
   </main>
   <Footer />

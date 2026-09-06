@@ -42,16 +42,12 @@ const copy = lang === 'ja'
 ---
 
 <article>
-  <section class="relative overflow-hidden py-20 md:py-28">
-    <div class="absolute left-[6%] top-12 hidden select-none font-koburi text-[6rem] leading-loose text-sepia-100 writing-vertical md:block" aria-hidden="true">
-      {content.title}
-    </div>
-    <div class="relative mx-auto max-w-4xl px-6">
+  <section class="py-20 md:py-28">
+    <div class="mx-auto max-w-4xl px-6">
       <a href={`${pathPrefix}/weekly/`} class="fade-up inline-flex min-h-11 items-center text-sm text-sepia-700 hover:text-sepia-900">← {copy.back}</a>
-      <p class="fade-up mt-12 text-xs font-semibold tracking-[0.22em] text-sepia-700">KOTORI WEEKLY</p>
-      <h1 class="fade-up mt-4 font-koburi text-5xl leading-tight text-sepia-900 md:text-7xl">{content.title}</h1>
+      <h1 class="fade-up mt-10 font-koburi text-5xl leading-tight text-sepia-900 md:text-6xl">{content.title}</h1>
       <p class="fade-up mt-4 text-xl text-sepia-700">{content.author}</p>
-      <figure class="fade-up mt-10 overflow-hidden rounded-[2rem] border border-sepia-200 bg-sepia-50/70">
+      <figure class="fade-up mt-10 border-y border-sepia-200 py-5">
         <img
           src={imagePath}
           alt={imageAlt}
@@ -60,19 +56,19 @@ const copy = lang === 'ja'
           class="aspect-[3/2] w-full object-cover"
         />
       </figure>
-      <div class="fade-up mt-10 rounded-[2rem] border border-sepia-200 bg-white/35 p-7 md:p-9">
+      <div class="fade-up mt-10 max-w-3xl border-l-2 border-kotori-green pl-6 md:pl-8">
         {content.summaryLines.map((line) => <p class="mb-3 text-lg leading-9 text-sepia-800 last:mb-0">{line}</p>)}
       </div>
     </div>
   </section>
 
   <section class="py-10 md:py-16">
-    <div class="mx-auto grid max-w-4xl gap-8 px-6 md:grid-cols-2">
-      <div class="fade-up rounded-3xl bg-sepia-50/70 p-7">
+    <div class="mx-auto grid max-w-4xl gap-10 px-6 md:grid-cols-2 md:gap-14">
+      <div class="fade-up border-t border-sepia-300 pt-5">
         <h2 class="font-koburi text-2xl text-sepia-900">{copy.why}</h2>
         <p class="mt-5 leading-8 text-sepia-700">{content.whyNow}</p>
       </div>
-      <div class="fade-up rounded-3xl bg-white/35 p-7">
+      <div class="fade-up border-t border-sepia-300 pt-5">
         <h2 class="font-koburi text-2xl text-sepia-900">{copy.background}</h2>
         <p class="mt-5 leading-8 text-sepia-700">{content.background}</p>
       </div>
@@ -90,11 +86,11 @@ const copy = lang === 'ja'
       <div class="mx-auto max-w-4xl px-6">
         <h2 id="related-heading" class="fade-up font-koburi text-3xl text-sepia-900">{copy.next}</h2>
         {relatedPicks.length > 0 && (
-          <div class="mt-6 grid gap-4 md:grid-cols-2">
+          <div class="mt-6 grid gap-6 md:grid-cols-2">
             {relatedPicks.map((related) => (
-              <a href={editorialDetailPath(related.id, lang)} class="fade-up rounded-2xl border border-sepia-200 bg-white/40 p-5 transition-colors hover:bg-white/70">
-                <p class="text-xs tracking-[0.14em] text-sepia-600">{related.author}</p>
-                <p class="mt-2 font-koburi text-2xl text-sepia-900">{related.title}</p>
+              <a href={editorialDetailPath(related.id, lang)} class="fade-up group block border-b border-sepia-200 pb-5 transition-colors hover:border-kotori-green">
+                <p class="text-sm text-sepia-600">{related.author}</p>
+                <p class="mt-2 font-koburi text-2xl text-sepia-900 transition-colors group-hover:text-kotori-green">{related.title}</p>
                 <p class="mt-3 text-sm leading-7 text-sepia-700">{related.summaryLines[0]}</p>
               </a>
             ))}
@@ -123,10 +119,3 @@ const copy = lang === 'ja'
     <div class="fade-up"><AppStoreBadge location="weekly_detail" /></div>
   </section>
 </article>
-
-<style>
-  .writing-vertical {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-  }
-</style>

@@ -2,7 +2,6 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
-import WorkCardList from '../../components/WorkCardList.astro';
 import WorksDiscoveryFilter from '../../components/WorksDiscoveryFilter.astro';
 import { readyWorkPages, workPagePath } from '../../data/work-pages';
 import {
@@ -39,7 +38,7 @@ const structuredData = {
   robots={hasActiveFilter ? 'noindex,follow' : undefined}
 >
   <Header showLanguageSwitcher={false} />
-  <main>
+  <main id="main-content">
     <section class="relative overflow-hidden border-b border-sepia-200/70 py-24 md:py-32">
       <div class="absolute right-[8%] top-14 hidden select-none font-koburi text-[7rem] leading-loose text-sepia-100 writing-vertical md:block" aria-hidden="true">作品案内</div>
       <div class="relative mx-auto max-w-5xl px-6">
@@ -55,7 +54,18 @@ const structuredData = {
         <WorksDiscoveryFilter filters={filters} resultCount={works.length} />
         <div data-works-results aria-live="polite">
           {hasActiveFilter && <p class="mb-7 text-sm leading-7 text-sepia-700">条件に合う作品案内は {works.length} 件です。気になる一作から、ゆっくり選んでみてください。</p>}
-          {works.length > 0 ? <WorkCardList works={works} /> : <p class="border-y border-sepia-300 py-10 leading-8 text-sepia-700">この条件に合う公開中の作品案内は、まだありません。</p>}
+          {works.length > 0 ? (
+            <div class="grid gap-x-10 gap-y-12 md:grid-cols-2">
+              {works.map((work) => (
+                <a href={workPagePath(work)} class="fade-up group block border-b border-sepia-300 pb-7 transition-colors hover:border-kotori-green">
+                  <img src={work.image} alt="" width="1536" height="1024" class="aspect-[3/2] w-full bg-sepia-100 object-cover" />
+                  <span class="mt-5 block font-koburi text-3xl text-sepia-900 transition-colors group-hover:text-kotori-green">{work.titleDisplay}</span>
+                  <span class="mt-2 block text-sm text-sepia-600">{work.author}</span>
+                  <span class="mt-5 block text-sm font-semibold text-kotori-green">作品案内を読む</span>
+                </a>
+              ))}
+            </div>
+          ) : <p class="border-y border-sepia-300 py-10 leading-8 text-sepia-700">この条件に合う公開中の作品案内は、まだありません。</p>}
         </div>
       </div>
     </section>
@@ -64,10 +74,3 @@ const structuredData = {
   </main>
   <Footer />
 </Layout>
-
-<style>
-  .writing-vertical {
-    writing-mode: vertical-rl;
-    text-orientation: mixed;
-  }
-</style>

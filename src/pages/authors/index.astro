@@ -18,7 +18,7 @@ const structuredData = {
 
 <Layout title="作家から探す｜コトリ" description="コトリで公開中の作家別作品案内です。" alternateLocales={['ja']} structuredData={structuredData}>
   <Header showLanguageSwitcher={false} />
-  <main>
+  <main id="main-content">
     <section class="border-b border-sepia-200/70 py-24 md:py-32"><div class="mx-auto max-w-5xl px-6"><p class="text-xs font-semibold tracking-[0.22em] text-sepia-600">KOTORI AUTHORS</p><h1 class="mt-5 font-koburi text-5xl text-sepia-900 md:text-7xl">作家から探す。</h1><p class="mt-7 max-w-2xl text-lg leading-9 text-sepia-700">公開中の作品案内を、作家ごとにまとめています。</p></div></section>
     <section class="py-20 md:py-28"><div class="mx-auto max-w-5xl px-6"><ul class="border-t border-sepia-300">{authors.map((author) => <li class="border-b border-sepia-300 py-7"><a href={authorHubPath(author)} class="font-koburi text-3xl text-sepia-900 underline decoration-sepia-300 underline-offset-8 hover:text-kotori-green">{author.name}</a><p class="mt-4 max-w-2xl leading-8 text-sepia-700">{author.introduction}</p></li>)}</ul></div></section>
   </main>

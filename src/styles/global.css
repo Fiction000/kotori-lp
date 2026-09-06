@@ -9,20 +9,24 @@
 }
 
 @theme {
-  --color-sepia-50: #fdf8f0;
-  --color-sepia-100: #f5ead6;
-  --color-sepia-200: #e8d5b0;
-  --color-sepia-300: #d4b88a;
-  --color-sepia-400: #c19a64;
-  --color-sepia-500: #a87d4a;
-  --color-sepia-600: #8a6338;
-  --color-sepia-700: #6d4d2c;
-  --color-sepia-800: #523a22;
-  --color-sepia-900: #3a2918;
+  --color-sepia-50: #f0f5f7;
+  --color-sepia-100: #e4edf1;
+  --color-sepia-200: #cbdbe3;
+  --color-sepia-300: #9eb7c5;
+  --color-sepia-400: #68889b;
+  --color-sepia-500: #526f81;
+  --color-sepia-600: #456173;
+  --color-sepia-700: #344f62;
+  --color-sepia-800: #233f53;
+  --color-sepia-900: #142f43;
 
   --color-kotori-green: #176b9b;
   --color-kotori-dark: #142f43;
   --color-kotori-warm: #fbfaf6;
+
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-on-accent: var(--on-accent);
 
   --font-koburi: 'GenEiKoburiMin', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
   --font-serif-jp: 'GenEiKoburiMin', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
@@ -86,4 +90,65 @@ body {
     transform: none;
     transition: none;
   }
+}
+
+/* Kotori: paper and blue ink. Panels 16px, inputs 8px, action pills.
+   Layers: content 0, sticky navigation 20, consent dialog 30. */
+:root {
+  color-scheme: light dark;
+  --surface: #fdfdfb;
+  --surface-alt: #edf3f6;
+  --ink: #142f43;
+  --ink-muted: #456173;
+  --line: #cbdbe3;
+  --accent: #176b9b;
+  --on-accent: #f8fcff;
+}
+body { font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif; }
+p { text-wrap: pretty; }
+::selection { background: var(--accent); color: var(--on-accent); }
+:where(a, button) { -webkit-tap-highlight-color: transparent; }
+:where(button, [data-analytics-event="app_store_clicked"]) { white-space: nowrap; }
+:where(button, [data-analytics-event="app_store_clicked"]):active { transform: scale(.98); }
+:where(input, textarea)::placeholder { color: var(--ink-muted); opacity: 1; }
+:where(input, textarea, select):focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+:where(section[id], h2[id]) { scroll-margin-top: 6rem; }
+body > header { z-index: 20; }
+body > header > nav { min-height: 72px; padding-block: 12px; }
+#analytics-consent { z-index: 30; }
+.skip-link { position: fixed; top: .75rem; left: 1rem; z-index: 40; padding: .75rem 1rem; background: var(--ink); color: var(--surface); transform: translateY(-200%); border-radius: .5rem; }
+.skip-link:focus { transform: none; }
+main > section:first-child:not(.hero-shell) { padding-top: clamp(3rem, 6vw, 5rem); }
+main > section:first-child h1:not(.hero-title) { font-size: clamp(2.4rem, 5vw, 3.75rem); line-height: 1.3; }
+:where(.rounded-3xl, .rounded-2xl, [class~="rounded-[2rem]"]) { border-radius: 1rem; }
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-kotori-warm: #101e28;
+    --color-kotori-dark: #e1edf4;
+    --color-kotori-green: #80c4e9;
+    --color-sepia-50: #142733;
+    --color-sepia-100: #203744;
+    --color-sepia-200: #344e5d;
+    --color-sepia-300: #5f7d8e;
+    --color-sepia-400: #91afbf;
+    --color-sepia-500: #a6bfcd;
+    --color-sepia-600: #b1c8d5;
+    --color-sepia-700: #c4d7e2;
+    --color-sepia-800: #d7e5ed;
+    --color-sepia-900: #eaf2f6;
+    --surface: #192d39;
+    --surface-alt: #142733;
+    --ink: #eaf2f6;
+    --ink-muted: #b1c8d5;
+    --line: #344e5d;
+    --accent: #80c4e9;
+    --on-accent: #102c3d;
+  }
+  #form-error { color: #ffceca; background: #492b2b; border-color: #9b6662; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  body > header, #mobile-menu, #analytics-consent { background: var(--color-kotori-warm); backdrop-filter: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }

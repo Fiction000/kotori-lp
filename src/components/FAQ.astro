@@ -1,0 +1,85 @@
+---
+import { getLangFromUrl, getLocalePath, useTranslations } from '../i18n/utils';
+
+interface Props {
+  variant?: 'homepage' | 'support';
+}
+
+const { variant = 'homepage' } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const isHomepage = variant === 'homepage';
+const faqs = isHomepage
+  ? [
+      { question: t('support.faq.q2'), answer: t('support.faq.a2') },
+      { question: t('support.faq.q1'), answer: t('support.faq.a1') },
+      { question: t('support.faq.q3'), answer: t('support.faq.a3') },
+    ]
+  : [
+      { question: t('support.faq.q1'), answer: t('support.faq.a1') },
+      { question: t('support.faq.q2'), answer: t('support.faq.a2') },
+      { question: t('support.faq.q3'), answer: t('support.faq.a3') },
+      { question: t('support.faq.q4'), answer: t('support.faq.a4') },
+    ];
+---
+
+<section id={isHomepage ? 'faq' : undefined} class={isHomepage ? 'border-y border-sepia-200/70 bg-sepia-50/55' : 'mb-16'} aria-labelledby="faq-heading">
+  <div class={isHomepage ? 'mx-auto max-w-5xl px-6 py-20 md:py-28' : ''}>
+    <h2 id="faq-heading" class="font-koburi text-3xl leading-tight text-sepia-900 md:text-4xl">
+      {t('support.faq.title')}
+    </h2>
+
+    <div class="mt-8 border-y border-sepia-300/80">
+      {faqs.map((faq) => (
+        <details class="faq-item border-b border-sepia-200 last:border-b-0">
+          <summary class="flex min-h-11 cursor-pointer items-center justify-between gap-5 py-5 text-left font-koburi text-xl leading-8 text-sepia-900 md:text-2xl">
+            <span>{faq.question}</span>
+            <span class="faq-marker shrink-0 text-kotori-green" aria-hidden="true">＋</span>
+          </summary>
+          <div class="max-w-3xl pb-6 pr-10 leading-8 text-sepia-700">
+            {faq.answer}
+          </div>
+        </details>
+      ))}
+    </div>
+
+    {isHomepage && (
+      <a
+        href={getLocalePath(lang, '/support')}
+        class="mt-6 inline-flex min-h-11 items-center border-b border-kotori-green text-sm font-semibold text-kotori-green transition-colors hover:border-sepia-900 hover:text-sepia-900"
+      >
+        {t('nav.support')}
+        <span class="ml-2" aria-hidden="true">→</span>
+      </a>
+    )}
+  </div>
+</section>
+
+<style>
+  .faq-item > summary {
+    list-style: none;
+  }
+
+  .faq-item > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item > summary:focus-visible {
+    outline: 2px solid var(--color-sepia-700);
+    outline-offset: 3px;
+  }
+
+  .faq-marker {
+    transition: transform 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .faq-item[open] .faq-marker {
+    transform: rotate(45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .faq-marker {
+      transition: none;
+    }
+  }
+</style>

@@ -22,6 +22,6 @@ const hasCanonicalJapaneseWork = Boolean(workPagePathForWeeklyID(pick.id));
   robots={hasCanonicalJapaneseWork ? 'noindex,follow' : undefined}
 >
   <Header showLanguageSwitcher={!hasCanonicalJapaneseWork} />
-  <main><WeeklyPickDetail lang="en" pick={pick} /></main>
+  <main id="main-content"><WeeklyPickDetail lang="en" pick={pick} /></main>
   <Footer />
 </Layout>

@@ -3,37 +3,22 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ContactForm from '../components/ContactForm.astro';
+import FAQ from '../components/FAQ.astro';
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const faqs = [
-  { q: t('support.faq.q1'), a: t('support.faq.a1') },
-  { q: t('support.faq.q2'), a: t('support.faq.a2') },
-  { q: t('support.faq.q3'), a: t('support.faq.a3') },
-  { q: t('support.faq.q4'), a: t('support.faq.a4') },
-];
 ---
 
 <Layout title={`${t('support.title')}｜コトリ`} description={t('support.meta.description')}>
   <Header />
-  <main class="mx-auto max-w-3xl px-6 py-16 md:py-24">
+  <main id="main-content" class="mx-auto max-w-3xl px-6 py-16 md:py-24">
     <h1 class="text-3xl md:text-4xl font-bold text-sepia-900 mb-12" style={`font-family: var(--font-serif-jp)`}>
       {t('support.title')}
     </h1>
 
-    <section class="mb-16">
-      <h2 class="text-2xl font-semibold text-sepia-800 mb-8">{t('support.faq.title')}</h2>
-      <div class="space-y-6">
-        {faqs.map((faq) => (
-          <div class="rounded-xl bg-white/60 border border-sepia-100 p-6">
-            <h3 class="text-lg font-semibold text-sepia-800 mb-2">{faq.q}</h3>
-            <p class="text-sepia-600 leading-relaxed">{faq.a}</p>
-          </div>
-        ))}
-      </div>
-    </section>
+    <FAQ variant="support" />
 
     <ContactForm />
   </main>

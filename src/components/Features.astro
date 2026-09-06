@@ -1,47 +1,43 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import LiteraryGutters from './LiteraryGutters.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
-const pairedFeatures = [
+const primaryFeature = {
+  title: t('features.vertical.title'),
+  description: t('features.vertical.description'),
+  screenshot: '/screenshots/screenshot-1-800-v1.webp',
+  screenshotSet: '/screenshots/screenshot-1-480-v1.webp 480w, /screenshots/screenshot-1-800-v1.webp 800w',
+  alt: lang === 'ja' ? '美しい縦書きレイアウト' : 'Beautiful vertical text layout',
+};
+
+const proofFeatures = [
   {
-    icon: '美',
-    title: t('features.vertical.title'),
-    description: t('features.vertical.description'),
-    screenshot: '/screenshots/screenshot-1-800-v1.webp',
-    screenshotSet: '/screenshots/screenshot-1-480-v1.webp 480w, /screenshots/screenshot-1-800-v1.webp 800w',
-    caption: lang === 'ja' ? '美しい縦書きレイアウト' : 'Beautiful vertical text layout',
-    primary: true,
-  },
-  {
-    icon: '速',
     title: t('features.furigana.title'),
     description: t('features.furigana.description'),
     screenshot: '/screenshots/screenshot-2-800-v1.webp',
     screenshotSet: '/screenshots/screenshot-2-480-v1.webp 480w, /screenshots/screenshot-2-800-v1.webp 800w',
-    caption: lang === 'ja' ? '作家や作品をかんたん検索' : 'Search authors and works easily',
+    alt: lang === 'ja' ? '作家や作品をかんたん検索' : 'Search authors and works easily',
+    wide: true,
   },
   {
-    icon: '調',
     title: t('features.dictionary.title'),
     description: t('features.dictionary.description'),
     screenshot: '/screenshots/screenshot-3-800-v1.webp',
     screenshotSet: '/screenshots/screenshot-3-480-v1.webp 480w, /screenshots/screenshot-3-800-v1.webp 800w',
-    caption: lang === 'ja' ? 'タップで辞書検索' : 'Tap to look up words',
+    alt: lang === 'ja' ? 'タップで辞書検索' : 'Tap to look up words',
   },
   {
-    icon: '記',
     title: t('features.highlights.title'),
     description: t('features.highlights.description'),
     screenshot: '/screenshots/screenshot-4-800-v1.webp',
     screenshotSet: '/screenshots/screenshot-4-480-v1.webp 480w, /screenshots/screenshot-4-800-v1.webp 800w',
-    caption: lang === 'ja' ? 'ハイライトと読書メモ' : 'Highlights and reading notes',
+    alt: lang === 'ja' ? 'ハイライトと読書メモ' : 'Highlights and reading notes',
   },
 ];
 
-const textOnlyFeatures = [
+const utilityFeatures = [
   {
     title: t('features.themes.title'),
     description: t('features.themes.description'),
@@ -53,248 +49,214 @@ const textOnlyFeatures = [
 ];
 ---
 
-<section id="features" class="relative isolate overflow-hidden pt-24 pb-12 md:pt-36 md:pb-16">
-  <LiteraryGutters />
-  <div class="relative z-[1] mx-auto max-w-6xl px-6">
+<section id="features" class="features-section pt-24 pb-16 md:pt-32 md:pb-24">
+  <div class="mx-auto max-w-6xl px-6">
+    <header class="fade-up features-intro">
+      <h2 class="font-koburi text-3xl leading-tight text-sepia-900 md:text-4xl">{t('features.title')}</h2>
+    </header>
 
-    <!-- Primary feature: hero-scale with screenshot -->
-    <div class="fade-up mb-28 md:mb-40">
-      <div class="feature-row feature-row--primary">
-        <!-- Screenshot side -->
-        <div class="feature-screenshot feature-screenshot--primary">
-          <div class="phone-frame">
+    <article class="fade-up feature-lead">
+      <div class="feature-lead__copy">
+        <h3 class="font-koburi text-3xl leading-tight text-sepia-900 md:text-5xl">
+          {primaryFeature.title}
+        </h3>
+        <p class="mt-5 max-w-md text-lg leading-relaxed text-sepia-700 md:text-xl">
+          {primaryFeature.description}
+        </p>
+      </div>
+      <figure class="feature-lead__visual">
+        <img
+          src={primaryFeature.screenshot}
+          srcset={primaryFeature.screenshotSet}
+          sizes="(min-width: 768px) 420px, min(82vw, 420px)"
+          alt={primaryFeature.alt}
+          width="800"
+          height="1739"
+          loading="lazy"
+        />
+      </figure>
+    </article>
+
+    <div class="proof-grid stagger-children" aria-label={t('features.title')}>
+      {proofFeatures.map((feature) => (
+        <article class:list={['fade-up', 'proof-card', feature.wide && 'proof-card--wide']}>
+          <div class="proof-card__copy">
+            <h3 class="font-koburi text-2xl leading-tight text-sepia-900 md:text-3xl">{feature.title}</h3>
+            <p class="mt-3 text-base leading-relaxed text-sepia-700 md:text-lg">{feature.description}</p>
+          </div>
+          <figure class="proof-card__visual">
             <img
-              src={pairedFeatures[0].screenshot}
-              srcset={pairedFeatures[0].screenshotSet}
-              sizes="(min-width: 768px) 360px, 70vw"
-              alt={pairedFeatures[0].caption}
+              src={feature.screenshot}
+              srcset={feature.screenshotSet}
+              sizes="(min-width: 768px) 620px, calc(100vw - 96px)"
+              alt={feature.alt}
               width="800"
               height="1739"
-              class="phone-screen"
               loading="lazy"
             />
-          </div>
-        </div>
-        <!-- Text side -->
-        <div class="feature-text feature-text--primary">
-          <span class="feature-kanji-hero font-koburi text-sepia-100 select-none" aria-hidden="true">
-            {pairedFeatures[0].icon}
-          </span>
-          <h2 class="font-koburi text-3xl md:text-4xl text-sepia-900 mb-4 leading-tight">
-            {pairedFeatures[0].title}
-          </h2>
-          <p class="text-sepia-600 text-lg md:text-xl leading-relaxed max-w-md">
-            {pairedFeatures[0].description}
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Secondary paired features: alternating screenshot + text -->
-    <div class="space-y-24 md:space-y-36 mb-28 md:mb-40">
-      {pairedFeatures.slice(1).map((feature, i) => (
-        <div class="fade-up">
-          <div class:list={[
-            'feature-row',
-            i % 2 === 0 ? 'feature-row--reverse' : '',
-          ]}>
-            <!-- Screenshot -->
-            <div class="feature-screenshot">
-              <div class="phone-frame">
-                <img
-                  src={feature.screenshot}
-                  srcset={feature.screenshotSet}
-                  sizes="(min-width: 768px) 320px, 70vw"
-                  alt={feature.caption}
-                  width="800"
-                  height="1739"
-                  class="phone-screen"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-            <!-- Text -->
-            <div class:list={[
-              'feature-text',
-              i % 2 === 0 ? 'feature-text--right' : '',
-            ]}>
-              <span class="feature-kanji font-koburi text-sepia-200 select-none" aria-hidden="true">
-                {feature.icon}
-              </span>
-              <h3 class="font-koburi text-2xl md:text-3xl text-sepia-800 mb-3 leading-tight">
-                {feature.title}
-              </h3>
-              <p class="max-w-md text-base leading-relaxed text-sepia-700 md:text-lg">
-                {feature.description}
-              </p>
-            </div>
-          </div>
-        </div>
+          </figure>
+        </article>
       ))}
     </div>
 
-    <!-- Text-only features: compact pair -->
-    <div class="fade-up">
-      <div class="text-features-grid">
-        {textOnlyFeatures.map((feature) => (
-          <div class="text-feature-card">
-            <h3 class="font-koburi text-xl md:text-2xl text-sepia-800 mb-2 leading-tight">
-              {feature.title}
-            </h3>
-            <p class="text-base leading-relaxed text-sepia-700">
-              {feature.description}
-            </p>
-          </div>
-        ))}
-      </div>
+    <div class="utility-features stagger-children">
+      {utilityFeatures.map((feature) => (
+        <article class="fade-up utility-feature">
+          <h3 class="font-koburi text-xl leading-tight text-sepia-900 md:text-2xl">{feature.title}</h3>
+          <p class="mt-3 text-base leading-relaxed text-sepia-700">{feature.description}</p>
+        </article>
+      ))}
     </div>
-
   </div>
 </section>
 
 <style>
-  /* ── Paired feature rows ── */
-  .feature-row {
-    display: flex;
-    flex-direction: column;
+  .features-intro {
+    margin-bottom: 2.5rem;
+  }
+
+  .feature-lead {
+    display: grid;
     align-items: center;
     gap: 2.5rem;
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface-alt);
   }
 
-  @media (min-width: 768px) {
-    .feature-row {
-      flex-direction: row;
-      gap: 4rem;
-    }
-
-    .feature-row--reverse {
-      flex-direction: row-reverse;
-    }
-
-    .feature-row--primary {
-      gap: 5rem;
-    }
+  .feature-lead__copy {
+    order: 2;
   }
 
-  /* ── Screenshot / phone ── */
-  .feature-screenshot {
-    flex-shrink: 0;
-    width: 70%;
-    max-width: 300px;
-    margin: 0 auto;
-  }
-
-  .feature-screenshot--primary {
-    max-width: 340px;
-  }
-
-  @media (min-width: 768px) {
-    .feature-screenshot {
-      width: auto;
-      max-width: 320px;
-      margin: 0;
-    }
-
-    .feature-screenshot--primary {
-      max-width: 360px;
-    }
-  }
-
-  .phone-frame {
-    background: white;
-    padding: 0.35rem;
-    border-radius: 1.25rem;
-    box-shadow:
-      0 4px 24px rgba(82, 58, 34, 0.08),
-      0 0 0 1px rgba(82, 58, 34, 0.04);
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .phone-frame:hover {
-    transform: translateY(-4px);
-    box-shadow:
-      0 12px 40px rgba(82, 58, 34, 0.12),
-      0 0 0 1px rgba(82, 58, 34, 0.06);
-  }
-
-  .phone-screen {
+  .feature-lead__visual {
     width: 100%;
-    border-radius: 0.95rem;
-    display: block;
+    max-width: 25rem;
+    max-height: 34rem;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: 0 18px 40px rgba(82, 58, 34, 0.09);
   }
 
-  /* ── Feature text ── */
-  .feature-text {
-    text-align: center;
+  .feature-lead__visual img,
+  .proof-card__visual img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .proof-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .proof-card {
+    display: grid;
+    gap: 1.5rem;
+    min-width: 0;
+    padding: 1.5rem;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--surface);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+  }
+
+  .proof-card__copy {
+    align-self: center;
+  }
+
+  .proof-card__visual {
+    height: 19rem;
+    overflow: hidden;
+    border-radius: 16px;
+    background: var(--surface-alt);
+  }
+
+  .proof-card__visual img {
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .proof-card:nth-child(2) .proof-card__visual img {
+    object-position: center 63%;
+  }
+
+  .utility-features {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .utility-feature {
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--line);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .proof-card:hover {
+      transform: translateY(-0.25rem);
+      box-shadow: 0 16px 32px rgba(82, 58, 34, 0.08);
+    }
   }
 
   @media (min-width: 768px) {
-    .feature-text {
-      text-align: left;
-      flex: 1;
+    .feature-lead {
+      grid-template-columns: minmax(0, 0.85fr) minmax(17rem, 0.65fr);
+      gap: clamp(3rem, 7vw, 6rem);
     }
 
-    .feature-text--right {
-      text-align: right;
+    .feature-lead__copy {
+      order: initial;
     }
 
-    .feature-text--right p {
-      margin-left: auto;
+    .feature-lead__visual {
+      width: 100%;
     }
 
-    .feature-text--primary {
-      flex: 1;
+    .proof-grid {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr);
+    }
+
+    .proof-card--wide {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(15rem, 1.2fr);
+      align-items: center;
+      min-height: 22rem;
+      padding: 2rem;
+    }
+
+    .proof-card--wide .proof-card__visual {
+      max-height: 18rem;
+    }
+
+    .proof-card:not(.proof-card--wide) {
+      grid-template-rows: auto minmax(17rem, 1fr);
+      padding: 2rem;
+    }
+
+    .proof-card:not(.proof-card--wide) .proof-card__visual {
+      max-height: 23rem;
+    }
+
+    .utility-features {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3rem;
+      margin-top: 4rem;
     }
   }
 
-  /* ── Kanji accents ── */
-  .feature-kanji-hero {
-    font-size: clamp(5rem, 12vw, 10rem);
-    line-height: 0.85;
-    display: block;
-    margin-bottom: 0.75rem;
-  }
-
-  .feature-kanji {
-    font-size: clamp(3.5rem, 7vw, 5.5rem);
-    line-height: 0.85;
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  /* ── Text-only feature close ── */
-  .text-features-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    border-top: 1px solid rgba(82, 58, 34, 0.14);
-    border-bottom: 1px solid rgba(82, 58, 34, 0.14);
-  }
-
-  @media (min-width: 640px) {
-    .text-features-grid {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  .text-feature-card {
-    padding: 2rem 0;
-  }
-
-  .text-feature-card + .text-feature-card {
-    border-top: 1px solid rgba(82, 58, 34, 0.14);
-  }
-
-  @media (min-width: 640px) {
-    .text-feature-card {
-      padding: 2.5rem 3rem 2.5rem 0;
-    }
-
-    .text-feature-card + .text-feature-card {
-      border-top: 0;
-      border-left: 1px solid rgba(82, 58, 34, 0.14);
-      padding-right: 0;
-      padding-left: 3rem;
+  @media (prefers-reduced-motion: reduce) {
+    .proof-card {
+      transition: none;
     }
   }
 </style>

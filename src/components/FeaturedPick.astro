@@ -1,0 +1,162 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { editorialDetailPath, editorialManifest, localizedPick, weeklyPick, type EditorialLocale } from '../data/editorial';
+
+const lang = getLangFromUrl(Astro.url) as EditorialLocale;
+const t = useTranslations(lang);
+const pick = localizedPick(weeklyPick(), lang);
+const weeklyPath = editorialDetailPath(pick.id, lang);
+const clientPicks = editorialManifest.rotation.pickIDs
+  .map((id) => editorialManifest.picks.find((candidate) => candidate.id === id))
+  .filter((candidate): candidate is NonNullable<typeof candidate> => candidate?.status === 'ready')
+  .map((candidate) => {
+    const content = localizedPick(candidate, lang);
+    return { id: content.id, title: content.title, author: content.author, whyNow: content.whyNow };
+  });
+---
+
+<a
+  href={weeklyPath}
+  class="featured-pick group"
+  data-featured-pick
+  data-lang={lang}
+  data-effective-from={editorialManifest.rotation.effectiveFrom}
+  data-picks={JSON.stringify(clientPicks)}
+>
+  <div class="featured-pick__topline">
+    <span>{t('hero.weekly.label')}</span>
+  </div>
+  <p class="featured-pick__title font-koburi" data-featured-pick-field="title">{pick.title}</p>
+  <p class="featured-pick__author" data-featured-pick-field="author">{pick.author}</p>
+  <p class="featured-pick__reason" data-featured-pick-field="reason">{pick.whyNow}</p>
+  <span class="featured-pick__link">
+    {t('hero.weekly.link')}
+    <span aria-hidden="true">→</span>
+  </span>
+</a>
+
+<script>
+  type ClientPick = { id: string; title: string; author: string; whyNow: string };
+
+  const serialDay = (year: number, month: number, day: number) =>
+    Math.floor(Date.UTC(year, month - 1, day) / 86_400_000);
+
+  const updateFeaturedPick = (card: HTMLAnchorElement) => {
+    let picks: ClientPick[];
+    try {
+      picks = JSON.parse(card.dataset.picks ?? '[]');
+    } catch {
+      return;
+    }
+    if (!Array.isArray(picks) || picks.length === 0) return;
+
+    const [anchorYear, anchorMonth, anchorDay] = (card.dataset.effectiveFrom ?? '')
+      .split('-')
+      .map(Number);
+    if (![anchorYear, anchorMonth, anchorDay].every(Number.isFinite)) return;
+
+    const parts = new Intl.DateTimeFormat('en-CA', {
+      timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit',
+    }).formatToParts(new Date());
+    const part = (type: Intl.DateTimeFormatPartTypes) =>
+      Number(parts.find((item) => item.type === type)?.value);
+    const currentDay = serialDay(part('year'), part('month'), part('day'));
+    const weekStart = currentDay - ((currentDay + 3) % 7);
+    const elapsedWeeks = Math.floor((weekStart - serialDay(anchorYear, anchorMonth, anchorDay)) / 7);
+    const index = ((elapsedWeeks % picks.length) + picks.length) % picks.length;
+    const current = picks[index];
+    if (!current) return;
+
+    const lang = card.dataset.lang;
+    card.href = lang === 'ja' && current.id === 'kokoro'
+      ? '/works/000773/kokoro/'
+      : `${lang === 'en' ? '/en' : ''}/weekly/${current.id}/`;
+    const title = card.querySelector<HTMLElement>('[data-featured-pick-field="title"]');
+    const author = card.querySelector<HTMLElement>('[data-featured-pick-field="author"]');
+    const reason = card.querySelector<HTMLElement>('[data-featured-pick-field="reason"]');
+    if (title) title.textContent = current.title;
+    if (author) author.textContent = current.author;
+    if (reason) reason.textContent = current.whyNow;
+  };
+
+  document.querySelectorAll<HTMLAnchorElement>('[data-featured-pick]').forEach(updateFeaturedPick);
+</script>
+
+<style>
+  .featured-pick {
+    display: block;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    background: var(--surface);
+    padding: 1.45rem;
+    color: var(--ink);
+    box-shadow: 0 18px 48px rgba(19, 63, 92, 0.17);
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 300ms ease;
+  }
+
+  .featured-pick:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 56px rgba(19, 63, 92, 0.21);
+  }
+
+  .featured-pick__topline {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 750;
+    letter-spacing: 0.16em;
+  }
+
+  .featured-pick__bird {
+    font-size: 0.5rem;
+  }
+
+  .featured-pick__title {
+    margin-top: 0.7rem;
+    font-size: 1.75rem;
+    line-height: 1.35;
+  }
+
+  .featured-pick__author {
+    margin-top: 0.15rem;
+    color: var(--ink-muted);
+    font-size: 0.78rem;
+  }
+
+  .featured-pick__reason {
+    margin-top: 0.85rem;
+    color: var(--ink-muted);
+    font-size: 0.82rem;
+    line-height: 1.7;
+  }
+
+  .featured-pick__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--line);
+    color: var(--accent);
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 560px) {
+    .featured-pick {
+      padding: 1.2rem;
+    }
+
+    .featured-pick__reason {
+      display: block;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .featured-pick {
+      transition: none;
+    }
+  }
+</style>

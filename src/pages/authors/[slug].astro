@@ -26,7 +26,7 @@ const structuredData = {
 
 <Layout title={author.seo.title} description={author.seo.description} alternateLocales={['ja']} structuredData={structuredData}>
   <Header showLanguageSwitcher={false} />
-  <main>
+  <main id="main-content">
     <section class="border-b border-sepia-200/70 py-24 md:py-32"><div class="mx-auto max-w-5xl px-6"><nav aria-label="パンくず" class="text-xs text-sepia-600"><a href="/" class="hover:text-sepia-900">ホーム</a> ／ <a href="/authors/" class="hover:text-sepia-900">作家から探す</a> ／ <span aria-current="page">{author.name}</span></nav><p class="mt-12 text-xs font-semibold tracking-[0.22em] text-sepia-600">AUTHOR GUIDE</p><h1 class="mt-5 font-koburi text-5xl text-sepia-900 md:text-7xl">{author.name}</h1><p class="mt-7 max-w-2xl text-lg leading-9 text-sepia-700">{author.introduction}</p></div></section>
     <section class="py-20 md:py-28" aria-labelledby="works-heading"><div class="mx-auto max-w-5xl px-6"><h2 id="works-heading" class="font-koburi text-4xl text-sepia-900">公開中の作品案内</h2><div class="mt-10"><WorkCardList works={works} /></div></div></section>
   </main>

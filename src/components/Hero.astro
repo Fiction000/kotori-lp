@@ -1,30 +1,17 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import { editorialDetailPath, editorialManifest, localizedPick, weeklyPick, type EditorialLocale } from '../data/editorial';
+import type { EditorialLocale } from '../data/editorial';
 import AppStoreBadge from './AppStoreBadge.astro';
 import AppStoreRating from './AppStoreRating.astro';
+import FeaturedPick from './FeaturedPick.astro';
 
 const lang = getLangFromUrl(Astro.url) as EditorialLocale;
 const t = useTranslations(lang);
-const pick = localizedPick(weeklyPick(), lang);
-const weeklyPath = editorialDetailPath(pick.id, lang);
-const clientPicks = editorialManifest.rotation.pickIDs
-  .map((id) => editorialManifest.picks.find((candidate) => candidate.id === id))
-  .filter((candidate): candidate is NonNullable<typeof candidate> => candidate?.status === 'ready')
-  .map((candidate) => {
-    const content = localizedPick(candidate, lang);
-    return { id: content.id, title: content.title, author: content.author, whyNow: content.whyNow };
-  });
-const rotation = editorialManifest.rotation;
 ---
 
 <section class="hero-shell" aria-labelledby="hero-title">
-  <div class="hero-grid" aria-hidden="true"></div>
-  <div class="hero-glow hero-glow--top" aria-hidden="true"></div>
-  <div class="hero-glow hero-glow--bottom" aria-hidden="true"></div>
-
   <div class="hero-layout mx-auto max-w-7xl px-6 pb-24 pt-16 md:pb-32 md:pt-24">
-    <div class="hero-copy fade-up">
+    <div class="hero-copy">
       <div class="hero-eyebrow">
         <img
           src="/app-icon-288-v1.webp"
@@ -46,26 +33,15 @@ const rotation = editorialManifest.rotation;
 
       <p class="hero-description">{t('hero.description')}</p>
 
-      <ul class="hero-assurances" aria-label={lang === 'ja' ? '利用条件' : 'At a glance'}>
-        <li>{t('hero.free')}</li>
-        <li>{t('hero.noAccount')}</li>
-        <li>{t('hero.offline')}</li>
-      </ul>
 
       <div class="hero-actions">
         <AppStoreBadge location="hero" />
-        <AppStoreRating />
+
       </div>
     </div>
 
-    <div class="hero-product fade-up">
+    <div class="hero-product">
       <div class="reader-window">
-        <div class="reader-window__bar" aria-hidden="true">
-          <span></span>
-          <span></span>
-          <span></span>
-          <p>{t('brand.name')}</p>
-        </div>
         <img
           src="/screenshots/screenshot-1-800-v1.webp"
           srcset="/screenshots/screenshot-1-480-v1.webp 480w, /screenshots/screenshot-1-800-v1.webp 800w"
@@ -78,356 +54,53 @@ const rotation = editorialManifest.rotation;
         />
       </div>
 
-      <a id="weekly-hero-card" href={weeklyPath} class="weekly-card group">
-        <div class="weekly-card__topline">
-          <span class="weekly-card__bird" aria-hidden="true">●</span>
-          <span>{t('hero.weekly.label')}</span>
-        </div>
-        <p id="weekly-hero-title" class="weekly-card__title font-koburi">{pick.title}</p>
-        <p id="weekly-hero-author" class="weekly-card__author">{pick.author}</p>
-        <p id="weekly-hero-reason" class="weekly-card__reason">{pick.whyNow}</p>
-        <span class="weekly-card__link">
-          {t('hero.weekly.link')}
-          <span aria-hidden="true">→</span>
-        </span>
-      </a>
+      <div class="hero-weekly-pick">
+        <FeaturedPick />
+      </div>
     </div>
   </div>
 </section>
-
-<script define:vars={{ clientPicks, rotation, lang }}>
-  const parts = new Intl.DateTimeFormat('en-CA', {
-    timeZone: 'Asia/Tokyo', year: 'numeric', month: '2-digit', day: '2-digit',
-  }).formatToParts(new Date());
-  const part = (type) => Number(parts.find((item) => item.type === type)?.value);
-  const serialDay = (year, month, day) => Math.floor(Date.UTC(year, month - 1, day) / 86400000);
-  const [anchorYear, anchorMonth, anchorDay] = rotation.effectiveFrom.split('-').map(Number);
-  const currentDay = serialDay(part('year'), part('month'), part('day'));
-  const weekStart = currentDay - ((currentDay + 3) % 7);
-  const elapsedWeeks = Math.floor((weekStart - serialDay(anchorYear, anchorMonth, anchorDay)) / 7);
-  const index = ((elapsedWeeks % clientPicks.length) + clientPicks.length) % clientPicks.length;
-  const current = clientPicks[index];
-  const card = document.getElementById('weekly-hero-card');
-  const title = document.getElementById('weekly-hero-title');
-  const author = document.getElementById('weekly-hero-author');
-  const reason = document.getElementById('weekly-hero-reason');
-  if (card instanceof HTMLAnchorElement) {
-    card.href = lang === 'ja' && current.id === 'kokoro'
-      ? '/works/000773/kokoro/'
-      : `${lang === 'en' ? '/en' : ''}/weekly/${current.id}/`;
-  }
-  if (title) title.textContent = current.title;
-  if (author) author.textContent = current.author;
-  if (reason) reason.textContent = current.whyNow;
-</script>
+<div class="hero-reassurance-band mx-auto max-w-7xl px-6">
+      <ul class="hero-assurances" aria-label={lang === 'ja' ? '利用条件' : 'At a glance'}>
+        <li>{t('hero.free')}</li>
+        <li>{t('hero.noAccount')}</li>
+        <li>{t('hero.offline')}</li>
+      </ul>
+  <AppStoreRating />
+</div>
 
 <style>
-  .hero-shell {
-    position: relative;
-    overflow: hidden;
-    border-bottom: 1px solid rgba(25, 58, 88, 0.12);
-    background:
-      linear-gradient(180deg, rgba(229, 244, 252, 0.92) 0%, rgba(247, 250, 248, 0.94) 70%, #fbfaf6 100%);
+  .hero-shell { background: var(--surface-alt); border-bottom: 1px solid var(--line); overflow: hidden; }
+  .hero-layout { display: grid; grid-template-columns: minmax(0,1.25fr) minmax(0,.75fr); align-items: center; gap: 3rem; padding-block: 3rem; }
+  .hero-copy { min-width: 0; }
+  .hero-eyebrow { display: flex; align-items: center; gap: .75rem; color: var(--ink-muted); font-size: .8rem; margin-bottom: 1.5rem; }
+  .hero-mark { border-radius: .5rem; }
+  .hero-title { color: var(--ink); font-size: clamp(2rem,3.8vw,3.4rem); font-weight: 700; letter-spacing: -.04em; line-height: 1.35; }
+  .hero-title > span { display: block; word-break: keep-all; overflow-wrap: anywhere; }
+  .hero-title__emphasis { color: var(--accent); }
+  .hero-description { color: var(--ink-muted); margin-top: 1.5rem; max-width: 34rem; font-size: 1rem; line-height: 1.85; }
+  .hero-actions { margin-top: 1.75rem; }
+  .hero-product { display: grid; grid-template-columns: 1fr; align-items: end; min-width: 0; }
+  .reader-window { width: min(75%,17rem); margin-left: auto; border: 1px solid var(--line); border-radius: 1rem; overflow: hidden; background: var(--surface); box-shadow: 0 16px 40px rgb(20 47 67 / .1); }
+  .reader-window__screen { display: block; width: 100%; height: min(48vh,25rem); object-fit: cover; object-position: top; }
+  .hero-weekly-pick { position: relative; width: 90%; margin-top: -4rem; }
+  .hero-reassurance-band { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-block: 1.25rem; }
+  .hero-assurances { display: flex; flex-wrap: wrap; gap: 1.5rem; color: var(--ink-muted); font-size: .85rem; }
+  @media (max-width: 767px) {
+    .hero-layout { grid-template-columns: 1fr; gap: 2.5rem; padding-block: 2.5rem; }
+    .hero-title { font-size: clamp(1.7rem,5.6vw,2.7rem); }
+    .hero-product { max-width: 28rem; width: 100%; margin-inline: auto; }
+    .reader-window { width: 68%; }
+    .reader-window__screen { height: 23rem; }
+    .hero-weekly-pick { width: 84%; }
+    .hero-reassurance-band { align-items: flex-start; flex-direction: column; }
+    .hero-assurances { gap: .75rem; }
   }
-
-  .hero-grid {
-    position: absolute;
-    inset: 0;
-    opacity: 0.18;
-    background-image:
-      linear-gradient(rgba(42, 83, 112, 0.2) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(42, 83, 112, 0.2) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: linear-gradient(to bottom, black 0%, black 58%, transparent 92%);
-  }
-
-  .hero-glow {
-    position: absolute;
-    border-radius: 999px;
-    filter: blur(4px);
-    pointer-events: none;
-  }
-
-  .hero-glow--top {
-    top: -14rem;
-    right: -8rem;
-    width: 34rem;
-    height: 34rem;
-    background: rgba(56, 167, 226, 0.22);
-  }
-
-  .hero-glow--bottom {
-    bottom: -18rem;
-    left: -10rem;
-    width: 31rem;
-    height: 31rem;
-    background: rgba(238, 111, 91, 0.08);
-  }
-
-  .hero-layout {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    align-items: center;
-    gap: 5rem;
-  }
-
-  .hero-copy {
-    max-width: 40rem;
-  }
-
-  .hero-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1.75rem;
-    color: #24516f;
-    font-size: 0.78rem;
-    font-weight: 700;
-    letter-spacing: 0.14em;
-  }
-
-  .hero-mark {
-    border-radius: 0.55rem;
-    box-shadow: 0 5px 16px rgba(22, 71, 109, 0.18);
-  }
-
-  .hero-title {
-    color: #142f43;
-    font-size: clamp(2.8rem, 6.2vw, 5.6rem);
-    font-weight: 700;
-    letter-spacing: -0.045em;
-    line-height: 1.12;
-  }
-
-  .hero-title span {
-    display: block;
-    word-break: keep-all;
-  }
-
-  .hero-title__emphasis {
-    color: #176b9b;
-  }
-
-  .hero-description {
-    max-width: 36rem;
-    margin-top: 1.75rem;
-    color: #395164;
-    font-size: clamp(1rem, 1.6vw, 1.16rem);
-    line-height: 1.9;
-  }
-
-  .hero-assurances {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-    margin-top: 1.5rem;
-    padding: 0;
-    list-style: none;
-  }
-
-  .hero-assurances li {
-    border: 1px solid rgba(36, 81, 111, 0.18);
-    border-radius: 0.4rem;
-    background: rgba(255, 255, 255, 0.55);
-    padding: 0.45rem 0.7rem;
-    color: #29495f;
-    font-size: 0.78rem;
-    font-weight: 650;
-  }
-
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 1.25rem;
-    margin-top: 2rem;
-  }
-
-  .hero-product {
-    position: relative;
-    width: min(100%, 34rem);
-    min-height: 39rem;
-    margin-inline: auto;
-  }
-
-  .reader-window {
-    width: min(78%, 24rem);
-    margin-left: auto;
-    overflow: hidden;
-    border: 1px solid rgba(20, 47, 67, 0.16);
-    border-radius: 1.15rem;
-    background: #fff;
-    box-shadow:
-      0 30px 70px rgba(19, 63, 92, 0.17),
-      0 4px 12px rgba(19, 63, 92, 0.08);
-    transform: rotate(1.4deg);
-  }
-
-  .reader-window__bar {
-    display: flex;
-    align-items: center;
-    gap: 0.35rem;
-    height: 2.4rem;
-    border-bottom: 1px solid rgba(20, 47, 67, 0.09);
-    padding: 0 0.8rem;
-    background: #f7fbfd;
-  }
-
-  .reader-window__bar span {
-    width: 0.46rem;
-    height: 0.46rem;
-    border-radius: 999px;
-    background: #b9d9e9;
-  }
-
-  .reader-window__bar p {
-    margin-left: auto;
-    color: #527083;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-  }
-
-  .reader-window__screen {
-    display: block;
-    width: 100%;
-    aspect-ratio: 0.64;
-    object-fit: cover;
-    object-position: top;
-  }
-
-  .weekly-card {
-    position: absolute;
-    bottom: 1.25rem;
-    left: 0;
-    width: min(74%, 23.5rem);
-    border: 1px solid rgba(20, 47, 67, 0.15);
-    border-radius: 0.6rem;
-    background: rgba(255, 254, 248, 0.96);
-    padding: 1.45rem;
-    color: #142f43;
-    box-shadow: 0 18px 48px rgba(19, 63, 92, 0.17);
-    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 300ms ease;
-  }
-
-  .weekly-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 24px 56px rgba(19, 63, 92, 0.21);
-  }
-
-  .weekly-card__topline {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: #9c4a3c;
-    font-size: 0.7rem;
-    font-weight: 750;
-    letter-spacing: 0.16em;
-  }
-
-  .weekly-card__bird {
-    font-size: 0.5rem;
-  }
-
-  .weekly-card__title {
-    margin-top: 0.7rem;
-    font-size: 1.75rem;
-    line-height: 1.35;
-  }
-
-  .weekly-card__author {
-    margin-top: 0.15rem;
-    color: #5b6b75;
-    font-size: 0.78rem;
-  }
-
-  .weekly-card__reason {
-    margin-top: 0.85rem;
-    color: #405968;
-    font-size: 0.82rem;
-    line-height: 1.7;
-  }
-
-  .weekly-card__link {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 1rem;
-    padding-top: 0.8rem;
-    border-top: 1px solid rgba(20, 47, 67, 0.12);
-    color: #176b9b;
-    font-size: 0.78rem;
-    font-weight: 700;
-  }
-
-  @media (min-width: 960px) {
-    .hero-layout {
-      grid-template-columns: minmax(0, 1.05fr) minmax(27rem, 0.95fr);
-    }
-  }
-
-  @media (max-width: 959px) {
-    .hero-layout {
-      gap: 3.5rem;
-    }
-
-    .hero-copy {
-      margin-inline: auto;
-      text-align: center;
-    }
-
-    .hero-eyebrow,
-    .hero-actions,
-    .hero-assurances {
-      justify-content: center;
-    }
-  }
-
-  @media (max-width: 560px) {
-    .hero-layout {
-      padding-top: 2.5rem;
-    }
-
-    .hero-eyebrow {
-      letter-spacing: 0.08em;
-    }
-
-    .hero-title {
-      font-size: clamp(2.1rem, 10.8vw, 3.25rem);
-      letter-spacing: -0.055em;
-    }
-
-    .hero-description {
-      line-height: 1.75;
-    }
-
-    .hero-product {
-      min-height: 32rem;
-    }
-
-    .reader-window {
-      width: 76%;
-    }
-
-    .weekly-card {
-      bottom: 0;
-      width: 79%;
-      padding: 1.2rem;
-    }
-
-    .weekly-card__reason {
-      display: none;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .reader-window {
-      transform: none;
-    }
-
-    .weekly-card {
-      transition: none;
-    }
+  @media (min-width: 768px) and (max-height: 700px) {
+    .hero-layout { padding-block: 1.75rem; }
+    .reader-window__screen { height: 15rem; }
+    .hero-weekly-pick { margin-top: -2.5rem; }
+    .hero-description { margin-top: 1rem; }
+    .hero-actions { margin-top: 1.25rem; }
   }
 </style>

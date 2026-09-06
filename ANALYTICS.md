@@ -17,7 +17,7 @@ The site does not send contact-form values, names, email addresses, message cont
 | `page_view` | A consented visitor views a page | GA4 automatic page metadata | Google tag configuration after consent |
 | `app_store_clicked` | A consented visitor opens Kotori in the App Store | `cta_location`, `site_language`, `link_url` | Any App Store badge click |
 
-Current `cta_location` values are `hero`, `closing_cta`, `weekly_index`, `weekly_detail`, and `work_page`.
+Current `cta_location` values are `hero`, `mid_page`, `closing_cta`, `weekly_index`, `weekly_detail`, and `work_page`.
 
 ## Configure GA4
 
