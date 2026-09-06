@@ -9,31 +9,22 @@ const steps = [
     number: '1',
     title: t('howitworks.step1.title'),
     description: t('howitworks.step1.description'),
-    screenshot: '/screenshots/screenshot-2-800-v1.webp',
-    screenshotSet: '/screenshots/screenshot-2-480-v1.webp 480w, /screenshots/screenshot-2-800-v1.webp 800w',
-    alt: t('howitworks.step1.alt'),
   },
   {
     number: '2',
     title: t('howitworks.step2.title'),
     description: t('howitworks.step2.description'),
-    screenshot: '/screenshots/screenshot-1-800-v1.webp',
-    screenshotSet: '/screenshots/screenshot-1-480-v1.webp 480w, /screenshots/screenshot-1-800-v1.webp 800w',
-    alt: t('howitworks.step2.alt'),
   },
   {
     number: '3',
     title: t('howitworks.step3.title'),
     description: t('howitworks.step3.description'),
-    screenshot: '/screenshots/screenshot-4-800-v1.webp',
-    screenshotSet: '/screenshots/screenshot-4-480-v1.webp 480w, /screenshots/screenshot-4-800-v1.webp 800w',
-    alt: t('howitworks.step3.alt'),
   },
 ];
 ---
 
-<section class="pt-8 pb-24 md:pt-12 md:pb-36">
-  <div class="how-it-works mx-auto max-w-7xl px-6">
+<section class="pt-12 pb-24 md:pt-16 md:pb-36">
+  <div class="how-it-works mx-auto max-w-6xl px-6">
     <div class="fade-up how-it-works__intro">
       <h2 class="font-koburi text-3xl leading-tight text-sepia-900 md:text-4xl">
         {t('howitworks.title')}
@@ -46,31 +37,17 @@ const steps = [
           {t('howitworks.guideLink')}
         </a>
       )}
-      <div class="how-it-works__rule" aria-hidden="true"></div>
     </div>
 
-    <ol class="fade-up folio-stack" aria-label={t('howitworks.title')}>
+    <ol class="fade-up reading-sequence" aria-label={t('howitworks.title')}>
       {steps.map((step) => (
-        <li class="folio-page">
-          <div class="folio-page__heading">
-            <span class="folio-page__number" aria-hidden="true">{step.number}</span>
+        <li class="reading-sequence__item">
+          <div class="reading-sequence__heading">
+            <span class="reading-sequence__number" aria-hidden="true">{step.number}</span>
             <h3 class="font-koburi text-2xl leading-tight text-sepia-900">
               {step.title}
             </h3>
           </div>
-
-          <div class="folio-page__screen">
-            <img
-              src={step.screenshot}
-              srcset={step.screenshotSet}
-              sizes="(min-width: 1200px) 272px, (min-width: 900px) 30vw, calc(100vw - 96px)"
-              alt={step.alt}
-              width="800"
-              height="1739"
-              loading="lazy"
-            />
-          </div>
-
           <p class="text-base leading-relaxed text-sepia-700">
             {step.description}
           </p>
@@ -92,133 +69,52 @@ const steps = [
     gap: 1.5rem;
   }
 
-  .how-it-works__rule {
-    width: 10rem;
-    height: 3px;
-    background: var(--color-kotori-green);
-  }
-
-  .folio-stack {
+  .reading-sequence {
     display: grid;
-    gap: 1.5rem;
-    list-style: none;
     margin: 0;
     padding: 0;
+    list-style: none;
+    border-top: 1px solid rgba(82, 58, 34, 0.16);
   }
 
-  .folio-page {
-    display: flex;
-    min-width: 0;
-    flex-direction: column;
-    gap: 1.25rem;
-    padding: 1.5rem;
-    overflow: hidden;
-    border: 1px solid rgba(82, 58, 34, 0.14);
-    border-radius: 1rem;
-    background: rgba(253, 248, 240, 0.96);
-    box-shadow:
-      0 18px 44px rgba(82, 58, 34, 0.10),
-      0 2px 8px rgba(82, 58, 34, 0.05);
+  .reading-sequence__item {
+    display: grid;
+    gap: 0.75rem;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid rgba(82, 58, 34, 0.16);
   }
 
-  .folio-page__heading {
+  .reading-sequence__heading {
     display: flex;
     align-items: baseline;
-    gap: 1rem;
+    gap: 0.75rem;
   }
 
-  .folio-page__number {
+  .reading-sequence__number {
     color: var(--color-kotori-green);
-    font-size: 1rem;
+    font-size: 0.875rem;
     font-weight: 700;
   }
 
-  .folio-page__screen {
-    height: 22rem;
-    flex: none;
-    padding: 0.5rem;
-    overflow: hidden;
-    border-radius: 0.75rem;
-    background: white;
-  }
-
-  .folio-page__screen img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
-    border-radius: 0.5rem;
-  }
-
-  @media (min-width: 900px) and (max-width: 1199px) {
-    .folio-stack {
+  @media (min-width: 768px) {
+    .reading-sequence {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+      border-bottom: 1px solid rgba(82, 58, 34, 0.16);
     }
+
+    .reading-sequence__item {
+      min-height: 11rem;
+      padding: 2rem 2rem 2rem 0;
+      border-bottom: 0;
+    }
+
+    .reading-sequence__item + .reading-sequence__item {
+      padding-right: 2rem;
+      padding-left: 2rem;
+      border-left: 1px solid rgba(82, 58, 34, 0.16);
+    }
+
+    .reading-sequence__item:last-child { padding-right: 0; }
   }
 
-  @media (min-width: 1200px) {
-    .how-it-works {
-      grid-template-columns: minmax(17rem, 0.72fr) minmax(38rem, 1.35fr);
-      align-items: center;
-      gap: 4rem;
-    }
-
-    .folio-stack {
-      position: relative;
-      display: block;
-      min-height: 34rem;
-    }
-
-    .folio-page {
-      position: absolute;
-      top: 0;
-      width: clamp(15.5rem, 20vw, 17rem);
-      height: 29.5rem;
-      padding: 1.75rem;
-      transition:
-        transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
-        box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-    }
-
-    .folio-page__screen {
-      height: auto;
-      min-height: 0;
-      flex: 1;
-    }
-
-    .folio-page:nth-child(1) {
-      top: 3.5rem;
-      left: 0;
-      z-index: 1;
-      transform: rotate(-3deg);
-    }
-
-    .folio-page:nth-child(2) {
-      top: 1.75rem;
-      left: 33%;
-      z-index: 2;
-      transform: rotate(2deg);
-    }
-
-    .folio-page:nth-child(3) {
-      right: 0;
-      z-index: 3;
-      transform: rotate(-2deg);
-    }
-
-    .folio-page:hover {
-      z-index: 4;
-      transform: translateY(-0.35rem) rotate(0deg);
-      box-shadow:
-        0 24px 52px rgba(82, 58, 34, 0.14),
-        0 4px 12px rgba(82, 58, 34, 0.06);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .folio-page {
-      transition: none;
-    }
-  }
 </style>

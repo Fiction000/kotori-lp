@@ -1,30 +1,23 @@
 ---
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
-import LiteraryGutters from './LiteraryGutters.astro';
+import AppStoreBadge from './AppStoreBadge.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const pairedFeatures = [
   {
-    icon: '美',
     title: t('features.vertical.title'),
     description: t('features.vertical.description'),
     screenshot: '/screenshots/screenshot-1-800-v1.webp',
     screenshotSet: '/screenshots/screenshot-1-480-v1.webp 480w, /screenshots/screenshot-1-800-v1.webp 800w',
     caption: lang === 'ja' ? '美しい縦書きレイアウト' : 'Beautiful vertical text layout',
-    primary: true,
   },
   {
-    icon: '速',
     title: t('features.furigana.title'),
     description: t('features.furigana.description'),
-    screenshot: '/screenshots/screenshot-2-800-v1.webp',
-    screenshotSet: '/screenshots/screenshot-2-480-v1.webp 480w, /screenshots/screenshot-2-800-v1.webp 800w',
-    caption: lang === 'ja' ? '作家や作品をかんたん検索' : 'Search authors and works easily',
   },
   {
-    icon: '調',
     title: t('features.dictionary.title'),
     description: t('features.dictionary.description'),
     screenshot: '/screenshots/screenshot-3-800-v1.webp',
@@ -32,7 +25,6 @@ const pairedFeatures = [
     caption: lang === 'ja' ? 'タップで辞書検索' : 'Tap to look up words',
   },
   {
-    icon: '記',
     title: t('features.highlights.title'),
     description: t('features.highlights.description'),
     screenshot: '/screenshots/screenshot-4-800-v1.webp',
@@ -53,12 +45,11 @@ const textOnlyFeatures = [
 ];
 ---
 
-<section id="features" class="relative isolate overflow-hidden pt-24 pb-12 md:pt-36 md:pb-16">
-  <LiteraryGutters />
+<section id="features" class="relative isolate overflow-hidden pt-16 pb-12 md:pt-20 md:pb-16">
   <div class="relative z-[1] mx-auto max-w-6xl px-6">
 
     <!-- Primary feature: hero-scale with screenshot -->
-    <div class="fade-up mb-28 md:mb-40">
+    <div class="fade-up mb-14 md:mb-20">
       <div class="feature-row feature-row--primary">
         <!-- Screenshot side -->
         <div class="feature-screenshot feature-screenshot--primary">
@@ -77,9 +68,6 @@ const textOnlyFeatures = [
         </div>
         <!-- Text side -->
         <div class="feature-text feature-text--primary">
-          <span class="feature-kanji-hero font-koburi text-sepia-100 select-none" aria-hidden="true">
-            {pairedFeatures[0].icon}
-          </span>
           <h2 class="font-koburi text-3xl md:text-4xl text-sepia-900 mb-4 leading-tight">
             {pairedFeatures[0].title}
           </h2>
@@ -90,21 +78,35 @@ const textOnlyFeatures = [
       </div>
     </div>
 
+    <div class="fade-up feature-search">
+      <h3 class="font-koburi text-2xl md:text-3xl text-sepia-800 mb-3 leading-tight">
+        {pairedFeatures[1].title}
+      </h3>
+      <p class="max-w-xl text-base leading-relaxed text-sepia-700 md:text-lg">
+        {pairedFeatures[1].description}
+      </p>
+    </div>
+
     <!-- Secondary paired features: alternating screenshot + text -->
-    <div class="space-y-24 md:space-y-36 mb-28 md:mb-40">
-      {pairedFeatures.slice(1).map((feature, i) => (
+    <div class="mb-12 md:mb-16">
+      {pairedFeatures.slice(2).map((feature, i) => (
         <div class="fade-up">
           <div class:list={[
             'feature-row',
+            'feature-row--detail',
             i % 2 === 0 ? 'feature-row--reverse' : '',
           ]}>
             <!-- Screenshot -->
-            <div class="feature-screenshot">
+            <div class:list={[
+              'feature-screenshot',
+              'feature-screenshot--crop',
+              i === 0 ? 'feature-screenshot--dictionary' : 'feature-screenshot--highlights',
+            ]}>
               <div class="phone-frame">
                 <img
                   src={feature.screenshot}
                   srcset={feature.screenshotSet}
-                  sizes="(min-width: 768px) 320px, 70vw"
+                  sizes="(min-width: 420px) 176px, 42vw"
                   alt={feature.caption}
                   width="800"
                   height="1739"
@@ -118,9 +120,6 @@ const textOnlyFeatures = [
               'feature-text',
               i % 2 === 0 ? 'feature-text--right' : '',
             ]}>
-              <span class="feature-kanji font-koburi text-sepia-200 select-none" aria-hidden="true">
-                {feature.icon}
-              </span>
               <h3 class="font-koburi text-2xl md:text-3xl text-sepia-800 mb-3 leading-tight">
                 {feature.title}
               </h3>
@@ -147,6 +146,10 @@ const textOnlyFeatures = [
           </div>
         ))}
       </div>
+    </div>
+
+    <div class="fade-up feature-proof-cta">
+      <AppStoreBadge location="feature_proof" />
     </div>
 
   </div>
@@ -176,6 +179,10 @@ const textOnlyFeatures = [
     }
   }
 
+  .feature-row--detail {
+    padding-block: 2rem;
+  }
+
   /* ── Screenshot / phone ── */
   .feature-screenshot {
     flex-shrink: 0;
@@ -188,6 +195,24 @@ const textOnlyFeatures = [
     max-width: 340px;
   }
 
+  .feature-screenshot--crop {
+    width: min(42vw, 11rem);
+    height: 12.5rem;
+  }
+
+  .feature-screenshot--crop .phone-frame {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .feature-screenshot--crop .phone-screen {
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .feature-screenshot--dictionary .phone-screen { object-position: center 70%; }
+  .feature-screenshot--highlights .phone-screen { object-position: center 38%; }
+
   @media (min-width: 768px) {
     .feature-screenshot {
       width: auto;
@@ -198,6 +223,11 @@ const textOnlyFeatures = [
     .feature-screenshot--primary {
       max-width: 360px;
     }
+
+    .feature-screenshot--crop {
+      width: 11rem;
+      height: 13.25rem;
+    }
   }
 
   .phone-frame {
@@ -207,15 +237,6 @@ const textOnlyFeatures = [
     box-shadow:
       0 4px 24px rgba(82, 58, 34, 0.08),
       0 0 0 1px rgba(82, 58, 34, 0.04);
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
-                box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .phone-frame:hover {
-    transform: translateY(-4px);
-    box-shadow:
-      0 12px 40px rgba(82, 58, 34, 0.12),
-      0 0 0 1px rgba(82, 58, 34, 0.06);
   }
 
   .phone-screen {
@@ -248,19 +269,27 @@ const textOnlyFeatures = [
     }
   }
 
-  /* ── Kanji accents ── */
-  .feature-kanji-hero {
-    font-size: clamp(5rem, 12vw, 10rem);
-    line-height: 0.85;
-    display: block;
-    margin-bottom: 0.75rem;
+  .feature-search {
+    padding: 2rem 0;
+    border-top: 1px solid rgba(82, 58, 34, 0.14);
+    border-bottom: 1px solid rgba(82, 58, 34, 0.14);
+    text-align: center;
   }
 
-  .feature-kanji {
-    font-size: clamp(3.5rem, 7vw, 5.5rem);
-    line-height: 0.85;
-    display: block;
-    margin-bottom: 0.5rem;
+  .feature-proof-cta {
+    margin-top: 2.5rem;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .feature-search {
+      display: grid;
+      grid-template-columns: minmax(12rem, 0.55fr) minmax(0, 1fr);
+      align-items: baseline;
+      gap: 3rem;
+      padding: 2.5rem 0;
+      text-align: left;
+    }
   }
 
   /* ── Text-only feature close ── */
