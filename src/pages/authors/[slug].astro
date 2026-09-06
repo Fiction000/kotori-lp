@@ -2,9 +2,12 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
+import AppStoreBadge from '../../components/AppStoreBadge.astro';
 import WorkCardList from '../../components/WorkCardList.astro';
-import { authorHubPath, readyAuthorHubs, workPagesForSelector, type AuthorHub } from '../../data/work-catalog';
-import { workPagePath } from '../../data/work-pages';
+import BookLink from '../../components/BookLink.astro';
+import { authorHubPath, catalogEditionForWorkID, readyAuthorHubs, workPagesForSelector, type AuthorHub } from '../../data/work-catalog';
+import { authorGuideForSlug } from '../../data/author-guides';
+import { readyWorkPages, workPagePath } from '../../data/work-pages';
 
 export function getStaticPaths() {
   return readyAuthorHubs().map((author) => ({ params: { slug: author.slug }, props: { author } }));
@@ -13,12 +16,20 @@ export function getStaticPaths() {
 interface Props { author: AuthorHub; }
 const { author } = Astro.props;
 const works = workPagesForSelector({ author: author.slug });
+const guide = authorGuideForSlug(author.slug);
+const readyPagesByBookID = new Map(readyWorkPages().map((work) => [work.bookID, work]));
+const guideSections = guide?.works.flatMap((section) => {
+  const edition = catalogEditionForWorkID(section.workID);
+  const work = edition && readyPagesByBookID.get(edition.providerBookID);
+  return work ? [{ ...section, work }] : [];
+}) ?? [];
+const visibleWorks = guide ? guideSections.map((section) => section.work) : works;
 const canonicalURL = new URL(authorHubPath(author), Astro.site).toString();
 const structuredData = {
   '@context': 'https://schema.org',
   '@graph': [
     { '@type': 'Person', '@id': `${canonicalURL}#person`, name: author.name, identifier: author.aozoraAuthorID, sameAs: `https://www.aozora.gr.jp/index_pages/person${Number(author.aozoraAuthorID)}.html` },
-    { '@type': 'CollectionPage', '@id': `${canonicalURL}#page`, url: canonicalURL, name: author.seo.title, about: { '@id': `${canonicalURL}#person` }, mainEntity: { '@type': 'ItemList', itemListElement: works.map((work, index) => ({ '@type': 'ListItem', position: index + 1, name: work.title, url: new URL(workPagePath(work), Astro.site).toString() })) } },
+    { '@type': 'CollectionPage', '@id': `${canonicalURL}#page`, url: canonicalURL, name: author.seo.title, about: { '@id': `${canonicalURL}#person` }, mainEntity: { '@type': 'ItemList', itemListElement: visibleWorks.map((work, index) => ({ '@type': 'ListItem', position: index + 1, name: work.title, url: new URL(workPagePath(work), Astro.site).toString() })) } },
     { '@type': 'BreadcrumbList', itemListElement: [{ '@type': 'ListItem', position: 1, name: 'ホーム', item: new URL('/', Astro.site).toString() }, { '@type': 'ListItem', position: 2, name: '作家から探す', item: new URL('/authors/', Astro.site).toString() }, { '@type': 'ListItem', position: 3, name: author.name, item: canonicalURL }] },
   ],
 };
@@ -27,8 +38,39 @@ const structuredData = {
 <Layout title={author.seo.title} description={author.seo.description} alternateLocales={['ja']} structuredData={structuredData}>
   <Header showLanguageSwitcher={false} />
   <main>
-    <section class="border-b border-sepia-200/70 py-24 md:py-32"><div class="mx-auto max-w-5xl px-6"><nav aria-label="パンくず" class="text-xs text-sepia-600"><a href="/" class="hover:text-sepia-900">ホーム</a> ／ <a href="/authors/" class="hover:text-sepia-900">作家から探す</a> ／ <span aria-current="page">{author.name}</span></nav><p class="mt-12 text-xs font-semibold tracking-[0.22em] text-sepia-600">AUTHOR GUIDE</p><h1 class="mt-5 font-koburi text-5xl text-sepia-900 md:text-7xl">{author.name}</h1><p class="mt-7 max-w-2xl text-lg leading-9 text-sepia-700">{author.introduction}</p></div></section>
-    <section class="py-20 md:py-28" aria-labelledby="works-heading"><div class="mx-auto max-w-5xl px-6"><h2 id="works-heading" class="font-koburi text-4xl text-sepia-900">公開中の作品案内</h2><div class="mt-10"><WorkCardList works={works} /></div></div></section>
+    {guide ? (
+      <>
+        <section class="border-b border-sepia-200/70 py-16 sm:py-24 md:py-32">
+          <div class="mx-auto max-w-3xl px-5 sm:px-6">
+            <nav aria-label="パンくず" class="text-xs leading-6 text-sepia-600"><a href="/" class="hover:text-sepia-900">ホーム</a> ／ <a href="/authors/" class="hover:text-sepia-900">作家から探す</a> ／ <span aria-current="page">{author.name}</span></nav>
+            <p class="mt-10 text-xs font-semibold tracking-[0.22em] text-sepia-600">AUTHOR GUIDE</p>
+            <h1 class="mt-5 font-koburi text-4xl leading-tight text-sepia-900 sm:text-5xl lg:text-6xl">{guide.title}</h1>
+            <div class="mt-8 space-y-5 text-base leading-8 text-sepia-700 sm:text-lg sm:leading-9">{guide.lead.map((paragraph) => <p>{paragraph}</p>)}</div>
+            <ul class="mt-10 grid gap-3 sm:grid-cols-3" aria-label="読みたい一冊から選ぶ">
+              {guide.choices.map((choice) => {
+                const work = guideSections.find((section) => section.workID === choice.workID)?.work;
+                return <li><a href={`#${choice.anchor}`} class="flex h-full min-h-11 flex-col justify-center border border-sepia-300 bg-sepia-50 px-4 py-3 text-left transition-colors hover:border-sepia-500 hover:bg-white"><span class="text-sm font-semibold leading-6 text-sepia-900">{choice.label}</span>{work && <span class="mt-1 font-koburi text-lg text-sepia-700">→ {work.titleDisplay}</span>}</a></li>;
+              })}
+            </ul>
+          </div>
+        </section>
+        <section class="py-16 sm:py-20 md:py-28">
+          <div class="mx-auto max-w-3xl px-5 sm:px-6">
+            <div class="space-y-16 sm:space-y-20">
+              {guideSections.map((section) => <article id={section.anchor} class="scroll-mt-28 border-t border-sepia-300 pt-9"><h2 class="font-koburi text-3xl leading-tight text-sepia-900 sm:text-4xl">{section.heading}</h2><div class="mt-6 space-y-5 text-base leading-8 text-sepia-700 sm:text-lg sm:leading-9">{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</div><BookLink work={section.work} /></article>)}
+            </div>
+            <section class="mt-16 border-t border-sepia-300 pt-10 sm:mt-20"><h2 class="font-koburi text-3xl leading-tight text-sepia-900 sm:text-4xl">{guide.readingOrder.heading}</h2><div class="mt-6 space-y-5 text-base leading-8 text-sepia-700 sm:text-lg sm:leading-9">{guide.readingOrder.paragraphs.map((paragraph) => 'text' in paragraph ? <p>{paragraph.text}</p> : <p>{paragraph.before}<strong>{paragraph.emphasis}</strong>{paragraph.after}</p>)}</div></section>
+            <section class="mt-16 border-t border-sepia-300 pt-10 sm:mt-20" aria-labelledby="app-store-heading"><h2 id="app-store-heading" class="font-koburi text-3xl leading-tight text-sepia-900 sm:text-4xl">{guide.appCTA.heading}</h2><p class="mt-6 text-base leading-8 text-sepia-700 sm:text-lg sm:leading-9">{guide.appCTA.body}</p><div class="mt-7"><AppStoreBadge location={`author_${author.slug.replaceAll('-', '_')}`} /></div></section>
+            <section class="mt-16 border-t border-sepia-300 pt-10 sm:mt-20" aria-labelledby="sources-heading"><h2 id="sources-heading" class="font-koburi text-3xl leading-tight text-sepia-900 sm:text-4xl">{guide.sources.heading}</h2><p class="mt-6 text-sm leading-7 text-sepia-600">{guide.sources.bodyBeforeLinks}{guideSections.map((section, index) => <Fragment>{index > 0 && '、'}<a href={section.work.sources.textURL} class="underline decoration-sepia-300 underline-offset-4 hover:text-sepia-900">{section.work.titleDisplay}</a></Fragment>)}{guide.sources.bodyAfterLinks}</p></section>
+          </div>
+        </section>
+      </>
+    ) : (
+      <>
+        <section class="border-b border-sepia-200/70 py-24 md:py-32"><div class="mx-auto max-w-5xl px-6"><nav aria-label="パンくず" class="text-xs text-sepia-600"><a href="/" class="hover:text-sepia-900">ホーム</a> ／ <a href="/authors/" class="hover:text-sepia-900">作家から探す</a> ／ <span aria-current="page">{author.name}</span></nav><p class="mt-12 text-xs font-semibold tracking-[0.22em] text-sepia-600">AUTHOR GUIDE</p><h1 class="mt-5 font-koburi text-5xl text-sepia-900 md:text-7xl">{author.name}</h1><p class="mt-7 max-w-2xl text-lg leading-9 text-sepia-700">{author.introduction}</p></div></section>
+        <section class="py-20 md:py-28" aria-labelledby="works-heading"><div class="mx-auto max-w-5xl px-6"><h2 id="works-heading" class="font-koburi text-4xl text-sepia-900">公開中の作品案内</h2><div class="mt-10"><WorkCardList works={works} /></div></div></section>
+      </>
+    )}
   </main>
   <Footer />
 </Layout>

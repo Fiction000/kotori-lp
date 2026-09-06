@@ -1,0 +1,51 @@
+---
+import { workPagePath, type WorkPage } from '../data/work-pages';
+
+interface Props {
+  /** The same record used to render the destination page and its metadata. */
+  work: WorkPage;
+}
+
+const { work } = Astro.props;
+---
+
+<a href={workPagePath(work)} class="book-link group mt-8 grid gap-x-5 gap-y-4 border border-sepia-300 p-5 transition-colors hover:border-sepia-500 hover:bg-sepia-50 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sepia-900 sm:gap-x-6 sm:p-6">
+  <img
+    src={work.image}
+    alt={work.imageAlt}
+    width="1536"
+    height="1024"
+    loading="lazy"
+    decoding="async"
+    class="book-link-image aspect-[3/2] w-full object-cover"
+  />
+  <span class="book-link-identity min-w-0 self-center">
+    <span class="block text-sm leading-6 text-sepia-600">{work.author}</span>
+    <span class="mt-1 flex items-center justify-between gap-3 font-koburi text-xl leading-snug text-sepia-900 sm:text-3xl">
+      <span>{work.title}</span>
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" class="shrink-0">
+        <path d="M4 12h16m-6-6 6 6-6 6" />
+      </svg>
+    </span>
+  </span>
+  <span class="book-link-description min-w-0 text-sm leading-7 text-sepia-700">{work.seo.description}</span>
+</a>
+
+<style>
+  .book-link {
+    grid-template-columns: 5rem minmax(0, 1fr);
+    grid-template-areas: 'image identity' 'description description';
+  }
+  .book-link-image { grid-area: image; }
+  .book-link-identity { grid-area: identity; }
+  .book-link-description { grid-area: description; }
+
+  @media (min-width: 640px) {
+    .book-link {
+      grid-template-columns: 10rem minmax(0, 1fr);
+      grid-template-areas: 'image identity' 'image description';
+      align-items: start;
+      row-gap: 0.5rem;
+    }
+  }
+</style>

@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { authorGuideForSlug } from '../src/data/author-guides.ts';
 import { access, readFile } from 'node:fs/promises';
 import { readyWorkPages, workPagePath } from '../src/data/work-pages.ts';
 import { authorHubPath, readyAuthorHubs, readyCollections } from '../src/data/work-catalog.ts';
@@ -86,6 +87,16 @@ for (const author of readyAuthorHubs()) {
     new URL(`../.vercel/output/static${authorHubPath(author)}index.html`, import.meta.url),
     'utf8',
   );
+  assert(authorPage.includes(`rel="canonical" href="${authorURL}"`), `${author.slug} has the wrong canonical URL`);
+  const guide = authorGuideForSlug(author.slug);
+  if (guide) {
+    for (const choice of guide.choices) {
+      assert(authorPage.includes(`href="#${choice.anchor}"`), `${author.slug} is missing a choice link`);
+      assert(authorPage.includes(`id="${choice.anchor}"`), `${author.slug} has a broken choice anchor`);
+    }
+    assert(authorPage.includes('data-analytics-event="app_store_clicked"'), `${author.slug} needs a tracked App Store link`);
+    assert.equal((authorPage.match(/<h1(?:\s|>)/g) ?? []).length, 1, `${author.slug} needs one primary heading`);
+  }
   assert(authorPage.includes('"@type":"Person"'), `${author.slug} is missing Person schema`);
   assert(authorPage.includes('"@type":"CollectionPage"'), `${author.slug} is missing CollectionPage schema`);
   assert(authorPage.includes('"@type":"BreadcrumbList"'), `${author.slug} is missing BreadcrumbList schema`);

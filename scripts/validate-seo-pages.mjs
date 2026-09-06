@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { authorGuides } from '../src/data/author-guides.ts';
 import {
   authorHubs, authorHubPath, canonicalEditionForWork, catalogEditionForWorkID, catalogEditions, catalogWorkForBookID, catalogWorks,
   collectionPath, curatedCollections, editorialGenres, matchesCollection, publicationEras, readyAuthorHubs, readyCatalogWorks,
@@ -122,6 +123,31 @@ for (const author of authorHubs) {
   authorsBySlug.add(author.slug); authorRoutes.add(authorHubPath(author)); seoTitles.add(author.seo.title); seoDescriptions.add(author.seo.description);
 }
 for (const author of readyAuthorHubs()) assert(readyCatalogWorks().filter((work) => work.authorSlug === author.slug).length >= 3, `${author.name} needs at least three ready works`);
+
+// Editorial guides must only send readers to this author's published works.
+const guideAuthors = new Set();
+for (const guide of authorGuides) {
+  assert(!guideAuthors.has(guide.authorSlug), `Duplicate guide: ${guide.authorSlug}`);
+  assert(readyAuthorHubs().some((author) => author.slug === guide.authorSlug), `${guide.authorSlug} guide needs a ready author`);
+  const anchors = new Set();
+  const selectedWorkIDs = new Set();
+  assert(guide.works.length > 0, `${guide.authorSlug} guide needs selected works`);
+  for (const section of guide.works) {
+    assert.match(section.anchor, /^work-[a-z0-9]+(?:-[a-z0-9]+)*$/, `${guide.authorSlug} guide anchor must use the reserved work- prefix`);
+    assert(!anchors.has(section.anchor), `${guide.authorSlug} repeats anchor ${section.anchor}`);
+    assert(!selectedWorkIDs.has(section.workID), `${guide.authorSlug} repeats work ${section.workID}`);
+    const work = readyCatalogWorks().find((entry) => entry.id === section.workID);
+    assert(work && work.authorSlug === guide.authorSlug, `${section.workID} must be a ready work by ${guide.authorSlug}`);
+    anchors.add(section.anchor);
+    selectedWorkIDs.add(section.workID);
+  }
+  assert.deepEqual(
+    guide.choices.map(({ workID, anchor }) => ({ workID, anchor })),
+    guide.works.map(({ workID, anchor }) => ({ workID, anchor })),
+    `${guide.authorSlug} choices must point to the visible work sections in order`,
+  );
+  guideAuthors.add(guide.authorSlug);
+}
 
 const collectionSlugs = new Set();
 const collectionRoutes = new Set();
