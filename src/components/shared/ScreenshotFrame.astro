@@ -1,0 +1,72 @@
+---
+import ImageCaption from './ImageCaption.astro';
+
+interface Props {
+  src: string;
+  alt: string;
+  srcSet?: string;
+  sizes?: string;
+  width?: number;
+  height?: number;
+  loading?: 'eager' | 'lazy';
+  caption?: string;
+  class?: string;
+  imageClass?: string;
+}
+
+const {
+  src,
+  alt,
+  srcSet,
+  sizes = '(max-width: 768px) 70vw, 280px',
+  width,
+  height,
+  loading = 'lazy',
+  caption,
+  class: className,
+  imageClass,
+} = Astro.props;
+---
+
+<figure class:list={['screenshot-frame', className]}>
+  <div class="screenshot-frame__surface">
+    <img
+      src={src}
+      srcset={srcSet}
+      sizes={sizes}
+      alt={alt}
+      width={width}
+      height={height}
+      loading={loading}
+      decoding="async"
+      class:list={['screenshot-frame__image', imageClass]}
+    />
+  </div>
+  {(caption || Astro.slots.has('caption')) && (
+    <ImageCaption>
+      <slot name="caption">{caption}</slot>
+    </ImageCaption>
+  )}
+</figure>
+
+<style>
+  .screenshot-frame {
+    width: min(100%, 20rem);
+  }
+
+  .screenshot-frame__surface {
+    overflow: hidden;
+    border: 1px solid color-mix(in srgb, var(--color-sepia-300) 55%, transparent);
+    border-radius: 1rem;
+    background: white;
+    padding: 0.4rem;
+    box-shadow: 0 12px 32px rgb(82 58 34 / 9%), 0 0 0 1px rgb(82 58 34 / 3%);
+  }
+
+  .screenshot-frame__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0.65rem;
+  }
+</style>

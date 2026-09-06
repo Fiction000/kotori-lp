@@ -61,8 +61,13 @@ const copy = lang === 'ja'
         button.setAttribute('hidden', '');
       });
     } else if (consentPanel) {
-      const showConsent = () => {
+      let returnFocus: HTMLElement | null = null;
+      const showConsent = (event?: Event) => {
         consentPanel.hidden = false;
+        if (event?.currentTarget instanceof HTMLElement) {
+          returnFocus = event.currentTarget;
+          consentPanel.querySelector<HTMLButtonElement>('button')?.focus();
+        }
       };
 
       if (!analytics.getChoice()) showConsent();
@@ -81,6 +86,8 @@ const copy = lang === 'ja'
             if (shouldReload) window.location.reload();
           }
           consentPanel.hidden = true;
+          returnFocus?.focus();
+          returnFocus = null;
         });
       });
     }

@@ -29,7 +29,8 @@ export default defineConfig({
     // Redirected editorial URLs should not compete with canonical work pages.
     filter: (page) => {
       const pathname = new URL(page).pathname;
-      return !pathname.startsWith('/daily/')
+      return !pathname.includes('/component-library/')
+        && !pathname.startsWith('/daily/')
         && !pathname.startsWith('/en/daily/')
         && !migratedWeeklyPaths.has(pathname);
     },

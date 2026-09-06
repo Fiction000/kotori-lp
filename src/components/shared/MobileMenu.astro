@@ -1,0 +1,30 @@
+---
+interface Props { id: string; label: string; }
+const { id, label } = Astro.props;
+---
+<kotori-mobile-menu class="block lg:hidden">
+  <details>
+    <summary aria-controls={id} class="flex min-h-11 cursor-pointer list-none items-center rounded-lg px-3 text-sm text-sepia-800">{label}<svg aria-hidden="true" focusable="false" class="ml-2 h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16" /></svg></summary>
+    <div id={id} class="absolute inset-x-0 top-full max-h-[75dvh] overflow-y-auto border-y border-sepia-200 bg-kotori-warm p-6 shadow-sm"><slot /></div>
+  </details>
+</kotori-mobile-menu>
+<script>
+  class KotoriMobileMenu extends HTMLElement {
+    connectedCallback() {
+      const details = this.querySelector('details')!;
+      const trigger = this.querySelector('summary')!;
+      this.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && details.open) { details.open = false; trigger.focus(); }
+      });
+      this.addEventListener('click', (event) => {
+        if ((event.target as HTMLElement).closest('a')) details.open = false;
+      });
+      const media = matchMedia('(min-width: 64rem)');
+      media.addEventListener('change', () => { if (media.matches) details.open = false; }, { signal: this.controller.signal });
+    }
+    controller = new AbortController();
+    disconnectedCallback() { this.controller.abort(); }
+  }
+  if (!customElements.get('kotori-mobile-menu')) customElements.define('kotori-mobile-menu', KotoriMobileMenu);
+</script>
+<style>summary::-webkit-details-marker { display: none; }</style>

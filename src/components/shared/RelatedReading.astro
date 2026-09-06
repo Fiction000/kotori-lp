@@ -1,0 +1,42 @@
+---
+import BookCard from './BookCard.astro';
+import type { DiscoveryBook, SharedLocale } from './discovery-types';
+
+interface Props {
+  books: DiscoveryBook[];
+  lang?: SharedLocale;
+  title?: string;
+  intro?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const {
+  books,
+  lang = 'ja',
+  title = lang === 'ja' ? 'あわせて読みたい' : 'Related reading',
+  intro,
+  headingLevel = 'h2',
+} = Astro.props;
+const Heading = headingLevel;
+---
+
+{books.length > 0 && (
+  <section class="related-reading" lang={lang} aria-label={title}>
+    <div class="related-reading__intro">
+      <Heading class="related-reading__title">{title}</Heading>
+      {intro && <p class="related-reading__copy">{intro}</p>}
+    </div>
+    <div class="related-reading__grid">
+      {books.map((book) => <BookCard {...book} lang={lang} headingLevel={headingLevel === 'h2' ? 'h3' : 'h4'} />)}
+    </div>
+  </section>
+)}
+
+<style>
+  .related-reading { border-top: 1px solid var(--color-sepia-300); padding-top: 1.5rem; }
+  .related-reading__title { margin: 0; color: var(--color-sepia-900); font-family: var(--font-koburi); font-size: clamp(1.8rem, 6vw, 2.5rem); }
+  .related-reading__copy { margin: .8rem 0 0; max-width: 42rem; color: var(--color-sepia-700); line-height: 1.8; }
+  .related-reading__grid { display: grid; gap: 1rem; margin-top: 1.6rem; }
+  @media (min-width: 42rem) { .related-reading__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; } }
+  @media (min-width: 68rem) { .related-reading__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>

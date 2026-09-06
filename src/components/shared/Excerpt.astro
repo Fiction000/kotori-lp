@@ -1,0 +1,21 @@
+---
+import type { SharedLocale } from './discovery-types';
+
+interface Props {
+  lang?: SharedLocale;
+  citation?: string;
+  source?: string;
+}
+const { lang = 'ja', citation, source } = Astro.props;
+---
+
+<figure class="excerpt" lang={lang}>
+  <blockquote class="excerpt__quote"><slot /></blockquote>
+  {(citation || source) && <figcaption class="excerpt__citation">{citation}{citation && source && ' · '}{source}</figcaption>}
+</figure>
+
+<style>
+  .excerpt { margin: 0; border-left: 2px solid var(--color-kotori-green); padding: .5rem 0 .5rem 1.25rem; }
+  .excerpt__quote { margin: 0; color: var(--color-sepia-800); font-family: var(--font-koburi); font-size: clamp(1.4rem, 5vw, 2.15rem); line-height: 1.65; }
+  .excerpt__citation { margin-top: 1rem; color: var(--color-sepia-600); font-size: .8125rem; line-height: 1.6; }
+</style>

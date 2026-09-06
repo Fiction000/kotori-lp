@@ -1,0 +1,26 @@
+---
+import { getLangFromUrl, type Lang } from '../../i18n/utils';
+
+interface Props {
+  question: string;
+  answer: string;
+  lang?: Lang;
+  open?: boolean;
+}
+
+const { question, answer, open = false } = Astro.props;
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+---
+
+<details class="rounded-xl border border-sepia-100 bg-white/60 px-6 py-1" open={open} lang={lang}>
+  <summary class="faq-question cursor-pointer py-5 pr-8 font-semibold leading-7 text-sepia-800 marker:text-kotori-green">
+    {question}
+  </summary>
+  <p class="border-t border-sepia-100 pb-5 pt-4 leading-relaxed text-sepia-600">{answer}</p>
+</details>
+
+<style>
+  .faq-question {
+    overflow-wrap: anywhere;
+  }
+</style>

@@ -1,4 +1,6 @@
 ---
+import LanguageSwitch from './shared/LanguageSwitch.astro';
+import MobileMenu from './shared/MobileMenu.astro';
 import { getLangFromUrl, useTranslations, getLocalePath } from '../i18n/utils';
 
 interface Props {
@@ -42,32 +44,8 @@ const altPath = altLang === 'ja'
       <a href={getLocalePath(lang, '/support')} class="hidden min-h-11 items-center rounded-full px-3 text-sepia-600 transition-colors hover:text-sepia-900 lg:flex">
         {t('nav.support')}
       </a>
-      {showLanguageSwitcher && (
-        <a
-          href={altPath}
-          class="inline-flex min-h-11 items-center rounded-full border border-sepia-300 px-4 text-xs font-medium text-sepia-700 transition-colors hover:bg-sepia-100"
-        >
-          {altLang === 'ja' ? '日本語' : 'English'}
-        </a>
-      )}
-
-      <!-- Mobile menu button -->
-      <button
-        id="mobile-menu-btn"
-        class="flex h-11 w-11 items-center justify-center rounded-lg text-sepia-700 hover:text-sepia-900 lg:hidden"
-        aria-label={t('nav.menu')}
-        aria-controls="mobile-menu"
-        aria-expanded="false"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-      </button>
-    </div>
-  </nav>
-
-  <!-- Mobile menu -->
-  <div id="mobile-menu" class="hidden lg:hidden border-t border-sepia-200/50 bg-kotori-warm/95 backdrop-blur-md">
+      {showLanguageSwitcher && <LanguageSwitch lang={lang} href={altPath} />}
+      <MobileMenu id="mobile-menu" label={t('nav.menu')}>
     <nav aria-label={t('nav.mobileLabel')} class="mx-auto grid max-w-7xl gap-6 px-6 py-6 sm:grid-cols-2">
       <section aria-labelledby="mobile-reading-heading">
         <h2 id="mobile-reading-heading" class="mb-2 text-[0.65rem] font-semibold tracking-[0.2em] text-sepia-500 uppercase">
@@ -99,40 +77,7 @@ const altPath = altLang === 'ja'
         </a>
       </section>
     </nav>
-  </div>
+      </MobileMenu>
+    </div>
+  </nav>
 </header>
-
-<script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
-  const icon = document.getElementById('menu-icon');
-
-  function setMenuOpen(open: boolean) {
-    const iconPath = open
-      ? 'M6 18L18 6M6 6l12 12'
-      : 'M4 6h16M4 12h16M4 18h16';
-
-    menu?.classList.toggle('hidden', !open);
-    btn?.setAttribute('aria-expanded', String(open));
-    icon?.setAttribute('d', iconPath);
-  }
-
-  btn?.addEventListener('click', () => {
-    const open = menu?.classList.contains('hidden') ?? false;
-    setMenuOpen(open);
-    if (open) {
-      requestAnimationFrame(() => menu?.querySelector<HTMLElement>('a')?.focus());
-    }
-  });
-
-  menu?.querySelectorAll('a').forEach((link) => {
-    link.addEventListener('click', () => setMenuOpen(false));
-  });
-
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && !menu?.classList.contains('hidden')) {
-      setMenuOpen(false);
-      btn?.focus();
-    }
-  });
-</script>

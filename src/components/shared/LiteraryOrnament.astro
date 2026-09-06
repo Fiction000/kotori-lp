@@ -1,0 +1,20 @@
+---
+interface Props {
+  mark?: string;
+  size?: 'small' | 'medium' | 'large';
+  tone?: 'subtle' | 'default';
+  class?: string;
+}
+
+const {
+  mark = '✦',
+  size = 'medium',
+  tone = 'subtle',
+  class: className,
+} = Astro.props;
+
+const sizes = { small: 'text-lg', medium: 'text-2xl', large: 'text-4xl' };
+const tones = { subtle: 'text-sepia-300', default: 'text-sepia-500' };
+---
+
+<span class:list={['inline-flex select-none font-koburi leading-none', sizes[size], tones[tone], className]} aria-hidden="true">{mark}</span>

@@ -9,6 +9,8 @@ FORM: A newest-first colophon timeline in Read mode, extending the established K
 import type { ChangelogLocale } from '../data/changelog';
 import { releasedChangelog } from '../data/changelog';
 import { useTranslations, getLocalePath } from '../i18n/utils';
+import ReleaseEntry from './shared/ReleaseEntry.astro';
+import SupportPrompt from './shared/SupportPrompt.astro';
 
 interface Props {
   lang: ChangelogLocale;
@@ -17,12 +19,6 @@ interface Props {
 const { lang } = Astro.props;
 const t = useTranslations(lang);
 const releases = releasedChangelog(lang);
-const dateFormatter = new Intl.DateTimeFormat(lang === 'ja' ? 'ja-JP' : 'en-US', {
-  year: 'numeric',
-  month: lang === 'ja' ? 'numeric' : 'long',
-  day: 'numeric',
-  timeZone: 'UTC',
-});
 ---
 
 <section class="relative overflow-hidden border-b border-sepia-200/60">
@@ -47,49 +43,20 @@ const dateFormatter = new Intl.DateTimeFormat(lang === 'ja' ? 'ja-JP' : 'en-US',
   <h2 id="release-history-heading" class="sr-only">{t('changelog.history')}</h2>
   <ol class="release-ledger">
     {releases.map((release, index) => (
-      <li class="grid gap-7 border-t border-sepia-300/70 py-12 first:pt-0 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-12 md:py-16">
-        <div>
-          <p class="font-koburi text-2xl text-kotori-green">v{release.version}</p>
-          <time datetime={release.releasedAt} class="mt-2 block text-sm tabular-nums text-sepia-600">
-            {dateFormatter.format(new Date(`${release.releasedAt}T00:00:00Z`))}
-          </time>
-          {index === 0 && (
-            <span class="mt-5 inline-flex rounded-full border border-sepia-300 px-3 py-1 text-xs font-medium text-sepia-700">
-              {t('changelog.latest')}
-            </span>
-          )}
-        </div>
-
-        <article aria-labelledby={`release-${release.version.replaceAll('.', '-')}`}>
-          <h3 id={`release-${release.version.replaceAll('.', '-')}`} class="font-koburi text-3xl leading-snug text-sepia-900 md:text-4xl">
-            {release.title}
-          </h3>
-          <ul class="mt-7 space-y-5">
-            {release.items.map((item) => (
-              <li class="release-note relative pl-7 text-base leading-8 text-sepia-700 md:text-lg">
-                {item}
-              </li>
-            ))}
-          </ul>
-        </article>
-      </li>
+      <ReleaseEntry release={release} lang={lang} isLatest={index === 0} latestLabel={t('changelog.latest')} />
     ))}
   </ol>
 </section>
 
 <section class="border-t border-sepia-200/60">
   <div class="mx-auto max-w-5xl px-6 py-16 md:py-20">
-    <div class="max-w-2xl">
-      <h2 class="font-koburi text-2xl text-sepia-900 md:text-3xl">{t('changelog.support.title')}</h2>
-      <p class="mt-4 leading-8 text-sepia-700">{t('changelog.support.body')}</p>
-      <a
-        href={getLocalePath(lang, '/support')}
-        class="mt-6 inline-flex min-h-11 items-center border-b border-kotori-green text-sm font-semibold text-kotori-green transition-colors hover:border-sepia-900 hover:text-sepia-900"
-      >
-        {t('changelog.support.link')}
-        <span class="ml-2" aria-hidden="true">→</span>
-      </a>
-    </div>
+    <SupportPrompt
+      lang={lang}
+      title={t('changelog.support.title')}
+      body={t('changelog.support.body')}
+      href={getLocalePath(lang, '/support')}
+      linkLabel={t('changelog.support.link')}
+    />
   </div>
 </section>
 
@@ -99,17 +66,4 @@ const dateFormatter = new Intl.DateTimeFormat(lang === 'ja' ? 'ja-JP' : 'en-US',
     text-orientation: mixed;
   }
 
-  .release-ledger > :last-child {
-    border-bottom: 1px solid color-mix(in srgb, var(--color-sepia-300) 70%, transparent);
-  }
-
-  .release-note::before {
-    position: absolute;
-    top: 0.82rem;
-    left: 0;
-    width: 0.75rem;
-    height: 1px;
-    content: '';
-    background: var(--color-kotori-green);
-  }
 </style>

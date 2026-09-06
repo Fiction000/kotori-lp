@@ -1,0 +1,23 @@
+---
+interface Props {
+  quote?: string;
+  source?: string;
+  lang?: 'ja' | 'en';
+  class?: string;
+}
+
+const { quote, source, lang = 'ja', class: className } = Astro.props;
+const marks = lang === 'ja' ? ['「', '」'] : ['“', '”'];
+---
+
+<figure class:list={['flex min-h-52 flex-col justify-between', className]}>
+  <blockquote class="font-koburi text-[1.35rem] leading-[1.85] text-sepia-900 md:text-2xl">
+    {quote ? `${marks[0]}${quote}${marks[1]}` : <slot />}
+  </blockquote>
+  {(source || Astro.slots.has('source')) && (
+    <figcaption class="mt-8 flex items-center gap-3 text-sm font-medium tracking-[0.03em] text-sepia-700">
+      <span class="h-px w-8 bg-sepia-400" aria-hidden="true"></span>
+      <slot name="source">{source}</slot>
+    </figcaption>
+  )}
+</figure>

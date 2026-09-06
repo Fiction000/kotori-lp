@@ -1,0 +1,37 @@
+---
+import type { SharedLocale, SourceLinkItem } from './discovery-types';
+
+interface Props {
+  links: SourceLinkItem[];
+  lang?: SharedLocale;
+  title?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { links, lang = 'ja', title = lang === 'ja' ? '出典・関連リンク' : 'Sources and links', headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
+---
+
+{links.length > 0 && (
+  <aside class="source-links" lang={lang} aria-label={title}>
+    <Heading class="source-links__title">{title}</Heading>
+    <ul class="source-links__list">
+      {links.map((link) => (
+        <li class="source-links__item">
+          <a href={link.href} target={link.external === false ? undefined : '_blank'} rel={link.external === false ? undefined : 'noopener noreferrer'} class="source-links__link">
+            {link.label}{link.external !== false && <span aria-hidden="true"> ↗</span>}
+          </a>
+          {link.description && <p class="source-links__description">{link.description}</p>}
+        </li>
+      ))}
+    </ul>
+  </aside>
+)}
+
+<style>
+  .source-links { border-top: 1px solid var(--color-sepia-300); padding-top: 1.25rem; }
+  .source-links__title { margin: 0; color: var(--color-sepia-900); font-family: var(--font-koburi); font-size: 1.45rem; }
+  .source-links__list { margin: 1rem 0 0; padding: 0; list-style: none; }
+  .source-links__item { border-top: 1px solid var(--color-sepia-200); padding: .9rem 0; } .source-links__item:last-child { border-bottom: 1px solid var(--color-sepia-200); }
+  .source-links__link { color: var(--color-sepia-800); font-size: .9375rem; font-weight: 600; text-decoration: underline; text-decoration-color: var(--color-sepia-300); text-underline-offset: .3em; } .source-links__link:hover { color: var(--color-kotori-green); }
+  .source-links__description { margin: .45rem 0 0; color: var(--color-sepia-700); font-size: .875rem; line-height: 1.65; }
+</style>

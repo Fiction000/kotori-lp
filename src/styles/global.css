@@ -30,6 +30,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-block-start: 6rem;
 }
 
 body {
@@ -37,7 +38,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-:where(a, button, input, textarea, select):focus-visible {
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible {
   outline: 2px solid var(--color-sepia-700);
   outline-offset: 3px;
 }
@@ -86,4 +87,12 @@ body {
     transform: none;
     transition: none;
   }
+}
+
+/* Shared content must survive long titles and narrow viewports. */
+:where(h1, h2, h3, h4, p, a, dd, blockquote) { overflow-wrap: anywhere; }
+:where(img, video) { max-width: 100%; }
+[hidden] { display: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
 }

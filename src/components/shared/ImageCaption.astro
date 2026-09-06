@@ -1,0 +1,14 @@
+---
+interface Props {
+  text?: string;
+  align?: 'start' | 'center' | 'end';
+  class?: string;
+}
+
+const { text, align = 'center', class: className } = Astro.props;
+const alignment = { start: 'text-left', center: 'text-center', end: 'text-right' }[align];
+---
+
+<figcaption class:list={['mt-4 text-sm font-medium leading-relaxed text-sepia-700', alignment, className]}>
+  <slot>{text}</slot>
+</figcaption>

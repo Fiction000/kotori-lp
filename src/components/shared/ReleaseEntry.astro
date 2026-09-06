@@ -1,0 +1,43 @@
+---
+import type { LocalizedRelease } from '../../data/changelog';
+import { getLangFromUrl, type Lang } from '../../i18n/utils';
+import ReleaseLabel from './ReleaseLabel.astro';
+
+interface Props {
+  id?: string;
+  release: LocalizedRelease;
+  lang?: Lang;
+  isLatest?: boolean;
+  latestLabel?: string;
+}
+
+const { release, isLatest = false, latestLabel } = Astro.props;
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const headingId = Astro.props.id ?? `release-${release.version.replaceAll('.', '-')}-${crypto.randomUUID()}`;
+---
+
+<li class="grid gap-7 border-t border-sepia-300/70 py-12 last:border-b last:border-sepia-300/70 first:pt-0 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-12 md:py-16" lang={lang}>
+  <ReleaseLabel version={release.version} releasedAt={release.releasedAt} lang={lang} isLatest={isLatest} latestLabel={latestLabel} />
+  <article aria-labelledby={headingId}>
+    <h3 id={headingId} class="release-title font-koburi text-3xl leading-snug text-sepia-900 md:text-4xl">{release.title}</h3>
+    <ul class="mt-7 space-y-5">
+      {release.items.map((item) => <li class="release-note relative pl-7 text-base leading-8 text-sepia-700 md:text-lg">{item}</li>)}
+    </ul>
+  </article>
+</li>
+
+<style>
+  .release-title {
+    overflow-wrap: anywhere;
+  }
+
+  .release-note::before {
+    position: absolute;
+    top: 0.82rem;
+    left: 0;
+    width: 0.75rem;
+    height: 1px;
+    content: '';
+    background: var(--color-kotori-green);
+  }
+</style>

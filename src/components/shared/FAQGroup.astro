@@ -1,0 +1,33 @@
+---
+import FAQItem from './FAQItem.astro';
+import { getLangFromUrl, type Lang } from '../../i18n/utils';
+
+export interface FAQData {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  id: string;
+  data: FAQData[];
+  lang?: Lang;
+  title?: string;
+  openFirst?: boolean;
+}
+
+const { id, data, title, openFirst = false } = Astro.props;
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+---
+
+<section aria-labelledby={title ? id : undefined} lang={lang}>
+  {title && <h2 id={id} class="faq-group-title mb-8 text-2xl font-semibold text-sepia-800">{title}</h2>}
+  <div class="space-y-3">
+    {data.map((item, index) => <FAQItem {...item} lang={lang} open={openFirst && index === 0} />)}
+  </div>
+</section>
+
+<style>
+  .faq-group-title {
+    overflow-wrap: anywhere;
+  }
+</style>

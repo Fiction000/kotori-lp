@@ -1,0 +1,53 @@
+---
+interface Props {
+  id?: string;
+  title?: string;
+  eyebrow?: string;
+  description?: string;
+  level?: 2 | 3;
+  align?: 'start' | 'center';
+  class?: string;
+}
+
+const {
+  id,
+  title,
+  eyebrow,
+  description,
+  level = 2,
+  align = 'start',
+  class: className,
+} = Astro.props;
+
+const Heading = `h${level}` as 'h2' | 'h3';
+const alignment = align === 'center' ? 'mx-auto text-center' : 'text-left';
+---
+
+<header class:list={['max-w-3xl', alignment, className]}>
+  {(eyebrow || Astro.slots.has('eyebrow')) && (
+    <p class="mb-4 font-koburi text-xs font-semibold tracking-[0.16em] text-sepia-600">
+      <slot name="eyebrow">{eyebrow}</slot>
+    </p>
+  )}
+  <Heading id={id} class="font-koburi text-3xl leading-[1.35] text-sepia-900 md:text-4xl">
+    <slot name="title">{title}</slot>
+  </Heading>
+  {(description || Astro.slots.has('description')) && (
+    <div class="mt-5 max-w-2xl text-base leading-relaxed text-sepia-700 md:text-lg">
+      <slot name="description">{description}</slot>
+    </div>
+  )}
+</header>
+
+<style>
+  header :global([slot='title']) {
+    display: block;
+  }
+
+  @media (max-width: 420px) {
+    h2, h3 {
+      overflow-wrap: anywhere;
+      text-wrap: pretty;
+    }
+  }
+</style>
