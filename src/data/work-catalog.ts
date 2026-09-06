@@ -49,7 +49,7 @@ export const catalogWorks: readonly CatalogWork[] = [
 ];
 
 export const authorHubs: readonly AuthorHub[] = [
-  { status: 'ready', indexation: 'index', slug: 'natsume-soseki', name: '夏目漱石', aozoraAuthorID: '000148', seo: { title: '夏目漱石の作品案内｜コトリ', description: '夏目漱石の公開中の作品案内を、あらすじと読みどころから紹介します。' }, introduction: '夏目漱石の三作品を、語りの調子や作品ごとの距離の違いからたどります。気になる一作から、ゆっくり読み始めてみてください。', provenance: [{ source: 'site-editorial', note: 'Kotoriの公開中作品案内をまとめた編集ページ。' }] },
+  { status: 'ready', indexation: 'index', slug: 'natsume-soseki', name: '夏目漱石', aozoraAuthorID: '000148', seo: { title: '夏目漱石は何から読む？ はじめての3作品｜コトリ', description: '夏目漱石を初めて読むなら、どの一冊から？ 『坊っちゃん』『夢十夜』『こころ』を、語り口や読みたい気分から選ぶ案内です。各作品の読みどころへ進めます。' }, introduction: '夏目漱石の三作品を、語りの調子や作品ごとの距離の違いからたどります。気になる一作から、ゆっくり読み始めてみてください。', provenance: [{ source: 'site-editorial', note: 'Kotoriの公開中作品案内をまとめた編集ページ。' }] },
 ];
 export const curatedCollections: readonly CuratedCollection[] = [
   { status: 'draft', indexation: 'not-published', slug: 'meiji-kaidan', name: '明治の怪談を読む', seo: { title: '明治の怪談を読む｜コトリ', description: '明治期に発表された怪談を集めた作品案内です。' }, introduction: '公開前の編集コレクションです。', selector: { publicationEra: 'meiji', genre: 'horror' }, memberships: [{ workID: 'work-yumejuya', reason: '夢の場面が連なる短い作品として、怪異の気配を入り口に読めます。' }], provenance: [{ source: 'site-editorial', note: '公開前の選書条件。' }] },
