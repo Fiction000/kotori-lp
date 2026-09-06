@@ -1,0 +1,164 @@
+---
+import BookCard from './BookCard.astro';
+import type { DiscoveryBook, SharedLocale } from './discovery-types';
+
+interface Props {
+  books: DiscoveryBook[];
+  lang?: SharedLocale;
+  title?: string;
+  intro?: string;
+  filterByCategory?: boolean;
+  searchPlaceholder?: string;
+}
+
+const {
+  books,
+  lang = 'ja',
+  title = lang === 'ja' ? '作品を探す' : 'Browse works',
+  intro,
+  filterByCategory = true,
+  searchPlaceholder = lang === 'ja' ? '作品名・作家名で検索' : 'Search by title or author',
+} = Astro.props;
+
+const copy = lang === 'ja'
+  ? {
+      search: '作品を検索', all: 'すべて', clear: '条件をクリア', results: (count: number) => `${count}件の作品`, noResults: '条件に合う作品は見つかりませんでした。', noResultsHint: '検索語やカテゴリを変えてみてください。', category: 'カテゴリで絞り込む',
+    }
+  : {
+      search: 'Search works', all: 'All', clear: 'Clear filters', results: (count: number) => `${count} ${count === 1 ? 'work' : 'works'}`, noResults: 'No works match these filters.', noResultsHint: 'Try another search term or category.', category: 'Filter by category',
+    };
+
+const categories = Array.from(
+  new Map(
+    books
+      .filter((book) => book.category)
+      .map((book) => [book.category as string, book.categoryLabel ?? book.category as string]),
+  ),
+).map(([value, label]) => ({ value, label }));
+const showCategoryFilter = filterByCategory && categories.length > 1;
+const searchText = (book: DiscoveryBook) => [book.title, book.author, book.summary, book.category, book.categoryLabel, book.meta]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<section class="browse-collection" lang={lang} aria-label={title}>
+  <div class="browse-collection__heading">
+    <div>
+      <h2 class="browse-collection__title">{title}</h2>
+      {intro && <p class="browse-collection__intro">{intro}</p>}
+    </div>
+    <p class="browse-collection__count" aria-live="polite" data-result-count>{copy.results(books.length)}</p>
+  </div>
+
+  <kotori-browse-collection class="browse-collection__controls" data-result-singular={lang === 'ja' ? '1件の作品' : '1 work'} data-results-template={lang === 'ja' ? '{count}件の作品' : '{count} works'}>
+    <div class="browse-collection__search-wrap">
+      <label class="browse-collection__search-label">
+        <span class="sr-only">{copy.search}</span>
+        <input type="search" class="browse-collection__search" placeholder={searchPlaceholder} autocomplete="off" data-browse-search />
+      </label>
+      <button type="button" class="browse-collection__clear" hidden data-browse-clear>{copy.clear}</button>
+    </div>
+
+    {showCategoryFilter && (
+      <div class="browse-collection__categories" aria-label={copy.category} role="group">
+        <button type="button" class="browse-collection__category" aria-pressed="true" data-browse-category="">{copy.all}</button>
+        {categories.map((category) => (
+          <button type="button" class="browse-collection__category" aria-pressed="false" data-browse-category={category.value}>{category.label}</button>
+        ))}
+      </div>
+    )}
+
+    <p class="browse-collection__empty" role="status" hidden data-browse-empty>
+      <span>{copy.noResults}</span>
+      <span>{copy.noResultsHint}</span>
+    </p>
+
+    <ul class="browse-collection__grid" data-browse-results>
+      {books.map((book) => (
+        <li class="browse-collection__item" data-browse-book data-category={book.category ?? ''} data-search-text={searchText(book)}>
+          <BookCard {...book} lang={lang} />
+        </li>
+      ))}
+    </ul>
+  </kotori-browse-collection>
+</section>
+
+<script>
+  class KotoriBrowseCollection extends HTMLElement {
+    connectedCallback() {
+      if (this.dataset.enhanced === 'true') return;
+
+      const search = this.querySelector<HTMLInputElement>('[data-browse-search]');
+      const clear = this.querySelector<HTMLButtonElement>('[data-browse-clear]');
+      const empty = this.querySelector<HTMLElement>('[data-browse-empty]');
+      const count = this.closest<HTMLElement>('.browse-collection')?.querySelector<HTMLElement>('[data-result-count]');
+      const buttons = Array.from(this.querySelectorAll<HTMLButtonElement>('[data-browse-category]'));
+      const books = Array.from(this.querySelectorAll<HTMLElement>('[data-browse-book]'));
+      if (!search || !clear || !empty || !count) return;
+
+      this.dataset.enhanced = 'true';
+      let category = '';
+      const normalize = (value: string) => value.normalize('NFKC').toLocaleLowerCase(this.closest<HTMLElement>('[lang]')?.lang || 'ja').trim();
+
+      const update = () => {
+        const query = normalize(search.value);
+        let visibleCount = 0;
+        books.forEach((book) => {
+          const matchesSearch = !query || normalize(book.dataset.searchText ?? '').includes(query);
+          const matchesCategory = !category || book.dataset.category === category;
+          const visible = matchesSearch && matchesCategory;
+          book.hidden = !visible;
+          if (visible) visibleCount += 1;
+        });
+        count.textContent = visibleCount === 1 ? (this.dataset.resultSingular ?? '1') : (this.dataset.resultsTemplate ?? '{count}').replace('{count}', String(visibleCount));
+        empty.hidden = visibleCount !== 0;
+        clear.hidden = !query && !category;
+      };
+
+      search.addEventListener('input', update);
+      search.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && search.value) {
+          search.value = '';
+          update();
+        }
+      });
+      clear.addEventListener('click', () => {
+        category = '';
+        search.value = '';
+        buttons.forEach((button) => button.setAttribute('aria-pressed', String(button.dataset.browseCategory === '')));
+        update();
+        search.focus();
+      });
+      buttons.forEach((button) => button.addEventListener('click', () => {
+        category = button.dataset.browseCategory ?? '';
+        buttons.forEach((candidate) => candidate.setAttribute('aria-pressed', String(candidate === button)));
+        update();
+      }));
+    }
+  }
+
+  if (!customElements.get('kotori-browse-collection')) customElements.define('kotori-browse-collection', KotoriBrowseCollection);
+</script>
+
+<style>
+  .browse-collection__heading { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 1.25rem; border-bottom: 1px solid var(--color-sepia-300); padding-bottom: 1.5rem; }
+  .browse-collection__title { margin: 0; color: var(--color-sepia-900); font-family: var(--font-koburi); font-size: clamp(2rem, 7vw, 3.25rem); line-height: 1.15; }
+  .browse-collection__intro { margin: .8rem 0 0; max-width: 44rem; color: var(--color-sepia-700); line-height: 1.8; }
+  .browse-collection__count { margin: 0; color: var(--color-sepia-700); font-size: .875rem; font-variant-numeric: tabular-nums; }
+  .browse-collection__controls { display: block; padding-top: 1.5rem; }
+  .browse-collection__search-wrap { display: flex; flex-wrap: wrap; gap: .75rem; }
+  .browse-collection__search-label { min-width: min(100%, 16rem); flex: 1; }
+  .browse-collection__search { width: 100%; border: 1px solid var(--color-sepia-400); border-radius: 0; background: var(--color-kotori-warm); color: var(--color-sepia-900); padding: .75rem 1rem; font: inherit; }
+  .browse-collection__search::placeholder { color: var(--color-sepia-600); }
+  .browse-collection__clear, .browse-collection__category { min-height: 2.8rem; border: 1px solid var(--color-sepia-300); border-radius: 0; background: var(--color-kotori-warm); color: var(--color-sepia-700); padding: .55rem .85rem; font: inherit; font-size: .875rem; cursor: pointer; }
+  .browse-collection__clear:hover, .browse-collection__category:hover { border-color: var(--color-sepia-600); color: var(--color-sepia-900); }
+  .browse-collection__categories { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
+  .browse-collection__category[aria-pressed='true'] { border-color: var(--color-kotori-green); background: var(--color-kotori-green); color: var(--color-kotori-warm); }
+  .browse-collection__grid { display: grid; gap: 1rem; margin: 1.5rem 0 0; padding: 0; list-style: none; }
+  .browse-collection__item { min-width: 0; }
+  .browse-collection__empty { display: grid; gap: .45rem; margin: 1.5rem 0 0; border: 1px dashed var(--color-sepia-400); background: var(--color-sepia-50); padding: 1.5rem; color: var(--color-sepia-700); line-height: 1.7; }
+  .browse-collection__empty span:first-child { color: var(--color-sepia-900); font-family: var(--font-koburi); font-size: 1.25rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; clip-path: inset(50%); }
+  @media (min-width: 42rem) { .browse-collection__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; } }
+  @media (min-width: 70rem) { .browse-collection__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+</style>

@@ -1,0 +1,70 @@
+---
+import type { DiscoveryBook, SharedLocale } from './discovery-types';
+
+interface Props extends DiscoveryBook {
+  lang?: SharedLocale;
+  headingLevel?: 'h2' | 'h3' | 'h4';
+  imageLoading?: 'eager' | 'lazy';
+}
+
+const {
+  title,
+  author,
+  href,
+  summary,
+  image,
+  imageAlt = '',
+  meta,
+  lang = 'ja',
+  headingLevel = 'h3',
+  imageLoading = 'lazy',
+} = Astro.props;
+const Heading = headingLevel;
+const readLabel = lang === 'ja' ? '作品案内を読む' : 'Read the guide';
+---
+
+<article class="book-card" lang={lang}>
+  <a href={href} class="book-card__link group">
+    {image && (
+      <img
+        src={image}
+        alt={imageAlt}
+        loading={imageLoading}
+        width="1536"
+        height="1024"
+        class="book-card__image"
+      />
+    )}
+    <div class="book-card__body">
+      {meta && <p class="book-card__meta">{meta}</p>}
+      <Heading class="book-card__title">{title}</Heading>
+      <p class="book-card__author">{author}</p>
+      {summary && <p class="book-card__summary">{summary}</p>}
+      <span class="book-card__action" aria-hidden="true">{readLabel} <span>→</span></span>
+    </div>
+  </a>
+</article>
+
+<style>
+  .book-card { height: 100%; }
+  .book-card__link {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    border: 1px solid var(--color-sepia-200);
+    background: color-mix(in srgb, white 38%, transparent);
+    color: inherit;
+    text-decoration: none;
+    transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+  }
+  .book-card__link:hover { border-color: var(--color-sepia-400); background: var(--color-sepia-50); transform: translateY(-2px); }
+  .book-card__image { aspect-ratio: 3 / 2; width: 100%; border-bottom: 1px solid var(--color-sepia-200); background: var(--color-sepia-100); object-fit: cover; }
+  .book-card__body { display: flex; flex: 1; flex-direction: column; padding: 1.5rem; }
+  .book-card__meta { margin: 0 0 .55rem; color: var(--color-sepia-600); font-size: .7rem; font-weight: 600; letter-spacing: .14em; }
+  .book-card__title { margin: 0; color: var(--color-sepia-900); font-family: var(--font-koburi); font-size: clamp(1.55rem, 4.5vw, 2rem); line-height: 1.25; overflow-wrap: anywhere; }
+  .book-card__author { margin: .55rem 0 0; color: var(--color-sepia-700); font-size: .875rem; }
+  .book-card__summary { margin: 1rem 0 0; color: var(--color-sepia-700); font-size: .9375rem; line-height: 1.75; }
+  .book-card__action { margin-top: auto; padding-top: 1.5rem; color: var(--color-sepia-700); font-size: .8125rem; font-weight: 600; }
+  .book-card__link:hover .book-card__action { color: var(--color-kotori-green); }
+  @media (prefers-reduced-motion: reduce) { .book-card__link { transition: none; } .book-card__link:hover { transform: none; } }
+</style>

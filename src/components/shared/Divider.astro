@@ -1,0 +1,18 @@
+---
+interface Props {
+  label?: string;
+  class?: string;
+}
+
+const { label, class: className } = Astro.props;
+---
+
+{label ? (
+  <div class:list={['flex items-center gap-4 text-xs font-medium tracking-[0.12em] text-sepia-600', className]}>
+    <span class="h-px flex-1 bg-sepia-300/75" aria-hidden="true"></span>
+    <span>{label}</span>
+    <span class="h-px flex-1 bg-sepia-300/75" aria-hidden="true"></span>
+  </div>
+) : (
+  <hr class:list={['border-0 border-t border-sepia-200/80', className]} />
+)}

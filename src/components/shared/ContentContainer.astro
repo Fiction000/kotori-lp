@@ -1,0 +1,32 @@
+---
+interface Props {
+  as?: 'div' | 'section' | 'article' | 'header' | 'footer';
+  width?: 'narrow' | 'default' | 'wide' | 'full';
+  padding?: 'compact' | 'default' | 'relaxed';
+  class?: string;
+}
+
+const {
+  as: Tag = 'div',
+  width = 'default',
+  padding = 'default',
+  class: className,
+} = Astro.props;
+
+const widths = {
+  narrow: 'max-w-2xl',
+  default: 'max-w-5xl',
+  wide: 'max-w-7xl',
+  full: 'max-w-none',
+};
+
+const paddings = {
+  compact: 'px-4 sm:px-6',
+  default: 'px-6',
+  relaxed: 'px-6 md:px-8',
+};
+---
+
+<Tag class:list={['mx-auto w-full', widths[width], paddings[padding], className]}>
+  <slot />
+</Tag>

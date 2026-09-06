@@ -1,0 +1,60 @@
+---
+interface Props {
+  rating?: number;
+  max?: number;
+  source?: string;
+  lang?: 'ja' | 'en';
+  showValue?: boolean;
+  class?: string;
+}
+
+const {
+  rating,
+  max = 5,
+  source,
+  lang = 'ja',
+  showValue = true,
+  class: className,
+} = Astro.props;
+
+const safeMax = Number.isFinite(max) && max > 0 ? max : 5;
+const hasRating = typeof rating === 'number' && Number.isFinite(rating);
+const safeRating = hasRating ? Math.min(Math.max(rating, 0), safeMax) : 0;
+const fill = `${(safeRating / safeMax) * 100}%`;
+const displayValue = Number.isInteger(safeRating) ? String(safeRating) : safeRating.toFixed(1);
+const label = lang === 'ja'
+  ? `${displayValue} / ${safeMax} の評価`
+  : `Rating: ${displayValue} out of ${safeMax}`;
+---
+
+{hasRating && (
+  <div class:list={['flex flex-wrap items-center gap-x-2.5 gap-y-1', className]} role="img" aria-label={label}>
+    <span class="rating-stars" aria-hidden="true">
+      ★★★★★
+      <span class="rating-stars__fill" style={`width: ${fill}`}>★★★★★</span>
+    </span>
+    {showValue && <span class="font-semibold tabular-nums text-sepia-900">{displayValue} / {safeMax}</span>}
+    {source && <span class="text-xs font-medium tracking-[0.02em] text-sepia-700">{source}</span>}
+  </div>
+)}
+
+<style>
+  .rating-stars {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    color: var(--color-sepia-300);
+    font-size: 1rem;
+    line-height: 1;
+    letter-spacing: 0.1em;
+  }
+
+  .rating-stars__fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    color: var(--color-sepia-600);
+  }
+</style>

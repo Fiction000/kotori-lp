@@ -1,0 +1,16 @@
+---
+import AppStoreBadge from '../AppStoreBadge.astro';
+import { getLangFromUrl, type Lang } from '../../i18n/utils';
+
+interface Props {
+  lang?: Lang;
+  location?: string;
+  variant?: 'dark' | 'light';
+}
+
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const location = Astro.props.location ?? 'unspecified';
+const variant = Astro.props.variant ?? 'dark';
+---
+
+<AppStoreBadge lang={lang} location={location} variant={variant} />

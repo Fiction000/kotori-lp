@@ -1,0 +1,31 @@
+---
+import type { DiscoveryBook, SharedLocale } from './discovery-types';
+
+interface Props extends DiscoveryBook { lang?: SharedLocale; index?: number; }
+const { title, author, href, summary, meta, lang = 'ja', index } = Astro.props;
+const readLabel = lang === 'ja' ? '読む' : 'Read';
+---
+
+<article class="book-row" lang={lang}>
+  <a href={href} class="book-row__link group">
+    {index !== undefined && <span class="book-row__number" aria-hidden="true">{String(index).padStart(2, '0')}</span>}
+    <div class="book-row__identity">
+      {meta && <p class="book-row__meta">{meta}</p>}
+      <h3 class="book-row__title">{title}</h3>
+      <p class="book-row__author">{author}</p>
+    </div>
+    {summary && <p class="book-row__summary">{summary}</p>}
+    <span class="book-row__action" aria-hidden="true">{readLabel} →</span>
+  </a>
+</article>
+
+<style>
+  .book-row__link { display: grid; gap: .9rem 1.25rem; border-bottom: 1px solid var(--color-sepia-200); padding: 1.4rem 0; color: inherit; text-decoration: none; }
+  .book-row__number { color: var(--color-sepia-600); font-family: var(--font-koburi); font-size: 1.3rem; }
+  .book-row__meta { margin: 0 0 .35rem; color: var(--color-sepia-600); font-size: .7rem; font-weight: 600; letter-spacing: .12em; }
+  .book-row__title { margin: 0; color: var(--color-sepia-900); font-family: var(--font-koburi); font-size: clamp(1.45rem, 4vw, 1.8rem); line-height: 1.3; overflow-wrap: anywhere; }
+  .book-row__author, .book-row__summary { margin: .4rem 0 0; color: var(--color-sepia-700); font-size: .875rem; line-height: 1.7; }
+  .book-row__action { align-self: end; color: var(--color-sepia-700); font-size: .8125rem; font-weight: 600; white-space: nowrap; }
+  .book-row__link:hover .book-row__title, .book-row__link:hover .book-row__action { color: var(--color-kotori-green); }
+  @media (min-width: 48rem) { .book-row__link { grid-template-columns: 3.75rem minmax(12rem, .8fr) minmax(0, 1.2fr) auto; align-items: center; gap: 2rem; padding: 1.8rem 0; } .book-row__link:not(:has(.book-row__number)) { grid-template-columns: minmax(12rem, .8fr) minmax(0, 1.2fr) auto; } }
+</style>

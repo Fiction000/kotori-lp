@@ -1,0 +1,6 @@
+---
+import { analyticsEnabled } from '../../lib/analytics';
+interface Props { lang?: 'ja' | 'en'; }
+const { lang = 'ja' } = Astro.props;
+---
+{analyticsEnabled && <button type="button" data-analytics-settings class="min-h-11 text-sepia-700 underline underline-offset-4 hover:text-sepia-900">{lang === 'ja' ? 'アクセス解析の設定' : 'Analytics settings'}</button>}

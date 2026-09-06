@@ -1,0 +1,89 @@
+---
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import ContentContainer from './shared/ContentContainer.astro';
+import SectionHeading from './shared/SectionHeading.astro';
+import Divider from './shared/Divider.astro';
+import LiteraryOrnament from './shared/LiteraryOrnament.astro';
+import DownloadCTA from './shared/DownloadCTA.astro';
+import FeatureRow from './shared/FeatureRow.astro';
+import ScreenshotFrame from './shared/ScreenshotFrame.astro';
+import RatingDisplay from './shared/RatingDisplay.astro';
+import ReviewCollection from './shared/ReviewCollection.astro';
+import FeaturedPickCard from './shared/FeaturedPickCard.astro';
+import BookRow from './shared/BookRow.astro';
+import BrowseCollection from './shared/BrowseCollection.astro';
+import RelatedReading from './shared/RelatedReading.astro';
+import ArticleHeader from './shared/ArticleHeader.astro';
+import WorkMetadata from './shared/WorkMetadata.astro';
+import Excerpt from './shared/Excerpt.astro';
+import SourceLinks from './shared/SourceLinks.astro';
+import FAQGroup from './shared/FAQGroup.astro';
+import SupportPrompt from './shared/SupportPrompt.astro';
+import ReleaseEntry from './shared/ReleaseEntry.astro';
+import ContactForm from './ContactForm.astro';
+import { releasedChangelog } from '../data/changelog';
+interface Props { lang: 'ja' | 'en' }
+const { lang } = Astro.props;
+const ja = lang === 'ja';
+const books = [
+  { title: ja ? '長い作品名が複数行になっても、読みやすさを保つためのサンプル' : 'A very long book title that wraps across several lines without hiding the words', author: ja ? 'サンプル著者' : 'Sample author', summary: ja ? '表示確認用の架空の紹介文です。' : 'Fictional content for layout verification.', href: '#editorial-example', category: ja ? '小説' : 'Fiction' },
+  { title: ja ? '短い題名' : 'A short title', author: ja ? 'サンプル著者' : 'Sample author', href: '#editorial-example', category: ja ? '随筆' : 'Essay' },
+  { title: ja ? '静かな午後の読書' : 'Reading on a quiet afternoon', author: ja ? 'サンプル著者' : 'Sample author', href: '#editorial-example', category: ja ? '小説' : 'Fiction' },
+];
+const reviews = Array.from({length: 3}, (_, index) => ({ quote: ja ? `表示確認用のレビュー ${index + 1}。長い文章でも読みやすく表示できるかを確認します。` : `Sample review ${index + 1}. This fictional text checks wrapping and the collection layout.`, source: ja ? '架空の表示サンプル' : 'Fictional preview fixture' }));
+const faq = [{ question: ja ? 'このページの内容は実際のレビューですか？' : 'Are these actual reviews?', answer: ja ? 'いいえ。表示確認用のサンプルです。' : 'No. These are labeled fixtures for layout testing.' }];
+const release = releasedChangelog(lang)[0];
+---
+<Header />
+<main id="main-content">
+  <ContentContainer>
+    <ArticleHeader title={ja ? '共通コンポーネント' : 'Shared components'} lang={lang} titleSize="standard" eyebrow="KOTORI / COMPONENT LIBRARY" summary={ja ? '日本語・英語、狭い画面、長い題名、キーボード操作を確認するための開発用プレビューです。' : 'A development preview for Japanese, English, narrow screens, long titles, and keyboard interaction.'} />
+    <section class="library-section">
+      <SectionHeading title={ja ? 'ダウンロード' : 'Download actions'} description={ja ? 'コンパクト、作品紹介、ページ末尾の配置。' : 'Compact, contextual book, and closing placements.'} />
+      <DownloadCTA lang={lang} variant="compact" />
+      <DownloadCTA lang={lang} variant="book" bookTitle={books[0].title} />
+    </section>
+    <Divider />
+    <section class="library-section">
+      <SectionHeading title={ja ? 'プロダクトの紹介' : 'Product media'} />
+      <FeatureRow title={ja ? '画面と説明を並べる' : 'A screenshot with supporting text'} description={ja ? '幅に合わせて縦に並び替わります。' : 'The layout stacks on narrow screens.'}>
+        <div slot="media" class="mx-auto max-w-64"><ScreenshotFrame src="/screenshots/screenshot-1-480-v1.webp" alt={ja ? 'コトリの読書画面' : 'Kotori reading screen'} caption={ja ? '画面のキャプション' : 'Screenshot caption'} width={480} height={1043} /></div>
+      </FeatureRow>
+    </section>
+    <section class="library-section">
+      <SectionHeading title={ja ? 'レビュー（架空の表示サンプル）' : 'Reviews (fictional preview fixtures)'} />
+      <RatingDisplay rating={4.5} source={ja ? '架空の評価サンプル' : 'Fictional rating fixture'} lang={lang} />
+      <ReviewCollection reviews={reviews} lang={lang} carousel id={`sample-reviews-${lang}`} />
+      <ReviewCollection reviews={reviews.slice(0, 2)} lang={lang} />
+    </section>
+    <section class="library-section">
+      <SectionHeading title={ja ? '本との出会い' : 'Reading discovery'} />
+      <FeaturedPickCard {...books[0]} lang={lang} />
+      <BookRow {...books[1]} lang={lang} />
+      <BrowseCollection books={books} lang={lang} />
+      <RelatedReading books={books.slice(0, 2)} lang={lang} />
+    </section>
+    <section id="editorial-example" class="library-section space-y-8">
+      <SectionHeading title={ja ? '作品紹介の要素' : 'Editorial elements'} />
+      <WorkMetadata items={[{label: ja ? '著者' : 'Author', value: books[0].author}, {label: ja ? '作品名' : 'Title', value: books[0].title}]} lang={lang} />
+      <Excerpt lang={lang} citation={ja ? '架空の表示サンプル' : 'Fictional preview fixture'}>{ja ? '窓を開けて、一冊の本を手に取る。' : 'Open the window and pick up a book.'}</Excerpt>
+      <SourceLinks lang={lang} links={[{label: ja ? '青空文庫' : 'Aozora Bunko', href: 'https://www.aozora.gr.jp/'}]} />
+    </section>
+    <LiteraryOrnament />
+    <section class="library-section space-y-8">
+      <SectionHeading title={ja ? 'ヘルプ' : 'Help'} />
+      <FAQGroup id={`sample-faq-${lang}`} data={faq} lang={lang} />
+      <SupportPrompt lang={lang} />
+      <p class="text-sm text-sepia-700">{ja ? '下のフォームは実際のお問い合わせ用です。テスト送信はしないでください。' : 'The form below connects to real support. Do not send test submissions.'}</p>
+      <ContactForm id={`preview-contact-${lang}`} lang={lang} />
+    </section>
+    <section class="library-section">
+      <SectionHeading title={ja ? 'アップデート' : 'Updates'} />
+      <ul>{release && <ReleaseEntry release={release} lang={lang} isLatest latestLabel={ja ? '最新版' : 'Latest'} />}</ul>
+    </section>
+  </ContentContainer>
+  <DownloadCTA lang={lang} variant="closing" />
+</main>
+<Footer />
+<style>.library-section { padding-block: 3rem; } .library-section > :global(*) + :global(*) { margin-top: 2rem; }</style>

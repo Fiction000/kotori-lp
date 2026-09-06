@@ -1,0 +1,29 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+  mediaPosition?: 'start' | 'end';
+  class?: string;
+}
+
+const { title, description, mediaPosition = 'start', class: className } = Astro.props;
+const direction = mediaPosition === 'end' ? 'md:flex-row-reverse' : 'md:flex-row';
+---
+
+<article class:list={['flex flex-col gap-7 border-t border-sepia-200/80 py-8 md:items-start md:gap-12', direction, className]}>
+  {Astro.slots.has('media') && (
+    <div class="shrink-0 md:w-5/12">
+      <slot name="media" />
+    </div>
+  )}
+  <div class="min-w-0 flex-1">
+    {Astro.slots.has('eyebrow') && (
+      <div class="mb-3 text-xs font-semibold tracking-[0.14em] text-sepia-600"><slot name="eyebrow" /></div>
+    )}
+    <h3 class="font-koburi text-2xl leading-snug text-sepia-900 md:text-3xl">{title}</h3>
+    {(description || Astro.slots.has('default')) && (
+      <div class="mt-4 max-w-xl text-base leading-relaxed text-sepia-700"><slot>{description}</slot></div>
+    )}
+    {Astro.slots.has('action') && <div class="mt-6"><slot name="action" /></div>}
+  </div>
+</article>

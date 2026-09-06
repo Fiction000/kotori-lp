@@ -1,0 +1,31 @@
+---
+import { getLangFromUrl, getLocalePath, type Lang } from '../../i18n/utils';
+
+interface Props {
+  lang?: Lang;
+  title?: string;
+  body?: string;
+  href?: string;
+  linkLabel?: string;
+}
+
+const lang = Astro.props.lang ?? getLangFromUrl(Astro.url);
+const title = Astro.props.title ?? (lang === 'ja' ? 'お問い合わせ' : 'Need help?');
+const body = Astro.props.body ?? (lang === 'ja' ? 'ご質問やご意見をお寄せください。' : 'Send us your questions or feedback.');
+const href = Astro.props.href ?? getLocalePath(lang, '/support');
+const linkLabel = Astro.props.linkLabel ?? (lang === 'ja' ? 'サポートを見る' : 'Visit support');
+---
+
+<div class="max-w-2xl" lang={lang}>
+  <h2 class="support-title font-koburi text-2xl text-sepia-900 md:text-3xl">{title}</h2>
+  <p class="mt-4 leading-8 text-sepia-700">{body}</p>
+  <a href={href} class="mt-6 inline-flex min-h-11 items-center border-b border-kotori-green text-sm font-semibold text-kotori-green transition-colors hover:border-sepia-900 hover:text-sepia-900">
+    {linkLabel}<span class="ml-2" aria-hidden="true">→</span>
+  </a>
+</div>
+
+<style>
+  .support-title {
+    overflow-wrap: anywhere;
+  }
+</style>

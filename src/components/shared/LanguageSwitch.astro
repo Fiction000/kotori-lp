@@ -1,0 +1,6 @@
+---
+interface Props { lang: 'ja' | 'en'; href: string; }
+const { lang, href } = Astro.props;
+const targetLang = lang === 'ja' ? 'en' : 'ja';
+---
+<a href={href} lang={targetLang} hreflang={targetLang} aria-label={targetLang === 'ja' ? '日本語で読む' : 'Read in English'} class="inline-flex min-h-11 items-center rounded-full border border-sepia-300 px-4 text-xs font-medium text-sepia-700 transition-colors hover:bg-sepia-100">{targetLang === 'ja' ? '日本語' : 'English'}</a>

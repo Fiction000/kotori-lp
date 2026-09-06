@@ -1,0 +1,93 @@
+---
+interface Props {
+  targetScroller: string;
+  lang?: 'ja' | 'en';
+  previousLabel?: string;
+  nextLabel?: string;
+  scrollFraction?: number;
+  class?: string;
+}
+
+const {
+  targetScroller,
+  lang = 'ja',
+  previousLabel = lang === 'ja' ? '前の項目へ' : 'Previous items',
+  nextLabel = lang === 'ja' ? '次の項目へ' : 'Next items',
+  scrollFraction = 0.85,
+  class: className,
+} = Astro.props;
+
+const fraction = Number.isFinite(scrollFraction) ? Math.min(Math.max(scrollFraction, 0.2), 1) : 0.85;
+---
+
+<div class:list={['carousel-controls flex items-center gap-2', className]} data-carousel-controls data-target={targetScroller} data-scroll-fraction={fraction}>
+  <button type="button" class="carousel-controls__button" data-carousel-previous aria-controls={targetScroller} aria-label={previousLabel} disabled>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7" /></svg>
+  </button>
+  <button type="button" class="carousel-controls__button" data-carousel-next aria-controls={targetScroller} aria-label={nextLabel} disabled>
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7" /></svg>
+  </button>
+</div>
+
+<style>
+  .carousel-controls__button {
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
+    place-items: center;
+    border: 1px solid var(--color-sepia-300);
+    border-radius: 999px;
+    background: var(--color-sepia-50);
+    color: var(--color-sepia-800);
+    cursor: pointer;
+    transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  }
+
+  .carousel-controls__button:hover:not(:disabled) {
+    border-color: var(--color-sepia-500);
+    background: var(--color-sepia-100);
+  }
+
+  .carousel-controls__button:active:not(:disabled) {
+    background: var(--color-sepia-200);
+  }
+
+  .carousel-controls__button:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
+  .carousel-controls__button svg { width: 1.15rem; height: 1.15rem; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-carousel-controls]').forEach((controls) => {
+    if (controls.dataset.carouselControlsReady === 'true') return;
+    controls.dataset.carouselControlsReady = 'true';
+
+    const target = controls.dataset.target;
+    const scroller = target ? document.getElementById(target) : null;
+    const previous = controls.querySelector<HTMLButtonElement>('[data-carousel-previous]');
+    const next = controls.querySelector<HTMLButtonElement>('[data-carousel-next]');
+    if (!scroller || !previous || !next) return;
+
+    const updateBoundaries = () => {
+      const maxScroll = Math.max(0, scroller.scrollWidth - scroller.clientWidth);
+      previous.disabled = scroller.scrollLeft <= 1;
+      next.disabled = scroller.scrollLeft >= maxScroll - 1;
+    };
+
+    const scrollByPage = (direction: -1 | 1) => {
+      const fraction = Number(controls.dataset.scrollFraction) || 0.85;
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      scroller.scrollBy({ left: scroller.clientWidth * fraction * direction, behavior: reducedMotion ? 'auto' : 'smooth' });
+    };
+
+    previous.addEventListener('click', () => scrollByPage(-1));
+    next.addEventListener('click', () => scrollByPage(1));
+    scroller.addEventListener('scroll', updateBoundaries, { passive: true });
+    window.addEventListener('resize', updateBoundaries, { passive: true });
+    new ResizeObserver(updateBoundaries).observe(scroller);
+    updateBoundaries();
+  });
+</script>

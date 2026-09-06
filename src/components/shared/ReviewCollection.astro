@@ -1,0 +1,107 @@
+---
+import CarouselControls from './CarouselControls.astro';
+import ContentContainer from './ContentContainer.astro';
+import ReviewCard from './ReviewCard.astro';
+import SectionHeading from './SectionHeading.astro';
+
+export interface Review {
+  quote: string;
+  source?: string;
+}
+
+interface Props {
+  reviews?: Review[];
+  title?: string;
+  note?: string;
+  lang?: 'ja' | 'en';
+  carousel?: boolean;
+  id?: string;
+  class?: string;
+}
+
+const {
+  reviews = [],
+  title,
+  note,
+  lang = 'ja',
+  carousel = false,
+  id,
+  class: className,
+} = Astro.props;
+
+const collectionId = id ?? `reviews-${crypto.randomUUID()}`;
+const titleId = `${collectionId}-title`;
+const scrollerId = `${collectionId}-scroller`;
+const quoteMark = lang === 'ja' ? '「' : '“';
+---
+
+{reviews.length > 0 && (
+  <section class:list={['review-collection relative overflow-hidden border-y border-sepia-200/70 bg-sepia-50/55 py-20 md:py-28', className]} aria-labelledby={title ? titleId : undefined}>
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <span class="absolute -top-14 right-[8%] font-koburi text-[11rem] leading-none text-sepia-200/35 md:text-[13rem]">{quoteMark}</span>
+    </div>
+    <ContentContainer class="relative">
+      {title && <SectionHeading id={titleId} title={title} class="fade-up mb-12 max-w-2xl md:mb-16" />}
+      {carousel ? (
+        <div class="fade-up">
+          <div id={scrollerId} class="review-collection__scroller" aria-label={title} tabindex="0">
+            {reviews.map((review) => (
+              <div class="review-collection__carousel-card">
+                <ReviewCard quote={review.quote} source={review.source} lang={lang} />
+              </div>
+            ))}
+          </div>
+          <CarouselControls targetScroller={scrollerId} lang={lang} class="mt-7 justify-end" />
+        </div>
+      ) : (
+        <div class:list={['stagger-children review-collection__grid', reviews.length === 1 && 'review-collection__grid--single']}>
+          {reviews.map((review, index) => (
+            <div
+              class:list={[
+                'fade-up review-collection__card',
+                index === 0 && reviews.length > 1 && 'md:border-r md:border-sepia-300/70 md:pr-12',
+                index > 0 && 'md:pl-12',
+              ]}
+            >
+              <ReviewCard quote={review.quote} source={review.source} lang={lang} />
+            </div>
+          ))}
+        </div>
+      )}
+      {note && <p class="fade-up mt-12 text-sm leading-relaxed text-sepia-700 md:mt-14">{note}</p>}
+    </ContentContainer>
+  </section>
+)}
+
+<style>
+  .review-collection__grid {
+    display: grid;
+    gap: 3rem;
+  }
+
+  .review-collection__grid--single { max-width: 42rem; }
+
+  .review-collection__scroller {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 0.25rem;
+    scrollbar-width: thin;
+  }
+
+  .review-collection__carousel-card {
+    width: min(86vw, 34rem);
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    border: 1px solid rgb(212 184 138 / 65%);
+    background: rgb(253 248 240 / 72%);
+    padding: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .review-collection__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
+    .review-collection__grid--single { grid-template-columns: minmax(0, 1fr); }
+    .review-collection__carousel-card { padding: 2rem; }
+  }
+</style>

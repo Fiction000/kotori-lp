@@ -1,6 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations, getLocalePath } from '../i18n/utils';
-import { analyticsEnabled } from '../lib/analytics';
+import AnalyticsSettings from './shared/AnalyticsSettings.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -59,11 +59,7 @@ const t = useTranslations(lang);
         <a href={getLocalePath(lang, '/support')} class="text-sepia-700 transition-colors hover:text-sepia-900">
           {t('footer.support')}
         </a>
-        {analyticsEnabled && (
-          <button type="button" data-analytics-settings class="text-sepia-700 transition-colors hover:text-sepia-900">
-            {lang === 'ja' ? 'アクセス解析の設定' : 'Analytics settings'}
-          </button>
-        )}
+        <AnalyticsSettings lang={lang} />
       </nav>
     </div>
 

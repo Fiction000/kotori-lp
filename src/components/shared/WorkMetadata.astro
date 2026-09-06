@@ -1,0 +1,33 @@
+---
+import type { SharedLocale, WorkMetadataItem } from './discovery-types';
+
+interface Props {
+  items: WorkMetadataItem[];
+  lang?: SharedLocale;
+  title?: string;
+  headingLevel?: 'h2' | 'h3';
+}
+const { items, lang = 'ja', title = lang === 'ja' ? '作品データ' : 'Work details', headingLevel = 'h2' } = Astro.props;
+const Heading = headingLevel;
+---
+
+{items.length > 0 && (
+  <section class="work-metadata" lang={lang} aria-label={title}>
+    <Heading class="work-metadata__title">{title}</Heading>
+    <dl class="work-metadata__list">
+      {items.map((item) => (
+        <div class="work-metadata__item">
+          <dt>{item.label}</dt>
+          <dd>{item.value}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+)}
+
+<style>
+  .work-metadata__title { margin: 0; color: var(--color-sepia-900); font-family: var(--font-koburi); font-size: clamp(1.8rem, 5vw, 2.5rem); }
+  .work-metadata__list { margin: 1.5rem 0 0; border-top: 1px solid var(--color-sepia-300); }
+  .work-metadata__item { display: grid; grid-template-columns: minmax(6.5rem, .6fr) minmax(0, 1.4fr); gap: 1rem; border-bottom: 1px solid var(--color-sepia-200); padding: .9rem 0; font-size: .9375rem; line-height: 1.75; }
+  dt { color: var(--color-sepia-700); } dd { margin: 0; color: var(--color-sepia-800); overflow-wrap: anywhere; }
+</style>
