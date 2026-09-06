@@ -1,0 +1,157 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+import AppStoreBadge from "../../components/AppStoreBadge.astro";
+
+const title = "青空文庫をiPhoneでオフラインで読む方法 | コトリ";
+const description =
+    "iPhoneのコトリで青空文庫を事前にダウンロードし、通信なしで読むための準備を紹介します。機内モードでの確認、内蔵辞書、保存した本文が開けないときの確認点も説明します。";
+const canonicalURL = new URL("/guides/aozora-offline/", Astro.site).toString();
+const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${canonicalURL}#page`,
+    url: canonicalURL,
+    name: title,
+    description,
+    inLanguage: "ja",
+};
+---
+
+<Layout
+    title={title}
+    description={description}
+    alternateLocales={["ja"]}
+    structuredData={structuredData}
+    includeSoftwareApplicationSchema={false}
+    ogType="article"
+>
+    <Header showLanguageSwitcher={false} />
+    <main>
+        <article>
+            <header class="border-b border-sepia-200/70 py-20 md:py-28">
+                <div class="mx-auto max-w-5xl px-6">
+                    <div class="max-w-[38rem]">
+                        <p class="text-xs font-semibold tracking-[0.22em] text-sepia-600">
+                            KOTORI GUIDE
+                        </p>
+                        <h1 class="mt-5 font-koburi text-3xl leading-snug text-sepia-900 sm:text-4xl md:text-5xl">
+                            青空文庫をiPhoneでオフラインで読む方法
+                        </h1>
+                        <p class="mt-7 text-lg leading-9 text-sepia-700">
+                            コトリでは、あらかじめダウンロードした青空文庫の作品を、電波のない場所でも読めます。移動中や旅先で読むなら、通信できるうちに本文を保存しておきましょう。
+                        </p>
+                        <p class="mt-4 leading-8 text-sepia-700">
+                            ここでは、iPhoneのコトリで作品を保存し、出発前に通信なしで開けるか確かめる手順を紹介します。
+                        </p>
+                    </div>
+                </div>
+            </header>
+
+            <div class="guide-body mx-auto max-w-5xl px-6 py-12 md:py-16">
+                <div class="max-w-[38rem]">
+                    <section aria-labelledby="save-heading">
+                        <h2 id="save-heading">通信できるうちに作品を保存する</h2>
+                        <p>
+                            初めてコトリを使うときの作品一覧の取得と、まだ保存していない本文のダウンロードには通信が必要です。Wi-Fiやモバイル通信が使える場所で、読む作品を用意しておきます。
+                        </p>
+                        <p>
+                            作品情報を開き、「ダウンロードして読む」を選びます。本文が表示されるところまで確認してください。作品の探し方は、<a href="/guides/aozora-tategaki/">作品を探して読み始める手順</a>で紹介しています。
+                        </p>
+                    </section>
+
+                    <section aria-labelledby="offline-heading">
+                        <h2 id="offline-heading">機内モードとWi-Fiオフで、本文を開いてみる</h2>
+                        <p>
+                            保存した作品が読めるか、出発前に確かめます。<a href="https://support.apple.com/ja-jp/108785">機内モード中もWi-Fiを使える</a>ため、Wi-Fiの状態も確認してください。
+                        </p>
+                        <ol class="mt-6 ml-6 list-decimal marker:font-semibold marker:text-kotori-green">
+                            <li>iPhoneの機内モードをオンにします。</li>
+                            <li>Wi-Fiがオフになっていることを確認します。</li>
+                            <li>コトリでダウンロードした作品を開き、ページをめくって本文が読めるか確かめます。</li>
+                        </ol>
+                    </section>
+
+                    <section aria-labelledby="dictionary-heading">
+                        <h2 id="dictionary-heading">言葉を調べるときは、内蔵辞書を使う</h2>
+                        <p>
+                            コトリの内蔵辞書は、通信のない場所でも使えます。読書画面で気になる語句を選び、「調べる」を選ぶと意味を確認できます。
+                        </p>
+                        <p>
+                            調べられるのは、辞書に収録されている語です。読書中に辞書も使いたい場合は、通信を切った状態で一度試しておきましょう。
+                        </p>
+                    </section>
+
+                    <section aria-labelledby="help-heading">
+                        <h2 id="help-heading">本文が開けないときは、保存状態を確認する</h2>
+                        <p>
+                            お気に入りへの追加と本文のダウンロードは別の操作です。読む作品は「ダウンロードして読む」から保存してください。
+                        </p>
+                        <p>
+                            ダウンロードした本文を削除した場合は、通信できる場所で保存し直す必要があります。本文をダウンロードしても開けないときは、<a href="/support/">サポートページ</a>のよくある質問やお問い合わせをご利用ください。
+                        </p>
+                    </section>
+                </div>
+            </div>
+
+            <div class="border-t border-sepia-200/70 bg-sepia-50/55 py-12 md:py-16">
+                <div class="mx-auto max-w-5xl px-6">
+                    <p class="max-w-[38rem] leading-8 text-sepia-700">
+                        出発前に読む1冊を選び、通信なしで開けるか確かめておきましょう。
+                    </p>
+                    <div class="guide-download mt-5">
+                        <AppStoreBadge location="guide_aozora_offline" />
+                    </div>
+                </div>
+            </div>
+        </article>
+    </main>
+    <Footer />
+</Layout>
+
+<style>
+    .guide-body section + section {
+        margin-top: 3rem;
+        border-top: 1px solid var(--color-sepia-200);
+        padding-top: 3rem;
+    }
+    .guide-body h2 {
+        font-family: var(--font-koburi);
+        font-size: clamp(1.5rem, 3vw, 1.875rem);
+        line-height: 1.5;
+        color: var(--color-sepia-900);
+    }
+    .guide-body p {
+        margin-top: 1rem;
+    }
+    .guide-body p,
+    .guide-body li {
+        line-height: 2;
+        color: var(--color-sepia-700);
+    }
+    .guide-body li {
+        padding: 1rem 0 1rem 0.5rem;
+        border-top: 1px solid var(--color-sepia-200);
+    }
+    .guide-body li:last-child {
+        border-bottom: 1px solid var(--color-sepia-200);
+    }
+    .guide-body a {
+        color: var(--color-sepia-800);
+        text-decoration: underline;
+        text-decoration-color: var(--color-sepia-300);
+        text-underline-offset: 4px;
+    }
+    .guide-body a:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 4px;
+    }
+    .guide-download :global(a) {
+        max-width: 100%;
+        padding-inline: clamp(12px, 4vw, 24px);
+    }
+    .guide-download :global(a > div) {
+        min-width: 0;
+    }
+</style>

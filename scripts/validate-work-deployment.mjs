@@ -121,4 +121,31 @@ await assertMissing(
   'Draft meiji-kaidan must not render as a static page',
 );
 
+// Both guides must ship as discoverable Japanese pages with distinct metadata.
+const guideTitles = new Set();
+const guideDescriptions = new Set();
+for (const slug of ['aozora-tategaki', 'aozora-offline']) {
+  const path = `/guides/${slug}/`;
+  const url = new URL(path, site).toString();
+  const html = await readFile(new URL(`../.vercel/output/static${path}index.html`, import.meta.url), 'utf8');
+  assert(sitemap.includes(`<loc>${url}</loc>`), `${slug} is missing from the sitemap`);
+  assert(html.includes(`rel="canonical" href="${url}"`), `${slug} has the wrong canonical URL`);
+  assert(!/name="robots"[^>]*noindex/.test(html), `${slug} must be indexable when released`);
+  assert(!html.includes('hreflang="en"'), `${slug} must not advertise a missing English translation`);
+  assert.equal((html.match(/<h1(?:\s|>)/g) ?? []).length, 1, `${slug} needs one primary heading`);
+  const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+  const description = html.match(/<meta name="description" content="([^"]+)"/)?.[1];
+  assert(title && !guideTitles.has(title), `${slug} needs a unique title`);
+  assert(description && !guideDescriptions.has(description), `${slug} needs a unique description`);
+  guideTitles.add(title);
+  guideDescriptions.add(description);
+  assert(html.includes('"@type":"WebPage"'), `${slug} is missing WebPage schema`);
+  assert(html.includes('data-analytics-event="app_store_clicked"'), `${slug} needs a tracked App Store link`);
+  const other = slug === 'aozora-offline' ? 'aozora-tategaki' : 'aozora-offline';
+  assert(html.includes(`href="/guides/${other}/"`), `${slug} must link to its companion guide`);
+  if (slug === 'aozora-offline') {
+    assert(html.includes('data-analytics-location="guide_aozora_offline"'), 'Offline guide needs its own CTA attribution');
+  }
+}
+
 console.log(`Validated deployment output for ${readyWorkPages().length} canonical work pages. Filtered /works/ metadata still needs preview/deployment HTTP QA.`);
