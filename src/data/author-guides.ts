@@ -9,7 +9,6 @@ export type AuthorGuideWork = {
   anchor: string;
   heading: string;
   paragraphs: readonly string[];
-  linkLabel: string;
 };
 
 export type AuthorGuideParagraph =
@@ -59,7 +58,6 @@ export const authorGuides: readonly AuthorGuide[] = [
           '四国の学校に数学教師として赴任した主人公が、同僚や生徒と衝突する物語です。「赤シャツ」「山嵐」といった呼び名には、相手をどう見ているかがにじみます。',
           '主人公は、自分が納得できないことにすぐ腹を立てます。その歯切れのよさに笑いながら、「この人の言い分をどこまで信じようか」と考える読み方もできます。難しい背景知識を先にそろえなくても、まずはこの声についていくと入りやすいと思います。',
         ],
-        linkLabel: '『坊っちゃん』のあらすじと読みどころを読む',
       },
       {
         workID: 'work-yumejuya',
@@ -70,7 +68,6 @@ export const authorGuides: readonly AuthorGuide[] = [
           'ただ、短くても不思議な場面は残ります。「これは何を意味するのだろう」と考え込むところもあるはずです。最初から一つの答えを出そうとせず、目に浮かんだ風景や気になった場面を覚えておくくらいで読み進めてみてください。',
           '一冊を通して読む前に、まず第一夜を試す。その景色が気になったら、次の夜へ進む。そんな入口を選べる作品です。',
         ],
-        linkLabel: '『夢十夜』のあらすじと読みどころを読む',
       },
       {
         workID: 'work-kokoro',
@@ -80,7 +77,6 @@ export const authorGuides: readonly AuthorGuide[] = [
           '『こころ』では、「私」が先生と知り合い、訪ねるうちにその人をもっと知りたいと思うようになります。先生の言葉や態度を追いながら、人と親しくなるときに残る距離をじっくり読みたい人に向く一冊です。',
           '「私」が先生をどう見ているかを、出会いの場面から追ってみてください。学校で一部分を読んだことがある人も、冒頭から読むと、先生との出会いや会話をたどれます。',
         ],
-        linkLabel: '『こころ』のあらすじと読みどころを読む',
       },
     ],
     readingOrder: {

@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Footer from '../../components/Footer.astro';
 import AppStoreBadge from '../../components/AppStoreBadge.astro';
 import WorkCardList from '../../components/WorkCardList.astro';
+import BookLink from '../../components/BookLink.astro';
 import { authorHubPath, catalogEditionForWorkID, readyAuthorHubs, workPagesForSelector, type AuthorHub } from '../../data/work-catalog';
 import { authorGuideForSlug } from '../../data/author-guides';
 import { readyWorkPages, workPagePath } from '../../data/work-pages';
@@ -56,7 +57,7 @@ const structuredData = {
         <section class="py-16 sm:py-20 md:py-28">
           <div class="mx-auto max-w-3xl px-5 sm:px-6">
             <div class="space-y-16 sm:space-y-20">
-              {guideSections.map((section) => <article id={section.anchor} class="scroll-mt-28 border-t border-sepia-300 pt-9"><h2 class="font-koburi text-3xl leading-tight text-sepia-900 sm:text-4xl">{section.heading}</h2><div class="mt-6 space-y-5 text-base leading-8 text-sepia-700 sm:text-lg sm:leading-9">{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</div><a href={workPagePath(section.work)} class="mt-7 inline-flex min-h-11 items-center border-b border-sepia-400 pb-1 font-semibold text-sepia-900 underline-offset-4 hover:border-sepia-900 hover:text-kotori-green">{section.linkLabel}</a></article>)}
+              {guideSections.map((section) => <article id={section.anchor} class="scroll-mt-28 border-t border-sepia-300 pt-9"><h2 class="font-koburi text-3xl leading-tight text-sepia-900 sm:text-4xl">{section.heading}</h2><div class="mt-6 space-y-5 text-base leading-8 text-sepia-700 sm:text-lg sm:leading-9">{section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}</div><BookLink work={section.work} /></article>)}
             </div>
             <section class="mt-16 border-t border-sepia-300 pt-10 sm:mt-20"><h2 class="font-koburi text-3xl leading-tight text-sepia-900 sm:text-4xl">{guide.readingOrder.heading}</h2><div class="mt-6 space-y-5 text-base leading-8 text-sepia-700 sm:text-lg sm:leading-9">{guide.readingOrder.paragraphs.map((paragraph) => 'text' in paragraph ? <p>{paragraph.text}</p> : <p>{paragraph.before}<strong>{paragraph.emphasis}</strong>{paragraph.after}</p>)}</div></section>
             <section class="mt-16 border-t border-sepia-300 pt-10 sm:mt-20" aria-labelledby="app-store-heading"><h2 id="app-store-heading" class="font-koburi text-3xl leading-tight text-sepia-900 sm:text-4xl">{guide.appCTA.heading}</h2><p class="mt-6 text-base leading-8 text-sepia-700 sm:text-lg sm:leading-9">{guide.appCTA.body}</p><div class="mt-7"><AppStoreBadge location={`author_${author.slug.replaceAll('-', '_')}`} /></div></section>
